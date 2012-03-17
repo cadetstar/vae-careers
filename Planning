@@ -1,0 +1,73 @@
+Change Veteran Status to be drop-down (with blank, yes, no) instead of the five checkboxes
+Add Time status to Position listing on Openings page
+Remove Question and Question Groups to not use the name as an order
+Change Sales/Mgr to a tagging system
+Note on the I-9 link to have it returned in 3 days.
+
+Add table for any "static" data
+
+
+
+Accounts.vaecorp.com:
+  Users (as per devise)
+    ROLES
+      survey_administrator
+      survey_email_administrator
+      careers_administrator
+      careers_hr_administrator
+      accounts_administrator
+      
+  Departments (as per survey)
+    manager_id
+    supervisor_id
+    supervising_department_id
+  user_departments
+    SUBSCRIPTIONS
+      receive_surveys
+      receive_career_notifications
+      can_hire
+      can_request_new_hires
+
+
+
+
+
+-----------------------------------------
+
+careers.vaecorp.com:
+  remote_users (contains bio info, email, names, etc..., but not passwords)
+  departments (duplicated from accounts)
+  user_departments (duplicated from accounts)
+  
+  users (as per devise...used for applicants)
+  position_types
+  positions
+  openings
+  questions
+  question_groups
+  question_group_connections
+  opening_group_connections
+  
+  applications
+  application_question_groups
+  application_questions
+  application_answers
+  demographic_datas
+  
+  uploaded_files (polymorphic)
+  comments (polymorphic)
+  
+  activities
+    (polymorphic actor, remote_user, user, system, etc...)
+    category
+    (polymorphic target)
+    entry_text
+  
+  user_applications
+  
+  new_hire_skills
+  new_hire_requests
+  new_hire_skill_request_links
+  new_hire_approvals
+  
+  reports
