@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  city: MyString
+  state: MyString
+  code: MyString
+  supervising_department_id: MyString
+  manager_id: 1
+  supervisor_id: 1
+
+two:
+  name: MyString
+  city: MyString
+  state: MyString
+  code: MyString
+  supervising_department_id: MyString
+  manager_id: 1
+  supervisor_id: 1

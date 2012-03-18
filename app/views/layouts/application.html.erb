@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VaeCareers</title>
+  <title>VAE Careers</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<div class='menu_bar'>
+    <div class="menu_link">
+      <%= link_to 'Position Types', position_types_path %>
+    </div>
+  <div class="menu_link">
+    <%= link_to 'Positions', positions_path %>
+  </div>
+  <div class="menu_link">
+    <%= link_to 'Questions', questions_path %>
+  </div>
+  <div class="menu_link">
+    <%= link_to 'Question Groups', question_groups_path %>
+  </div>
+</div>
+<p class='notice'><%= notice %></p>
+<p class="alert"><%= alert %></p>
 <%= yield %>
 
 </body>

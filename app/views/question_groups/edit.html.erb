@@ -1,0 +1,10 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>

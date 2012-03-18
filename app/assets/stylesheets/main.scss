@@ -1,0 +1,42 @@
+.footer {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+table.resource_index {
+  width: 100%;
+  border: solid black 2px;
+  border-collapse: collapse;
+}
+
+.resource_index tr {
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+}
+
+.resource_index th, td {
+  border: solid black 1px;
+}
+
+.resource_index th {
+  background: #b8b8b8;
+}
+
+.resource_index .even {
+  background: #b1b3ed;
+}
+
+.new_resource {
+  margin: 10px 0;
+}
+
+.menu_bar {
+  padding: 20px 0;
+  width: 100%;
+}
+
+.menu_link {
+  margin: 0 10px;
+  float: left;
+}

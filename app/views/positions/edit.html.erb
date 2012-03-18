@@ -1,0 +1,23 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    
+    <div>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :description %><br />
+      <%= f.text_area :description %>
+    </div>
+    <div>
+      <%= f.label :position_type_id %><br />
+      <%= f.select :position_type_id, PositionType.list_for_select %>
+    </div>
+    <div>
+      <%= f.label :time_type %><br />
+      <%= f.select :time_type, Vae::TIME_TYPES %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>

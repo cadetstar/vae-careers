@@ -1,0 +1,1 @@
+# We have two different ways for people to authenticate.  Either locally as applicants or remotely as employees

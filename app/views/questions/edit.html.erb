@@ -1,0 +1,38 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :prompt %><br />
+      <%= f.text_area :prompt %>
+    </div>
+    <div>
+      <%= f.label :type %><br />
+      <%= f.select :type, Vae::QUESTION_TYPES %>
+    </div>
+    <div style="display:none" id="mchoice">
+      <%= f.label :choices, 'Enter Possibilities for Multiple Choice Questions (1 per line)' %><br />
+      <%= f.text_area :choices %>
+    </div>
+    <div>
+      <%= f.label :required, 'Question is Required?' %><br />
+      <%= f.check_box :required %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#question_type').change(function() {
+          if ($('#question_type').val() == 'Multiple Choice') {
+              $('#mchoice').show();
+          } else {
+              $('#mchoice').hide();
+          }
+      });
+  });
+</script>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  position_id: 1
+  department_id: 1
+  description: MyText
+  high_priority_description: MyText
+  active: false
+  show_on_opp: false
+
+two:
+  position_id: 1
+  department_id: 1
+  description: MyText
+  high_priority_description: MyText
+  active: false
+  show_on_opp: false

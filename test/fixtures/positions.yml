@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  position_type_id: 1
+  time_type: MyString
+
+two:
+  name: MyString
+  description: MyText
+  position_type_id: 1
+  time_type: MyString

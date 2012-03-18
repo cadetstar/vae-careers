@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VAE Careers</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= yield %>
+
+<div class="footer">
+  <%= link_to 'Login', new_applicant_session_path %>
+</div>
+</body>
+</html>
