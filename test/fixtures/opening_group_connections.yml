@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  opening_id: 1
+  question_group_id: 1
+  group_order: 1
+
+two:
+  opening_id: 1
+  question_group_id: 1
+  group_order: 1

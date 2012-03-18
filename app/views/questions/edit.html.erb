@@ -9,8 +9,8 @@
       <%= f.text_area :prompt %>
     </div>
     <div>
-      <%= f.label :type %><br />
-      <%= f.select :type, Vae::QUESTION_TYPES %>
+      <%= f.label :question_type %><br />
+      <%= f.select :question_type, Vae::QUESTION_TYPES %>
     </div>
     <div style="display:none" id="mchoice">
       <%= f.label :choices, 'Enter Possibilities for Multiple Choice Questions (1 per line)' %><br />
@@ -27,8 +27,8 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-      $('#question_type').change(function() {
-          if ($('#question_type').val() == 'Multiple Choice') {
+      $('#question_question_type').change(function() {
+          if ($('#question_question_type').val() == 'Multiple Choice') {
               $('#mchoice').show();
           } else {
               $('#mchoice').hide();

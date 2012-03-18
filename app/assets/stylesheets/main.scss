@@ -40,3 +40,27 @@ table.resource_index {
   margin: 0 10px;
   float: left;
 }
+
+.questions_container {
+  position: relative;
+}
+
+.questions {
+  float: left;
+  min-height: 100px;
+  width: 48%;
+  border: solid black 1px;
+}
+
+.questions_origin {
+  float: right;
+  min-height: 100px;
+  width: 48%;
+  border: solid black 1px;
+}
+
+.question_row {
+  position: relative;
+  cursor: pointer;
+  background: #ebebeb;
+}

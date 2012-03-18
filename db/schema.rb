@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120318031242) do
+ActiveRecord::Schema.define(:version => 20120318152608) do
 
   create_table "applicants", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -43,6 +43,25 @@ ActiveRecord::Schema.define(:version => 20120318031242) do
     t.datetime "updated_at"
   end
 
+  create_table "opening_group_connections", :force => true do |t|
+    t.integer  "opening_id"
+    t.integer  "question_group_id"
+    t.integer  "group_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "openings", :force => true do |t|
+    t.integer  "position_id"
+    t.integer  "department_id"
+    t.text     "description"
+    t.text     "high_priority_description"
+    t.boolean  "active"
+    t.boolean  "show_on_opp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "position_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -61,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20120318031242) do
   create_table "question_group_connections", :force => true do |t|
     t.integer "question_id"
     t.integer "question_group_id"
+    t.integer "question_order"
   end
 
   create_table "question_groups", :force => true do |t|
@@ -72,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20120318031242) do
   create_table "questions", :force => true do |t|
     t.string   "name"
     t.text     "prompt"
-    t.string   "type"
+    t.string   "question_type"
     t.text     "choices"
     t.boolean  "required"
     t.datetime "created_at"

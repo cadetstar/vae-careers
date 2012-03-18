@@ -10,9 +10,10 @@
   <% @resources.each do |r| %>
       <tr class="<%= cycle('odd','even') %>">
         <% attributes_to_display.each do |j| %>
-            <td><%= r.send(j) %></td>
+            <% l = r.send(j.gsub(/_id$/, '')) %>
+            <td><%= l.is_a?(Array) ? raw(l.join("<br />")) : l %></td>
         <% end %>
-        <td><%= link_to 'Edit', :action => :edit, :id => r.id %> &middot; <%= link_to 'Delete', r, :method => :delete, :confirm => "Are you sure?" %></td>
+        <td><%= link_to 'Edit', :action => :edit, :id => r.id %> &middot; <%= link_to 'Delete', r, :method => :delete, :confirm => "Are you sure?" %><%= additional_commands(r) %></td>
       </tr>
   <% end %>
 </table>

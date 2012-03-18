@@ -1,0 +1,67 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :position_id, "Position" %><br />
+      <%= f.select :position_id, Position.list_for_select %>
+    </div>
+    <div>
+      <%= f.label :department_id, "Department" %><br />
+      <%= f.select :department_id, Department.list_for_select %>
+    </div>
+    <div>
+      <%= f.label :description %><br />
+      <%= f.text_area :description %>
+    </div>
+    <div>
+      <%= f.label :high_priority_description %><br />
+      <%= f.text_area :high_priority_description %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>
+
+<div class="header">Question Groups</div>
+<div class="questions_container">
+  <form id="sub_questions_form">
+    <div class="questions">
+      <% @resource.question_groups.each do |qg| %>
+          <div class='question_row qtip_target' data-qtip="<%= raw qg.questions.join("<br />") %>"><%= qg.to_s %><input type="hidden" name="question_groups[]" value="<%= qg.id %>" /></div>
+      <% end %>
+    </div>
+  </form>
+  <div class="questions_origin">
+    <% QuestionGroup.where(['id not in (?)', [-1] + @resource.question_groups.collect{|qg| qg.id}]).each do |qg| %>
+        <div class='question_row qtip_target' data-qtip="<%= raw qg.questions.join("<br />") %>"><%= qg.to_s %><input type="hidden" name="question_groups[]" value="<%= qg.id %>" /></div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $.get('/openings/description/<%= Position.first.try(:id) %>', function(data, textStatus, jqXHR) {
+          $('#opening_description').val(data);
+      });
+      $('#opening_position_id').change(function() {
+          $.get('/openings/description/' + $('#opening_position_id').val(), function(data, textStatus, jqXHR) {
+              $('#opening_description').val(data);
+          });
+      });
+      $('.question_row').draggable({revert: 'invalid'});
+      $('.questions, .questions_origin').droppable({
+          drop: function(event, ui) {
+              if ($(this).attr('class').match(/questions_origin/) === null) {
+                  $('#sub_questions_form').append(ui.draggable);
+              }
+              $(this).append(ui.draggable);
+              ui.draggable.qtip("hide");
+              ui.draggable.css({top: 0, left: 0});
+              console.info($(this).attr('class'));
+              $.ajax({
+                  url: "<%= set_opening_groups_path(:id => @resource.id) %>",
+                  data: $('#sub_questions_form').serialize()
+              });
+          }
+      });
+  });
+</script>

@@ -60,7 +60,8 @@ class ApplicationController < ActionController::Base
   # These are generic methods that can be overwritten inside the individual controllers
 
   def index
-    @resources = controller_name.classify.constantize.all
+    klass = controller_name.classify.constantize
+    @resources = klass.all
   end
 
   def new
@@ -85,8 +86,12 @@ class ApplicationController < ActionController::Base
 
   def get_resource
     unless @resource = controller_name.classify.constantize.find_by_id(params[:id])
-      flash[:alert] = "I could not find a #{controller_name.singularize.titleize} with that ID."
-      redirect_to :action => :index
+      if request.xhr?
+        render :nothing => true
+      else
+        flash[:alert] = "I could not find a #{controller_name.singularize.titleize} with that ID."
+        redirect_to :action => :index
+      end
     end
   end
 end
