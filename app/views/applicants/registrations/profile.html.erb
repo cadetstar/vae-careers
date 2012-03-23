@@ -1,0 +1,13 @@
+<div class="header">Applicant Profile</div>
+<%= form_for(@applicant, :url => profile_update_path) do %>
+    <div class="profile_row"><%= f.label :first_name %><br /><%=  f.text_field :first_name %></div>
+    <div class="profile_row"><%= f.label :last_name %><br /><%=  f.text_field :last_name %></div>
+    <div class="profile_row"><%= f.label :preferred_name %><br /><%=  f.text_field :preferred_name %></div>
+    <div class="profile_row"><%= f.label :address_1, 'Address Line 1' %><br /><%=  f.text_field :address_1 %></div>
+    <div class="profile_row"><%= f.label :address_2, 'Address Line 2' %><br /><%=  f.text_field :address_2 %></div>
+    <div class="profile_row"><%= f.label :city %><br /><%=  f.text_field :city %></div>
+    <div class="profile_row"><%= f.label :state %><br /><%=  f.select :state, grouped_options_for_select(Vae::STATES) %></div>
+    <div class="profile_row"><%= f.label :zip %><br /><%=  f.text_field :zip %></div>
+    <div class="profile_row"><%= f.label :country %><br /><%=  f.text_field :country %></div>
+
+<% end %>
