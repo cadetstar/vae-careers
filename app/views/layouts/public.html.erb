@@ -10,7 +10,16 @@
 <%= yield %>
 
 <div class="footer">
-  <%= link_to 'Login', new_applicant_session_path %>
+  <% if current_user or current_applicant %>
+    <%= link_to 'Sign Out', logout_path %>
+    <% if current_applicant %>
+      <%= link_to 'Update Account', edit_registration_path(current_applicant) %>
+      <%= link_to 'Update Profile', profile_path %>
+    <% end %>
+  <% else %>
+    <%= link_to 'Login', new_applicant_session_path %>
+  <% end %><br />
+  <%= link_to 'Current Openings', root_path %>
 </div>
 </body>
 </html>

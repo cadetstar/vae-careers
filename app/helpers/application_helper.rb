@@ -18,4 +18,9 @@ module ApplicationHelper
 
     end
   end
+
+
+  def current_user
+    @current_user ||= RemoteUser.find_by_id(session[:current_user])
+  end
 end

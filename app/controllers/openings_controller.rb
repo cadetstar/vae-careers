@@ -47,7 +47,7 @@ class OpeningsController < ApplicationController
   end
 
   def public
-
+    @openings = Opening.current_openings
   end
 
   def view
