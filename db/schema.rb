@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "preferred_name"
@@ -48,16 +48,16 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.integer  "supervising_department_id"
     t.integer  "manager_id"
     t.integer  "supervisor_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "opening_group_connections", :force => true do |t|
     t.integer  "opening_id"
     t.integer  "question_group_id"
     t.integer  "group_order"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "openings", :force => true do |t|
@@ -67,14 +67,14 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.text     "high_priority_description"
     t.boolean  "active"
     t.boolean  "show_on_opp"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "position_types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "positions", :force => true do |t|
@@ -82,8 +82,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.text     "description"
     t.integer  "position_type_id"
     t.string   "time_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "question_group_connections", :force => true do |t|
@@ -94,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
 
   create_table "question_groups", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "questions", :force => true do |t|
@@ -104,8 +104,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.string   "question_type"
     t.text     "choices"
     t.boolean  "required"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "remote_users", :force => true do |t|
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.string   "last_name"
     t.integer  "roles_mask"
     t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

@@ -1,0 +1,15 @@
+<div class="opening_header">
+  <strong>Position:</strong> <%= @opening.name %><br />
+  <strong>Employment Type:</strong> <%= @opening.time_type %><br />
+  <strong>Location:</strong> <%= @opening.department.city_state %>
+</div>
+<div class="opening_description">
+  <strong>Description</strong><br />
+  <%= @opening.description %>
+</div>
+<div class="opening_high_priority">
+  <%= @opening.high_priority_description %>
+</div>
+<div class="opening_apply_link">
+
+</div>

@@ -5,7 +5,7 @@ class Opening < ActiveRecord::Base
   has_many :opening_group_connections, :order => :group_order
   has_many :question_groups, :through => :opening_group_connections
 
-  delegate :time_type, :position_type, :to => :position
+  delegate :time_type, :position_type, :name, :to => :position
   delegate :city, :state, :to => :department
 
   default_scope :joins => [:position, :department], :order => 'active DESC, show_on_opp DESC, positions.name, departments.code', :readonly => false
