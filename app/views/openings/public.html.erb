@@ -1,0 +1,4 @@
+
+<% @states.each do |s| %>
+  <%= link_to s, root_path("openings[state]" => s) %>
+  <% end %>

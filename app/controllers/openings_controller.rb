@@ -48,16 +48,41 @@ class OpeningsController < ApplicationController
 
   def public
     @openings = Opening.current_openings
+    @positions = PositionType.open_types
+    @states = Department.states_with_departments
+
+    session[:openings] ||= {}
+
+    session[:openings].reverse_merge!({:position => 0, :state => '', :country => '', :sort_type => "positions.name", :sort_order => "ASC"})
+    session[:openings].merge!(params[:openings] || {})
+
+    @openings = @openings.order("#{session[:openings][:sort_type]} #{session[:openings][:sort_order]}")
+
+    if pt = PositionType.find_by_id(session[:openings][:position].to_i)
+      @openings = @openings.where(["positions.position_type_id = ?", pt.id])
+    end
+    unless session[:openings][:state].blank?
+      @openings = @openings.where(["departments.state = ?", session[:openings][:state]])
+    end
+    case session[:openings][:country]
+      when 'USA'
+        @openings = @openings.where(["departments.state in (?)", Vae::STATES['states'].collect{|k,v| v}])
+      when 'CAN'
+        @openings = @openings.where(["departments.state in (?)", Vae::STATES['provinces'].collect{|k,v| v}])
+    end
   end
 
   def view
-
+    unless @opening = Opening.find_by_id(params[:id])
+      flash[:alert] = "I could not find an opening with that information."
+      redirect_to root_path
+    end
   end
 
   private
   def choose_layout
     case action_name
-      when 'public'
+      when 'public', 'view'
         'public'
       else
         'application'
