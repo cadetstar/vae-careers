@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120407161140) do
+ActiveRecord::Schema.define(:version => 20120408143855) do
 
   create_table "applicants", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -116,6 +116,32 @@ ActiveRecord::Schema.define(:version => 20120407161140) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "submission_answers", :force => true do |t|
+    t.text     "question_text"
+    t.string   "question_type"
+    t.integer  "question_id"
+    t.text     "answer"
+    t.integer  "submission_id"
+    t.integer  "group_order"
+    t.integer  "question_order"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "submissions", :force => true do |t|
+    t.text     "where_sourced"
+    t.integer  "opening_id"
+    t.integer  "applicant_id"
+    t.boolean  "affidavit"
+    t.boolean  "privacy_notice"
+    t.string   "recruiter_recommendation"
+    t.boolean  "hired"
+    t.boolean  "began_hiring"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.boolean  "completed"
   end
 
 end

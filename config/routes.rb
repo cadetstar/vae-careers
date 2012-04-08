@@ -15,6 +15,9 @@ VaeCareers::Application.routes.draw do
   match 'openings/:id/view', :to => 'openings#view', :as => 'view_opening'
   match 'showpublic/:id', :to => redirect('/openings/%{id}/view') # Legacy route
 
+  match 'openings/:opening_id/apply', :to => 'submissions#begin_application', :as => 'apply'
+  match 'openings/:submission_id/submit', :to => 'submissions#complete_application', :as => 'submit_application'
+
   match '/applicant', :to => redirect('/'), :as => 'applicant_root_path'
   match 'from_accounts/return', :to => 'remote_sessions#from_accounts', :as => 'from_accounts'
   match 'logout', :to => 'remote_sessions#universal_sign_out', :as => 'logout'

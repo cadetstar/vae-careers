@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  question_text: MyText
+  question_type: MyString
+  question_id: 1
+  answer: MyText
+  submission_id: 1
+  group_order: 1
+  question_order: 1
+
+two:
+  question_text: MyText
+  question_type: MyString
+  question_id: 1
+  answer: MyText
+  submission_id: 1
+  group_order: 1
+  question_order: 1

@@ -26,7 +26,7 @@ task :import_data => :environment do
           }
       },
       'grpquestions' => {
-          :model => QuestionGroup,
+          :model => QuestionGroupConnection,
           :fields => {
               'question_id' => 'appquestion_id',
               'question_group_id' => 'appqgroup_id'
@@ -35,7 +35,7 @@ task :import_data => :environment do
       'openinggroups' => {
           :model => OpeningGroupConnection,
           :fields => {
-              'question_group_id' => 'appggroup_id'
+              'question_group_id' => 'appqgroup_id'
           }
       },
       'openings' => {
