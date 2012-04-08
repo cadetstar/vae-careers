@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  where_sourced: MyText
+  opening_id: 1
+  applicant_id: 1
+  affidavit: false
+  privacy_notice: false
+  recruiter_recommendation: MyString
+  hired: false
+  began_hiring: false
+
+two:
+  where_sourced: MyText
+  opening_id: 1
+  applicant_id: 1
+  affidavit: false
+  privacy_notice: false
+  recruiter_recommendation: MyString
+  hired: false
+  began_hiring: false
