@@ -64,3 +64,68 @@ table.resource_index {
   cursor: pointer;
   background: #ebebeb;
 }
+
+.filter {
+  padding: 0 10px;
+}
+
+.filter_block {
+  width: 100%;
+}
+
+.filter_header, .filter_positions, .filter_states, .filter_countries, .filter_all_positions {
+  width: 100%;
+  text-align: center;
+}
+
+.openings_table {
+  position: relative;
+  width: 70%;
+  margin: 50px auto;
+}
+
+.openings_header {
+  position: relative;
+  border-bottom: 2px solid black;
+}
+
+.openings_title {
+  margin-right: 400px;
+  position: relative;
+}
+.openings_location {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: 200px;
+}
+
+.openings_time_type {
+  width: 200px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.openings_row {
+  position: relative;
+}
+
+.not_present_notice {
+  text-align: center;
+  font-style: italic
+}
+
+.high_priority {
+  color: red;
+}
+
+.header_text {
+  color: red;
+  font-weight: bold;
+}
+
+.header_image {
+  width: 100%;
+  text-align: center;
+}

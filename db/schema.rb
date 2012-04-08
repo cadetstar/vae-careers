@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319054318) do
+ActiveRecord::Schema.define(:version => 20120407161140) do
 
   create_table "applicants", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.integer  "supervisor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "short_name"
   end
 
   create_table "opening_group_connections", :force => true do |t|

@@ -1,0 +1,17 @@
+
+<p>
+  <strong>Position:</strong> <%= @opening.name %><br />
+  <strong>Employment Type:</strong> <%= @opening.time_type %><br />
+  <strong>Location:</strong> <%= @opening.city_state %> 
+</p>
+
+<p>
+  <strong>Description:</strong><br />
+  <%= @opening.description %>
+</p>
+
+<% if @opening.high_priority_description %>
+  <p class="high_priority">
+    <%= @opening.high_priority_description %>
+  </p>
+<% end %>

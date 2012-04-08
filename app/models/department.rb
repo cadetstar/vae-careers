@@ -13,6 +13,10 @@ class Department < ActiveRecord::Base
     Department.select("distinct departments.state").order("departments.state").where(["state not in (?)", ['USA', 'CAN']]).all.collect{|c| c.state}
   end
 
+  def city_state
+    [city, state].compact.join(', ')
+  end
+
   def to_s
     [code, name].compact.join(' - ')
   end

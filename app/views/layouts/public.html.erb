@@ -7,9 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class='header_image'><%= image_tag('http://careers.vaecorp.com/images/interface_01.jpg') %></div>
+<h3 class="header_text">Careers</h3>
 <%= yield %>
 
 <div class="footer">
+  <%= link_to 'Current Openings', root_path %><br /><br />
   <% if current_user or current_applicant %>
     <%= link_to 'Sign Out', logout_path %>
     <% if current_applicant %>
@@ -19,7 +22,6 @@
   <% else %>
     <%= link_to 'Login', new_applicant_session_path %>
   <% end %><br />
-  <%= link_to 'Current Openings', root_path %>
 </div>
 </body>
 </html>
