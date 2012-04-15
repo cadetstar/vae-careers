@@ -5,6 +5,8 @@ class Submission < ActiveRecord::Base
   has_many :submission_answers, :order => 'group_order, question_order'
   accepts_nested_attributes_for :submission_answers
 
+  has_many :applicant_files
+
   delegate :position, :department, :question_groups, :to => :opening
   delegate :first_name, :first_name=, :last_name, :last_name=,
            :preferred_name, :preferred_name=, :address_1, :address_1=,

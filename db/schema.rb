@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120408143855) do
+ActiveRecord::Schema.define(:version => 20120415031159) do
+
+  create_table "applicant_files", :force => true do |t|
+    t.integer  "applicant_id"
+    t.string   "applicant_file_store"
+    t.string   "uploaded_file_name"
+    t.integer  "submission_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "applicants", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -135,7 +144,6 @@ ActiveRecord::Schema.define(:version => 20120408143855) do
     t.integer  "opening_id"
     t.integer  "applicant_id"
     t.boolean  "affidavit"
-    t.boolean  "privacy_notice"
     t.string   "recruiter_recommendation"
     t.boolean  "hired"
     t.boolean  "began_hiring"

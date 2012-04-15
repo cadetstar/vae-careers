@@ -17,6 +17,10 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find_or_create_by_opening_id_and_applicant_id(@opening.id, current_applicant.id)
   end
 
+  def complete_application
+    puts params.inspect
+  end
+
   def choose_layout
     case action_name
       when 'begin_application'

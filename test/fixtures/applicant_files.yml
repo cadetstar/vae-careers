@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  applicant_id: 1
+  applicant_file_store: MyString
+  uploaded_file_name: MyString
+  submission_id: 1
+
+two:
+  applicant_id: 1
+  applicant_file_store: MyString
+  uploaded_file_name: MyString
+  submission_id: 1

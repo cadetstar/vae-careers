@@ -6,6 +6,7 @@ class Applicant < ActiveRecord::Base
 
   has_many :submissions
   has_many :openings, :through => :submissions
+  has_many :applicant_files
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
