@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  owner_type: MyString
+  owner_id: 1
+  creator_type: MyString
+  creator_id: 1
+
+two:
+  owner_type: MyString
+  owner_id: 1
+  creator_type: MyString
+  creator_id: 1
