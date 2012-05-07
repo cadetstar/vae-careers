@@ -4,7 +4,7 @@ class SubmissionsController < ApplicationController
   layout :choose_layout
 
   def begin_application
-    unless @opening = Opening.find_by_id(params[:opening_id])
+    unless (@opening = Opening.find_by_id(params[:opening_id]))
       flash[:alert] = 'I cannot find an opening with that identifier.'
       redirect_to root_path
       return

@@ -6,8 +6,8 @@ class RemoteUser < ActiveRecord::Base
   end
 
   def roles=(roles)
-    roles.reject!{|r| !r.match(/^survey/i)}
-    roles = roles.collect{|r| r.gsub(/^survey_/, '')}
+    roles.reject!{|r| !r.match(/^careers/i)}
+    roles = roles.collect{|r| r.gsub(/^careers_/, '')}
     self.roles_mask = (roles & ROLES).map {|r| 2**ROLES.index(r)}.sum
   end
 
