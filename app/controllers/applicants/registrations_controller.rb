@@ -15,5 +15,6 @@ class Applicants::RegistrationsController < Devise::RegistrationsController
   def profile_update
     @applicant = current_applicant
     @applicant.update_attributes(params[:applicant], :as => :applicant)
+    redirect_to root_path
   end
 end

@@ -7,7 +7,8 @@ module Vae
       :primary => {
           :name => "Rachel Yellin",
           :email => "ryellin@vaecorp.com",
-          :title => "HR Recruiter"
+          :title => "HR Recruiter",
+          :fax => '240-306-2669'
       },
       :it => {
           :name => "Andy Kirk",
@@ -44,4 +45,23 @@ module Vae
 
   STATES = YAML::load_file(File.join(Rails.root, 'lib', 'states.yaml'))
 
+  SOURCES = {
+      'CareerBuilder' => 'CareerBuilder',
+      'Monster' => 'Monster',
+      'CraigsList' => 'CraigsList',
+      'JobsAV' => 'JobsAV',
+      'InfoComm' => 'InfoComm',
+      'MySpace' => 'MySpace',
+      'Facebook' => 'Facebook',
+      'State Website' => 'State Website',
+      'VAE Careers' => 'VAE Careers',
+      'Employee Referral' => 'Employee Referral',
+      'Military Stars' => 'Military Stars',
+      'Newspaper or Magazine' => 'Newspaper/Magazine',
+      'School or Community' => 'School/Community',
+      'On-Line Newspaper or Magazine' => 'On-Line Newspaper/Magazine Ad',
+      'Job Fair' => 'Job Fair',
+      'Indeed' => 'Indeed',
+      'Other' => 'Other (please explain below)'
+  }
 end

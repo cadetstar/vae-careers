@@ -14,7 +14,7 @@ class Department < ActiveRecord::Base
   end
 
   def city_state
-    [city, state].compact.join(", ")
+    [city, state].compact.join(', ')
   end
 
   def to_s

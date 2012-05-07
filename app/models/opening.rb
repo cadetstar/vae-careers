@@ -5,10 +5,14 @@ class Opening < ActiveRecord::Base
   has_many :opening_group_connections, :order => :group_order
   has_many :question_groups, :through => :opening_group_connections
 
-  delegate :time_type, :position_type, :name, :to => :position
-  delegate :city, :state, :to => :department
+  has_many :submissions
+  has_many :applicants, :through => :submissions
 
-  default_scope :joins => [:position, :department], :order => 'active DESC, show_on_opp DESC, positions.name, departments.code', :readonly => false
+  delegate :name, :time_type, :position_type, :to => :position, :allow_nil => true
+  delegate :city, :state, :city_state, :to => :department, :allow_nil => true
+
+  scope :public, :joins => [:position, :department], :order => 'active DESC, show_on_opp DESC, positions.name, departments.code', :readonly => false
+  default_scope :order => 'active DESC, show_on_opp DESC'
 
   def self.indexed_attributes
     %w(position time_type department description high_priority_description status)

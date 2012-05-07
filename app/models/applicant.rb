@@ -4,6 +4,10 @@ class Applicant < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :submissions
+  has_many :openings, :through => :submissions
+  has_many :applicant_files
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   attr_accessible :first_name, :last_name, :preferred_name, :address_1, :address_2, :city, :state, :zip, :country, :as => :applicant
@@ -21,6 +25,22 @@ class Applicant < ActiveRecord::Base
 
   def to_s
     name_std
+  end
+
+  def home_phone
+
+  end
+
+  def home_phone=(val)
+
+  end
+
+  def cell_phone
+
+  end
+
+  def cell_phone=(val)
+
   end
 
   private

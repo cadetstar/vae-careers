@@ -29,5 +29,10 @@
 <p class="alert"><%= alert %></p>
 <%= yield %>
 
+<div class="footer">
+  <% if current_user %>
+  <%= link_to 'Log Out', logout_path %>
+  <% end %>
+</div>
 </body>
 </html>

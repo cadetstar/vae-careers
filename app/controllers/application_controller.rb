@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   def prevent_current_user
     if current_user
-      redirect_to internal_user_path
+      redirect_to '/user/internal'
     end
   end
 

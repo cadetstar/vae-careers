@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319054318) do
+ActiveRecord::Schema.define(:version => 20120415031159) do
+
+  create_table "applicant_files", :force => true do |t|
+    t.integer  "applicant_id"
+    t.string   "applicant_file_store"
+    t.string   "uploaded_file_name"
+    t.integer  "submission_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "applicants", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -24,8 +33,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "preferred_name"
@@ -48,16 +57,17 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.integer  "supervising_department_id"
     t.integer  "manager_id"
     t.integer  "supervisor_id"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "short_name"
   end
 
   create_table "opening_group_connections", :force => true do |t|
     t.integer  "opening_id"
     t.integer  "question_group_id"
     t.integer  "group_order"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "openings", :force => true do |t|
@@ -67,14 +77,14 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.text     "high_priority_description"
     t.boolean  "active"
     t.boolean  "show_on_opp"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "position_types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "positions", :force => true do |t|
@@ -82,8 +92,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.text     "description"
     t.integer  "position_type_id"
     t.string   "time_type"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "question_group_connections", :force => true do |t|
@@ -94,8 +104,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
 
   create_table "question_groups", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "questions", :force => true do |t|
@@ -104,8 +114,8 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.string   "question_type"
     t.text     "choices"
     t.boolean  "required"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "remote_users", :force => true do |t|
@@ -113,8 +123,33 @@ ActiveRecord::Schema.define(:version => 20120319054318) do
     t.string   "last_name"
     t.integer  "roles_mask"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "submission_answers", :force => true do |t|
+    t.text     "question_text"
+    t.string   "question_type"
+    t.integer  "question_id"
+    t.text     "answer"
+    t.integer  "submission_id"
+    t.integer  "group_order"
+    t.integer  "question_order"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "submissions", :force => true do |t|
+    t.text     "where_sourced"
+    t.integer  "opening_id"
+    t.integer  "applicant_id"
+    t.boolean  "affidavit"
+    t.string   "recruiter_recommendation"
+    t.boolean  "hired"
+    t.boolean  "began_hiring"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.boolean  "completed"
   end
 
 end

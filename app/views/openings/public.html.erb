@@ -1,4 +1,104 @@
 
-<% @states.each do |s| %>
-  <%= link_to s, root_path("openings[state]" => s) %>
+<div class="filter_block">
+  <div class="filter_header">Job Filter</div>
+  <div class="filter_positions">Positions: <% @positions.each do |pt| %><span class="filter_positions_individual"><a class="filter" data-type="position" data-value="<%= pt %>" href="#"><%= pt %></a></span><% end %></div>
+  <div class="filter_states">States: <% @states.each do |s| %><span class="filter_states_individual"><a class="filter" data-type="states" data-value="<%= s %>" href="#"><%= s %></a></span><% end %></div>
+  <div class="filter_countries">
+    <span class="filter_countries_individual"><a href="#" class="filter" data-type="country" data-value="United States">United States</a></span>
+    <span class="filter_countries_individual"><a href="#" class="filter" data-type="country" data-value="Canada">Canada</a></span>
+  </div>
+  <div class="filter_all_positions"><a href="#" class="filter" data-type="clear">All Positions</a></div>
+</div>
+
+<div class="openings_table">
+  <div class="openings_header">
+    <div class="openings_title">Position Title</div>
+    <div class="openings_location">Location</div>
+    <div class="openings_time_type">Employment Time</div>
+  </div>
+  <% @openings.each do |o| %>
+    <div class="openings_row" data-position="<%= o.position_type.name %>" data-state="<%= o.state %>" data-time="<%= o.time_type %>">
+      <div class="openings_title"><%= link_to o.name, view_opening_path(:id => o.id) %></div>
+      <div class="openings_location"><%= o.city_state %></div>
+      <div class="openings_time_type"><%= o.time_type %></div>
+    </div>
   <% end %>
+  <div class='not_present_notice'></div>
+</div>
+
+<script type="text/javascript">
+  var current = {};
+  current.states = [];
+  current.position = [];
+  $(document).ready(function () {
+    $(document).on('click', '.filter', function(e) {
+      var link = $(e.target);
+      var posdesc = '';
+      var statedesc = '';
+
+      switch(link.attr('data-type')) {
+      case 'clear':
+        current.states = [];
+        current.position = [];
+        break;
+      case 'country' :
+        if (link.attr('data-value') === 'United States') {
+          current.states = [<%= Vae::STATES['states'].collect{|k,v| "'#{v}'"}.join(',') %>];
+          statedesc = "United States";
+        } else {
+          current.states = [<%= Vae::STATES['provinces'].collect{|k,v| "'#{v}'"}.join(',') %>];
+          statedesc = "Canada";
+        }
+        break;
+      default:
+        current[link.attr('data-type')] = [];
+        current[link.attr('data-type')].push(link.attr('data-value'));
+      }
+      if ((statedesc === '') && (current.states.length > 0)) {
+        statedesc = current.states[0];
+      }
+      $('.openings_row').hide();
+      var hidden = $('.openings_row');
+
+      var stateCombiner = '';
+      for (var i = 0; i < current.states.length; i++) {
+        if (stateCombiner !== '') {
+          stateCombiner += ',';
+        }
+        stateCombiner += "[data-state='" + current.states[i] + "']"
+      }
+      if (stateCombiner !== '') {
+        hidden = hidden.filter(stateCombiner);
+      }
+      var positionCombiner = '';
+      for (var j = 0; j < current.position.length; j++) {
+        if (positionCombiner !== '') {
+          positionCombiner += ',';
+          posdesc += ', ';
+        }
+        posdesc += current.position[j];
+        positionCombiner += "[data-position='" + current.position[j] + "']";
+      }
+      if (positionCombiner !== '') {
+        hidden = hidden.filter(positionCombiner);
+      }
+//      console.info('Hidden: ' + hidden.length + '.  Total: ' + $('.openings_row').length);
+      if (hidden.length === 0) {
+        if (posdesc === '') {
+          $('.not_present_notice').html("There are no current positions")
+        } else {
+          $('.not_present_notice').html("There are no current " + posdesc + " positions")
+        }
+        if (statedesc === '') {
+          $('.not_present_notice').append('.');
+        } else {
+          $('.not_present_notice').append(' in ' + statedesc + '.');
+        }
+        $('.not_present_notice').show();
+      } else {
+        $('.not_present_notice').hide();
+      }
+      hidden.show();
+    });
+  });
+</script>
