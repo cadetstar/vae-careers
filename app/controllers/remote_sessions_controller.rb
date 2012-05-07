@@ -8,7 +8,7 @@ class RemoteSessionsController < ApplicationController
       public_key = OpenSSL::PKey::RSA.new(File.read('lib/keys/remote_acct.pem'))
       encrypted_key = Base64.encode64(public_key.public_encrypt(key))
 
-      uri = URI.parse("http://localhost:3000/passkey/validate?id=#{params[:user]}&key=#{URI.escape(encrypted_key, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}")
+      uri = URI.parse("#{$accounts_location}/passkey/validate?id=#{params[:user]}&key=#{URI.escape(encrypted_key, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}")
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Get.new(uri.request_uri)
 

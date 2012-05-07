@@ -18,6 +18,16 @@ class SubmissionsController < ApplicationController
   end
 
   def complete_application
+    unless (@submission = Submission.find_by_id(params[:id]))
+      flash[:alert] = 'I could not find an application with that ID.'
+      redirect_to root_path
+      return
+    end
+
+    @submission.update_attributes(params[:submission])
+
+
+
     puts params.inspect
   end
 

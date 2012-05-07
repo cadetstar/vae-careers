@@ -30,3 +30,5 @@ VaeCareers::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 end
+
+$accounts_location = 'http://localhost:3000'
