@@ -14,6 +14,13 @@ class RemoteSessionsController < ApplicationController
 
       response = http.request(request)
       user_info = JSON.parse(response.body)
+      puts "**************************************"
+      puts "**************************************"
+      puts "**************************************"
+      puts user_info.inspect
+      puts "**************************************"
+      puts "**************************************"
+      puts "**************************************"
       remote_user = RemoteUser.find_or_create_by_email(user_info['email'])
       remote_user.update_attributes(user_info.select{|k,v| k != 'id' and (RemoteUser.attribute_names.include?(k) or k == 'roles')})
 
@@ -25,6 +32,7 @@ class RemoteSessionsController < ApplicationController
     end
 
   end
+
   def universal_sign_out
     session[:current_user] = nil
     sign_out
