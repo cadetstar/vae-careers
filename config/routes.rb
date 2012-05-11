@@ -1,10 +1,10 @@
 VaeCareers::Application.routes.draw do
 
-  devise_for :applicants, :controllers => {:sessions => 'applicants/sessions', :registrations => 'applicants/registrations'} do
+  devise_for :applicants, :controllers => {:sessions => 'applicants/sessions', :registrations => 'applicants/registrations'}
+  devise_scope :applicant do
     match 'applicants/profile', :to => 'applicants/registrations#profile', :as => 'profile'
     match 'applicants/profile/update', :to => 'applicants/registrations#profile_update', :as => 'profile_update'
   end
-
 
   match 'question_groups/question_orders/:id', :to => 'question_groups#set_question_groups', :as => 'set_question_groups'
   match 'openings/question_group_orders/:id', :to => 'openings#set_question_groups', :as => 'set_opening_groups'

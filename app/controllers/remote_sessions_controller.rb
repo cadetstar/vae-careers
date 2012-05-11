@@ -36,7 +36,7 @@ class RemoteSessionsController < ApplicationController
   def universal_sign_out
     session[:current_user] = nil
     sign_out
-    redirect_to root_path
+    redirect_to "#{$accounts_location}/return_to?type=sign_out&return_to=#{URI.escape(root_path(:only_path => false), Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}"
   end
 
 

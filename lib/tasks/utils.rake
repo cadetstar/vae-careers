@@ -73,33 +73,35 @@ task :import_data => :environment do
 
   data.keys.each do |k|
     local_name = k.split(".")[1]
-    klass = TABLEMAPPER[local_name][:model]
-    case local_name
-      when 'appquestions'
-        data[k].each do |line|
-          item = klass.find_or_create_by_id(line['id'])
-          item.name = line['ident']
-          item.prompt = line['qtext']
-          item.required = line['isrequired'] == 1
-          item.question_type = Vae::QUESTION_TYPES[%w(boolean mchoice smtext medtext month year label date).index(line['qtype'])]
-          item.choices = line['qchoices'].split('|').join('\n')
-          item.created_at = line['created_at']
-          item.updated_at = line['updated_at']
-          item.save
-        end
-      else
-        data[k].each do |line|
-          item = klass.find_or_create_by_id(line['id'])
-          klass.columns.each do |c|
-            next if c.name == 'id'
-            if c.sql_type == 'boolean'
-              item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name] == 1)
-            else
-              item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name])
-            end
+    if TABLEMAPPER[local_name]
+      klass = TABLEMAPPER[local_name][:model]
+      case local_name
+        when 'appquestions'
+          data[k].each do |line|
+            item = klass.find_or_create_by_id(line['id'])
+            item.name = line['ident']
+            item.prompt = line['qtext']
+            item.required = line['isrequired'] == 1
+            item.question_type = Vae::QUESTION_TYPES[%w(boolean mchoice smtext medtext month year label date).index(line['qtype'])]
+            item.choices = line['qchoices'].split('|').join('\n')
+            item.created_at = line['created_at']
+            item.updated_at = line['updated_at']
+            item.save
           end
-          item.save
-        end
+        else
+          data[k].each do |line|
+            item = klass.find_or_create_by_id(line['id'])
+            klass.columns.each do |c|
+              next if c.name == 'id'
+              if c.sql_type == 'boolean'
+                item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name] == 1)
+              else
+                item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name])
+              end
+            end
+            item.save
+          end
+      end
     end
   end
   Question.order(:name).each_with_index do |j, i|
