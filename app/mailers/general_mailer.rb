@@ -3,6 +3,6 @@ class GeneralMailer < ActionMailer::Base
 
   def welcome_email(applicant)
     @applicant = applicant
-    mail(:to => "#{applicant.name_std} #{user.email}", :subject => "Welcome to VAE Careers!")
+    mail(:to => "#{applicant.name_std} #{applicant.email}", :subject => "Welcome to VAE Careers!")
   end
 end

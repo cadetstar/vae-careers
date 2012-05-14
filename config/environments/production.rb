@@ -60,4 +60,4 @@ VaeCareers::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 end
-$accounts_location = 'http://192.168.10.82'
+$accounts_location = 'http://64.220.117.157'

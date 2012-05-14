@@ -23,6 +23,10 @@ class Applicant < ActiveRecord::Base
     [last_name, first_name].select{|c| !c.blank?}.join(", ")
   end
 
+  def city_state
+    [city, state].compact.join(", ")
+  end
+
   def to_s
     name_std
   end

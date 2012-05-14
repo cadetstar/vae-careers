@@ -22,6 +22,10 @@ class Opening < ActiveRecord::Base
     Opening.joins([:position, :department]).where(:active => true).order("positions.name, departments.state")
   end
 
+  def to_s
+    "#{position.to_s} - #{department.try(:city_state)}"
+  end
+
   def status
     if active
       "Active"

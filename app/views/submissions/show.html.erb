@@ -1,0 +1,52 @@
+<div class='position_name'>
+  <%= @resource.opening %>
+</div>
+<div class='position_description'>
+  <%= @resource.opening.description %>  <span class="high_priority"><%= @resource.opening.high_priority_description %></span>
+</div>
+<div class='submission_users'>
+  Users:<br />
+</div>
+<div class='biographic_information'>
+  <% bio_submission_fields.each do |b| %>
+      <strong><%= b[0].gsub('*', '') %>:</strong> <%= @resource.send(b[1]) %><br />
+  <% end %>
+  <strong>Affidavit:</strong> <%= @resource.affidavit %><br />
+  <strong>How did they found out about the job?</strong> <%= @resource.where_sourced %>
+</div>
+<div class='submission_answers_wrapper'>
+  <table class='submission_answers'>
+    <tr>
+      <th style="width: 60%;">Question</th>
+      <th style="width: 40%;">Answer</th>
+    </tr>
+    <% last = 0 %>
+    <% @resource.submission_answers.each do |sa| %>
+        <% if sa.group_order != last %>
+            <% last = sa.group_order %>
+            <tr>
+              <td colspan="2" class='separator'> &nbsp; </td>
+            </tr>
+        <% end %>
+        <tr>
+          <td><%= sa.question_text %></td>
+          <td><%= sa.answer %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+<div class='submission_files'>
+  <% @resource.applicant_files.each do |af| %>
+      <%= link_to af.applicant_file_store, retrieve_application_file_path(:id => af.id) %><br />
+  <% end %>
+</div>
+<hr />
+<div class='comments'>
+  Comments
+  <hr />
+  <% @resource.comments.each do |c| %>
+      <div class='individual_comment'>
+
+      </div>
+  <% end %>
+</div>

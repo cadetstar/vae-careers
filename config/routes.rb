@@ -10,6 +10,7 @@ VaeCareers::Application.routes.draw do
   match 'openings/question_group_orders/:id', :to => 'openings#set_question_groups', :as => 'set_opening_groups'
   match 'openings/:id/change_status', :to => 'openings#change_status', :as => 'change_opening_status'
 
+  match 'submission/file/:id', :to => 'submissions#retrieve_file', :as => 'retrieve_application_file'
 
   root :to => 'openings#public'
   match 'openings/:id/view', :to => 'openings#view', :as => 'view_opening'
@@ -29,6 +30,7 @@ VaeCareers::Application.routes.draw do
   resources :questions
   resources :question_groups
   resources :openings
+  resources :submissions
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end
