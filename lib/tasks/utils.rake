@@ -63,13 +63,15 @@ task :import_data => :environment do
 
     parseable = []
     until f.eof? or line.match(/^#/)
-      parseable << (line = f.gets)
+      parseable << line
+      line = f.gets
     end
 
-    data = YAML.load(parseable.join(""))
 
     local_name = k.split(".")[1]
     if TABLEMAPPER[local_name]
+      data = YAML.load(parseable.join(""))
+      puts data.size
       klass = TABLEMAPPER[local_name][:model]
       case local_name
         when 'appquestions'
