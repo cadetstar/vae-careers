@@ -1,0 +1,18 @@
+<div class='comments'>
+  <a name="comments">Comments</a>
+  <hr />
+  <% @resource.comments.includes(:creator).each do |c| %>
+      <%= render :partial => "comments/individual", :locals => {:c => c} %>
+  <% end %>
+</div>
+
+<div class='add_comment'>
+  <%= form_for :comment, :url => "/comments", :method => :post, :remote => true do |f| %>
+      <%= f.hidden_field :owner_type, :value => @resource.class.name %>
+      <%= f.hidden_field :owner_id, :value => @resource.id %>
+      <strong>Comment</strong><br />
+      <%= f.text_area :body %><br />
+
+      <%= f.submit "Create" %>
+  <% end %>
+</div>

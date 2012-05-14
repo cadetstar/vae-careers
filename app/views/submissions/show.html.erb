@@ -41,12 +41,4 @@
   <% end %>
 </div>
 <hr />
-<div class='comments'>
-  Comments
-  <hr />
-  <% @resource.comments.each do |c| %>
-      <div class='individual_comment'>
-
-      </div>
-  <% end %>
-</div>
+<%= render :partial => 'comments/stub' %>

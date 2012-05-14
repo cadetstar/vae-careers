@@ -1,6 +1,7 @@
 class SubmissionsController < ApplicationController
   before_filter :authenticate_applicant!, :only => [:begin_application, :complete_application]
   before_filter :get_resource, :only => [:show]
+  before_filter :is_current_user?, :except => [:begin_application, :complete_application]
 
   layout :choose_layout
 

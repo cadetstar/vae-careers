@@ -22,7 +22,7 @@
         <td><%= r.recruiter_recommendation %></td>
         <td>
           <% if r.comments.size > 0 %>
-              <%= link_to r.comments.order(:created_at).last.created_at, submission_path(:id => r.id, :target => "comments") %>
+              <%= link_to r.comments.order(:created_at).last.created_at, submission_path(:id => r.id, :anchor => "comments") %>
           <% end %>
         </td>
       </tr>

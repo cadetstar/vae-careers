@@ -31,6 +31,7 @@ VaeCareers::Application.routes.draw do
   resources :question_groups
   resources :openings
   resources :submissions
+  resources :comments
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

@@ -54,54 +54,52 @@ task :import_data => :environment do
   end
 
   f = File.open(files.first)
-  lines = f.readlines
+  line = ''
 
-  parseables = {}
-  data = {}
+  until f.eof?
+    line = f.gets until line.match(/^#/)
+    k = line.chomp.gsub(/^# /, '')
+    line = f.gets
 
-  lines.shift until lines[0].match(/^#/)
-
-  until lines.empty?
-    k = lines[0].chomp.gsub(/^# /, '')
-    lines.shift
-    parseables[k] = []
-    until lines.empty? or lines[0].match(/^#/)
-      parseables[k] << lines.shift
+    parseable = []
+    until f.eof? or line.match(/^#/)
+      parseable << (line = f.gets)
     end
-    data[k] = YAML.load(parseables[k].join(""))
-  end
 
-  data.keys.each do |k|
+    data = YAML.load(parseable.join(""))
+
     local_name = k.split(".")[1]
     if TABLEMAPPER[local_name]
       klass = TABLEMAPPER[local_name][:model]
       case local_name
         when 'appquestions'
-          data[k].each do |line|
-            item = klass.find_or_create_by_id(line['id'])
-            item.name = line['ident']
-            item.prompt = line['qtext']
-            item.required = line['isrequired'] == 1
-            item.question_type = Vae::QUESTION_TYPES[%w(boolean mchoice smtext medtext month year label date).index(line['qtype'])]
-            item.choices = line['qchoices'].split('|').join('\n')
-            item.created_at = line['created_at']
-            item.updated_at = line['updated_at']
+          data.each do |entry|
+            item = klass.find_or_create_by_id(entry['id'])
+            item.name = entry['ident']
+            item.prompt = entry['qtext']
+            item.required = entry['isrequired'] == 1
+            item.question_type = Vae::QUESTION_TYPES[%w(boolean mchoice smtext medtext month year label date).index(entry['qtype'])]
+            item.choices = entry['qchoices'].split('|').join('\n')
+            item.created_at = entry['created_at']
+            item.updated_at = entry['updated_at']
             item.save
           end
         else
-          data[k].each do |line|
-            item = klass.find_or_create_by_id(line['id'])
+          data.each do |entry|
+            item = klass.find_or_create_by_id(entry['id'])
             klass.columns.each do |c|
               next if c.name == 'id'
               if c.sql_type == 'boolean'
-                item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name] == 1)
+                item.send("#{c.name}=", entry[TABLEMAPPER[local_name][:fields][c.name] || c.name] == 1)
               else
-                item.send("#{c.name}=", line[TABLEMAPPER[local_name][:fields][c.name] || c.name])
+                item.send("#{c.name}=", entry[TABLEMAPPER[local_name][:fields][c.name] || c.name])
               end
             end
             item.save
           end
       end
+    else
+      puts "Not processing #{local_name} as it is not mapped."
     end
   end
   Question.order(:name).each_with_index do |j, i|

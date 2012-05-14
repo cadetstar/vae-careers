@@ -31,6 +31,7 @@ class Submission < ActiveRecord::Base
 
   def bounce_new_record
     @perform_completion_check = !new_record?
+    true
   end
 
   def copy_questions
@@ -41,6 +42,7 @@ class Submission < ActiveRecord::Base
         end
       end
     end
+    true
   end
 
   def check_for_completion
