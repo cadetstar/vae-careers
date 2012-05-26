@@ -176,3 +176,21 @@ table.resource_index {
 #hidden_where_sourced {
   display: none;
 }
+
+.notice {
+  color: green;
+}
+
+.alert {
+  color: red;
+}
+
+.separator {
+  background-color: black;
+}
+
+.submission_answers {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid black;
+}

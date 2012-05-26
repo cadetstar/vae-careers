@@ -4,7 +4,6 @@
   <title>VAE Careers</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -23,6 +22,9 @@
   </div>
   <div class="menu_link">
     <%= link_to 'Openings', openings_path %>
+  </div>
+  <div class="menu_link">
+    <%= link_to 'Submissions', submissions_path %>
   </div>
 </div>
 <p class='notice'><%= notice %></p>

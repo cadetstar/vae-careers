@@ -9,6 +9,8 @@
 <body>
 <div class='header_image'><%= image_tag('http://careers.vaecorp.com/images/interface_01.jpg') %></div>
 <h3 class="header_text">Careers</h3>
+<div class='notice'><%= raw notice %></div>
+<div class="alert"><%= raw alert %></div>
 <%= yield %>
 
 <div class="footer">

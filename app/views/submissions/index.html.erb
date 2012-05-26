@@ -1,0 +1,30 @@
+<table class='resource_index'>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Application on File</th>
+    <th>Email</th>
+    <th>City, State</th>
+    <th>Openings</th>
+    <th>Date Applied</th>
+    <th>Priority</th>
+    <th>Comments</th>
+  </tr>
+  <% @resources.each do |r| %>
+      <tr>
+        <td><%= r.first_name %></td>
+        <td><%= r.last_name %></td>
+        <td><%= link_to 'View Application', r %></td>
+        <td><%= r.email %></td>
+        <td><%= r.city_state %></td>
+        <td><%= r.opening %></td>
+        <td><%= r.created_at %></td>
+        <td><%= r.recruiter_recommendation %></td>
+        <td>
+          <% if r.comments.size > 0 %>
+              <%= link_to r.comments.order(:created_at).last.created_at, submission_path(:id => r.id, :anchor => "comments") %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>

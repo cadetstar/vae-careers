@@ -26,6 +26,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def is_current_user?
+    unless current_user
+      redirect_to root_path
+    end
+  end
+
   def current_user
     @current_user ||= RemoteUser.find_by_id(session[:current_user])
   end

@@ -4,7 +4,7 @@ VaeCareers::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
-  config.action_mailer.default_url_options({:host => 'careers.vaecorp.com'})
+  config.action_mailer.default_url_options({:host => 'careers2.vaecorp.com'})
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
@@ -60,4 +60,4 @@ VaeCareers::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 end
-$accounts_location = 'http://192.168.10.82'
+$accounts_location = 'http://accounts.vaecorp.com'

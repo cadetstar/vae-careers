@@ -7,3 +7,6 @@ tmp/
 .idea/*
 lib/tasks/data/
 lib/tasks/data/*.yml
+db/schema.rb
+uploads
+uploads/*
