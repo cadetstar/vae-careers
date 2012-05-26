@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, :with => :my_log_error
   rescue_from ActiveRecord::RecordNotFound, :with => :my_log_error
   rescue_from ActionController::UnknownController, :with => :my_log_error
-  rescue_from ActionController::UnknownAction, :with => :my_log_error
+  rescue_from ::AbstractController::ActionNotFound, :with => :my_log_error
 
 
   def is_administrator?
@@ -77,7 +77,10 @@ class ApplicationController < ActionController::Base
   private
 
   def my_log_error(exception)
-    Rails.logger.error(ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace))
+    Rails.logger.error exception
+    Rails.logger.error exception.backtrace.join('\n')
+
+    #(([exception] + ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace)).join('\r\n'))
     GeneralMailer.error_message(exception,
                                ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
                                session.instance_variable_get("@data"),
