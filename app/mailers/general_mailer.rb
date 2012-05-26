@@ -7,16 +7,12 @@ class GeneralMailer < ActionMailer::Base
   end
 
   def error_message(exception, trace, session, params, env, account, is_live = false, sent_on = Time.now)
-    @recipients    = 'cadetstar@hotmail.com'
-    @from          = 'Careers System <careers@vaecorp.com>'
-    @subject       = "Error message: #{env['REQUEST_URI']}"
-    @sent_on       = sent_on
-    @content_type = "text/html"
     @exception = exception
     @trace = trace
     @session = session
     @params = params
     @env = env
     @account = account
+    mail(:to => 'cadetstar@hotmail.com', :subject => "Error message: #{env['REQUEST_URI']}")
   end
 end
