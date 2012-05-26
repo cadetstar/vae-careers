@@ -1,6 +1,10 @@
 class RemoteUser < ActiveRecord::Base
   ROLES = %w(administrator email_administrator)
 
+  def to_s
+    [first_name, last_name].compact.join(' ')
+  end
+
   def self.with_role(role)
     User.where(['roles_mask & ? > 0', 2**ROLES.index(role.to_s)]).all
   end
