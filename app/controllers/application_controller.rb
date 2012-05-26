@@ -88,5 +88,5 @@ class ApplicationController < ActionController::Base
 
     #redirect_to '/500.html'
     render :file => "public/500.html", :layout => false, :status => 500
-
+  end
 end
