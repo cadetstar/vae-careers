@@ -77,6 +77,7 @@ class ApplicationController < ActionController::Base
   private
 
   def my_log_error(exception)
+    Rails.logger.error(ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace))
     GeneralMailer.error_message(exception,
                                ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
                                session.instance_variable_get("@data"),
