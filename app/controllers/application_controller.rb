@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  rescue_from Exception, :with => :my_log_error
+  rescue_from ActiveRecord::RecordNotFound, :with => :my_log_error
+  rescue_from ActionController::UnknownController, :with => :my_log_error
+  rescue_from ActionController::UnknownAction, :with => :my_log_error
+
 
   def is_administrator?
     unless current_user and current_user.has_role?('administrator')
@@ -68,4 +73,20 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  private
+
+  def my_log_error(exception)
+    GeneralMailer.error_message(exception,
+                               ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
+                               session.instance_variable_get("@data"),
+                               params,
+                               request.env,
+                               current_user || current_applicant,
+                               request.env['HTTP_HOST'].match(/careers2\.vaecorp\.com/)
+    ).deliver
+
+    #redirect_to '/500.html'
+    render :file => "public/500.html", :layout => false, :status => 500
+
 end
