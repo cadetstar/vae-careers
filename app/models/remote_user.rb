@@ -1,4 +1,7 @@
 class RemoteUser < ActiveRecord::Base
+  has_many :comments, :as => :creator
+  has_many :tags, :as => :creator
+
   ROLES = %w(administrator email_administrator)
 
   def to_s
@@ -21,5 +24,15 @@ class RemoteUser < ActiveRecord::Base
 
   def has_role?(role)
     self.roles.include?(role.to_s)
+  end
+
+  private
+
+  def method_missing(name, *args)
+    if name.match(/\?$/) and ROLES.include?(name.gsub(/\?$/, ''))
+      self.has_role?(name.gsub(/\?$/, ''))
+    else
+      super
+    end
   end
 end

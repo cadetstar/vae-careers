@@ -1,3 +1,9 @@
+<div id="main_text">
+  <%= raw StaticText.retrieve('main') %>
+  <div class='front_page_image'>
+    <%= image_tag 'E-Verify_Logo_4-Color_RGB_SM_JPG.bmp' %>
+  </div>
+</div>
 
 <div class="filter_block">
   <div class="filter_header">Job Filter</div>
@@ -36,10 +42,12 @@
       var posdesc = '';
       var statedesc = '';
 
+      $('#main_text').hide();
       switch(link.attr('data-type')) {
       case 'clear':
         current.states = [];
         current.position = [];
+        $('#main_text').show();
         break;
       case 'country' :
         if (link.attr('data-value') === 'United States') {

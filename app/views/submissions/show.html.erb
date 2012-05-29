@@ -1,3 +1,7 @@
+<div class='submission_navigation'>
+  <%= link_to 'Back', submissions_path %>
+</div>
+
 <div class='position_name'>
   <%= @resource.opening %>
 </div>
@@ -7,9 +11,18 @@
 <div class='submission_users'>
   Users:<br />
 </div>
+<div class='hiring_pipeline'>
+  <% if @resource.hired %>
+    <%= render :partial => 'hired', :locals => {:submission => @resource} %>
+  <% elsif @resource.began_hiring %>
+    <%= render :partial => 'in_process', :locals => {:submission => @resource} %>
+  <% elsif @resource.opening.show_on_opp %>
+    <%= link_to 'Begin Hiring', change_status_path(:type => 'begin', :id => @resource.id), :confirm => t('hiring.offer') %>
+  <% end %>
+</div>
 <div class='biographic_information'>
   <% bio_submission_fields.each do |b| %>
-      <strong><%= b[0].gsub('*', '') %>:</strong> <%= @resource.send(b[1]) %><br />
+    <strong><%= b[0].gsub('*', '') %>:</strong> <%= @resource.send(b[1]) %><br />
   <% end %>
   <strong>Affidavit:</strong> <%= @resource.affidavit %><br />
   <strong>How did they found out about the job?</strong> <%= @resource.where_sourced %>
@@ -22,23 +35,29 @@
     </tr>
     <% last = 0 %>
     <% @resource.submission_answers.each do |sa| %>
-        <% if sa.group_order != last %>
-            <% last = sa.group_order %>
-            <tr>
-              <td colspan="2" class='separator'> &nbsp; </td>
-            </tr>
-        <% end %>
+      <% if sa.group_order != last %>
+        <% last = sa.group_order %>
         <tr>
-          <td><%= sa.question_text %></td>
-          <td><%= sa.answer %></td>
+          <td colspan="2" class='separator'> &nbsp; </td>
         </tr>
+      <% end %>
+      <tr>
+        <td><%= sa.question_text %></td>
+        <td><%= sa.answer %></td>
+      </tr>
     <% end %>
   </table>
 </div>
 <div class='submission_files'>
   <% @resource.applicant_files.each do |af| %>
-      <%= link_to af.applicant_file_store, retrieve_application_file_path(:id => af.id) %><br />
+    <%= link_to af.applicant_file_store, retrieve_application_file_path(:id => af.id) %><br />
   <% end %>
 </div>
 <hr />
 <%= render :partial => 'comments/stub' %>
+<% if @current_user.has_role?('administrator') %>
+  <%= render :partial => 'tags/stub' %>
+<% end %>
+<div class='submission_navigation'>
+  <%= link_to 'Back', submissions_path %>
+</div>

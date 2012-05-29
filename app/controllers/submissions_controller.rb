@@ -17,6 +17,10 @@ class SubmissionsController < ApplicationController
       return
     end
     @submission = Submission.find_or_create_by_opening_id_and_applicant_id(@opening.id, current_applicant.id)
+    if @submission.completed?
+      flash[:alert] = "You have already applied for this position.  If you wish to request information regarding your application, please contact #{t('admins.primary.name')} at #{t('admins.primary.email')}"
+      redirect_to root_path
+    end
   end
 
   def complete_application
@@ -43,6 +47,43 @@ class SubmissionsController < ApplicationController
 
   def retrieve_file
 
+  end
+
+  def generate_or_retrieve
+    if (submission = Submission.find_by_id(params[:id]))
+      case params[:type]
+        when 'hiring'
+        when 'generate'
+        when 'retrieve'
+        when 'i9'
+
+      end
+    else
+      render :nothing => true
+    end
+  end
+
+  def change_status
+    if (@submission = Submission.find_by_id(params[:id]))
+      status, result = @submission.change_status(params[:type])
+      flash[status] = result
+      redirect_to @submission
+    else
+      flash[:alert] = 'I could not find a submission with that ID.'
+      redirect_to submissions_path
+    end
+  end
+
+  def index
+    @resources = Submission.where(:completed => true).order("recruiter_recommendation nulls first, created_at")
+  end
+
+  def update_recommendation
+    if (@submission = Submission.find_by_id(params[:id]))
+      @submission.recruiter_recommendation = params[:recommendation]
+      @submission.save
+    end
+    render :nothing => true
   end
 
   def choose_layout

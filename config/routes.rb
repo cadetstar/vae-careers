@@ -1,5 +1,4 @@
 VaeCareers::Application.routes.draw do
-
   devise_for :applicants, :controllers => {:sessions => 'applicants/sessions', :registrations => 'applicants/registrations'}
   devise_scope :applicant do
     match 'applicants/profile', :to => 'applicants/registrations#profile', :as => 'profile'
@@ -25,6 +24,12 @@ VaeCareers::Application.routes.draw do
   match 'start_query', :to => 'departments#start_query'
   match 'openings/description/:id', :to => 'openings#get_description'
 
+  match 'submission/:id/setup', :to => 'submissions#setup', :as => 'submission_setup'
+  match 'submission/:id/files/:type', :to => 'submissions#generate_or_retrieve', :as => 'paperwork'
+  match 'submission/:id/recommendation', :to => 'submissions#update_recommendation'
+  match 'submission/:id/status', :to => 'submissions#change_status', :as => 'change_status'
+  match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
+
   resources :position_types
   resources :positions
   resources :questions
@@ -32,6 +37,8 @@ VaeCareers::Application.routes.draw do
   resources :openings
   resources :submissions
   resources :comments
+  resources :static_texts
+  resources :tag_types
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

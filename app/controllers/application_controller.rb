@@ -74,6 +74,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def make_pdf(output_file, input_files)
+    `gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{output_file} #{input_files.join(' ')}`
+  end
+
   private
 
   def my_log_error(exception)

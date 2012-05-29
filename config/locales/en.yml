@@ -2,4 +2,32 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  admins:
+    primary:
+      name: Rachel Yellin
+      email: ryellin@vaecorp.com
+      title: 'Human Resources Recruiter'
+      fax: 240-306-2669
+    it:
+      name: Andy Kirk
+      email:  akirk@vaecorp.com
+      title:  Information Technology Manager
+    coo:
+      name: David Martin
+      email: dmartin@vaecorp.com
+      title:  Chief Operating Officer
+    hr:
+      name: Heather Hackworth
+      email: hhackworth@vaecorp.com
+      title:  Director of Human Resources
+  address:
+    vae:
+      html: <p>Visual Aids Electronics<br />12910 Cloverleaf Center Drive<br />Suite 100<br />Germantown, MD 20874</p>
+      plain: Visual Aids Electronics\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
+    csi:
+      html: <p>Conference Systems, Inc.<br />12910 Cloverleaf Center Drive<br />Suite 100<br />Germantown, MD 20874</p>
+      plain: Conference Systems, Inc.\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
+  hiring:
+    offer: Have you made an offer of employment to the candidate?  You must make an offer of employment to the candidate before he/she can be asked to complete the Background Check Release Form.
+    references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing &amp; feedback must appear in the comments.
   hello: "Hello world"

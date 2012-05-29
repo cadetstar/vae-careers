@@ -1,0 +1,40 @@
+<div class='tags'>
+  <a name="tags">Tags</a>
+  <hr />
+  <% @resource.tags.each do |tag| %>
+    <%= render :partial => "tags/individual", :locals => {:tag => tag} %>
+  <% end %>
+</div>
+
+<div class='tag_editing'>
+  <form id='current_tag_form'>
+    <div class='current_tags'>
+      <% @resource.tags.each do |tag| %>
+        <div class='tag_row' data-id='<%= tag.tag_type_id %>'><%= tag.name %><%= hidden_field_tag "tags[]", tag.tag_type_id %></div>
+      <% end %>
+    </div>
+  </form>
+  <div class='potential_tags'>
+    <% TagType.where(['id not in (?)', [-1] + @resource.tags.collect {|t| t.tag_type_id}]).each do |tt| %>
+      <div class='tag_row' data-id='<%= tt.id %>'><%= tt.name %><%= hidden_field_tag "tags[]", tt.id %></div>
+    <% end %>
+  </div>
+</div>
+<div class='float_clear'></div>
+<script type='text/javascript'>
+  $(document).ready(function() {
+    $('.tag_row').draggable({revert: 'invalid'});
+    $('.current_tags, .potential_tags').droppable({
+      drop: function(event, ui) {
+        console.info($(this));
+        $(this).append(ui.draggable);
+        ui.draggable.css({top: 0, left: 0});
+        $.ajax({
+          url: "<%= update_tags_path(:resource_class => @resource.class.name, :resource_id => @resource.id) %>",
+          method: 'POST',
+          data: $('#current_tag_form').serialize()
+        });
+      }
+    });
+  });
+</script>
