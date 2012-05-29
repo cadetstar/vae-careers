@@ -1,5 +1,9 @@
 <h2>Sign in</h2>
 
+<div class='applicant_login_instructions'>
+  <%= raw StaticText.retrieve('applicant_login') %>
+</div>
+
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>

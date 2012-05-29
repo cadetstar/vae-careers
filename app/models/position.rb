@@ -7,6 +7,6 @@ class Position < ActiveRecord::Base
   end
 
   def to_s
-    position_type
+    position_type.to_s
   end
 end

@@ -3,6 +3,8 @@
 <head>
   <title>VAE Careers</title>
   <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -22,6 +24,12 @@
   </div>
   <div class="menu_link">
     <%= link_to 'Openings', openings_path %>
+  </div>
+  <div class="menu_link">
+    <%= link_to 'Static Texts', static_texts_path %>
+  </div>
+  <div class="menu_link">
+    <%= link_to 'Tag Types', tag_types_path %>
   </div>
   <div class="menu_link">
     <%= link_to 'Submissions', submissions_path %>

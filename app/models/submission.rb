@@ -8,6 +8,8 @@ class Submission < ActiveRecord::Base
   accepts_nested_attributes_for :applicant_files
 
   has_many :comments, :as => :owner
+  has_many :tags, :as => :owner
+  has_many :tag_types, :through => :tags
 
 
   delegate :position, :department, :question_groups, :to => :opening
@@ -77,7 +79,41 @@ class Submission < ActiveRecord::Base
 
   end
 
+  def to_s
+    "#{[first_name, last_name].compact.join(' ')} (#{email}) for #{opening}"
+  end
+
+  def change_status(type)
+    return [:alert, 'That application has not been completed.'] unless self.completed
+    case type
+      when 'unhire'
+        return [:notice, "#{self.to_s} has not been hired."] unless self.hired
+        self.hired = false
+        self.began_hiring = false
+        self.save
+      when 'hire'
+        return [:notice, "#{self.to_s} has already been hired."] if self.hired
+        return [:notice, "The hiring process for #{self.to_s} has not yet begin."] unless self.began_hiring
+        self.hired = true
+        self.save
+        return [:notice, "#{self.to_s} hired."]
+      when 'begin'
+        return [:notice, "#{self.to_s} has already been hired."] if self.hired
+        return [:notice, "#{self.to_s} has already started the hiring process"] if self.began_hiring
+        self.began_hiring = true
+        self.save
+        return [:notice, "Hiring process for #{self.to_s} started."]
+      when 'stop'
+        return [:notice, "#{self.to_s} has already been hired."] if self.hired
+        return [:notice, "#{self.to_s} is not currently in the hiring process"] unless self.began_hiring
+        self.began_hiring = false
+        self.hired = false
+        self.save
+        return [:notice, "Hiring process for #{self.to_s} terminated."]
+    end
+  end
+
   def self.indexed_attributes
-    [:first_name, :last_name, ]
+    [:first_name, :last_name]
   end
 end

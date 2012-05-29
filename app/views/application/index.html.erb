@@ -11,7 +11,7 @@
       <tr class="<%= cycle('odd','even') %>">
         <% attributes_to_display.each do |j| %>
             <% l = r.send(j.gsub(/_id$/, '')) %>
-            <td><%= l.is_a?(Array) ? raw(l.join("<br />")) : l %></td>
+            <td data-name="<%= j.humanize %>" data-value="<%= l.to_s.gsub(/\W/, '') %>"><%= l.is_a?(Array) ? raw(l.join("<br />")) : l %></td>
         <% end %>
         <td><%= link_to 'Edit', :action => :edit, :id => r.id %> &middot; <%= link_to 'Delete', r, :method => :delete, :confirm => "Are you sure?" %><%= additional_commands(r) %></td>
       </tr>
@@ -21,3 +21,30 @@
 <div class='new_resource'>
   <%= link_to "New #{controller_name.singularize.titleize}", {:action => :new} %>
 </div>
+
+<script type="text/javascript">
+  var lastClicked = '';
+
+  $(document).ready(function() {
+    $('.resource_index th').click(function(e) {
+      var sortKey = $(e.target).html();
+      var items = [];
+      var cells = $('.resource_index td[data-name="' + sortKey + '"]');
+      for (var i = 0; i < cells.length; i++) {
+        items.push($(cells[i]).attr('data-value'));
+      }
+      items.sort();
+
+      if (lastClicked === sortKey) {
+        items.reverse();
+        lastClicked = '';
+      } else {
+        lastClicked = sortKey;
+      }
+
+      for (var j = 0; j < items.length; j++) {
+        $('.resource_index').append($('.resource_index td[data-name="' + sortKey + '"][data-value="' + items[j] + '"]').parents("tr"));
+      }
+    })
+  });
+</script>

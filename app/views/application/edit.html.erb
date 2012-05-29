@@ -1,4 +1,7 @@
 <% klass = controller_name.classify.constantize %>
+<div class='resource_navigation'>
+  <%= link_to 'Back', {:action => :index} %>
+</div>
 <div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
 <%= form_for @resource do |f| %>
     <% klass.send(klass.respond_to?('edittable_attributes') ? 'edittable_attributes' : 'attribute_names').reject{|an| %w(id created_at updated_at).include?(an)}.each do |j| %>
@@ -11,3 +14,6 @@
       <%= f.submit 'Update' %>
     </div>
 <% end %>
+<div class='resource_navigation'>
+  <%= link_to 'Back', {:action => :index} %>
+</div>
