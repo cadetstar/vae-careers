@@ -66,8 +66,8 @@ class OpeningsController < ApplicationController
     pdf.font_size 48
     pdf.font pdf.font.name, :style => :bold
     pdf.text_box "Open Positions Posting", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height], :width => 100, :height => 100, :overflow => :shrink_to_fit
-    pdf.move_down 20
-    pdf.font_size 12
+    pdf.move_down 140
+    pdf.font_size 10
     pdf.font pdf.font.name, :style => :normal
 
     titles = openings.collect{|o| o.position_type}.uniq
@@ -77,9 +77,11 @@ class OpeningsController < ApplicationController
       titled_openings.collect{|to| to.description}.uniq.sort.each do |d|
         data = []
         titled_openings.select{|to| to.description == d}.each do |to|
-          data << [to.department.try(:short_name), to.position.to_s, to.created_at.to_s]
+          data << [(to.department.try(:short_name) || to.department.try(:name) || '').to_s[0,5], to.position.to_s, to.created_at.strftime('%m/%d/%Y')]
         end
-        pdf.table(data, :column_widths => [100, 300, 140])
+        pdf.font_size 14
+        pdf.table(data, :column_widths => [100, 300, 140], :cell_style => {:borders => []})
+        pdf.font_size 10
         pdf.text d
         pdf.move_down 20
       end
