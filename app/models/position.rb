@@ -3,7 +3,7 @@ class Position < ActiveRecord::Base
   has_many :openings
 
   def self.list_for_select
-    Position.all.collect{|r| ["#{r.position_type} - #{r.time_type}", r.id]}
+    Position.includes(:position_type).order("position_types.name, time_type").all.collect{|r| ["#{r.position_type} - #{r.time_type}", r.id]}
   end
 
   def to_s

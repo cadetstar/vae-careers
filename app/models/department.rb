@@ -6,7 +6,7 @@ class Department < ActiveRecord::Base
   has_many :openings
 
   def self.list_for_select
-    Department.all.collect{|d| [d, d.id]}
+    Department.order("code").all.collect{|d| [d, d.id]}
   end
 
   def self.states_with_departments

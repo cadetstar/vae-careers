@@ -29,6 +29,7 @@ VaeCareers::Application.routes.draw do
   match 'submission/:id/recommendation', :to => 'submissions#update_recommendation'
   match 'submission/:id/status', :to => 'submissions#change_status', :as => 'change_status'
   match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
+  match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'
 
   resources :position_types
   resources :positions

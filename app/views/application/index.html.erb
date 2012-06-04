@@ -1,3 +1,6 @@
+<div class='new_resource'>
+  <%= link_to "New #{controller_name.singularize.titleize}", {:action => :new} %>
+</div>
 <% klass = controller_name.classify.constantize %>
 <% attributes_to_display = klass.respond_to?('indexed_attributes') ? klass.indexed_attributes : klass.attribute_names.reject{|an| %w(id created_at updated_at).include? an} %>
 <table class='resource_index'>
@@ -47,6 +50,8 @@
                 }
                 lastClicked = sortKey;
             }
+            $('.resource_index tr').removeClass('even').addClass('odd');
+            $('.resource_index tr').filter(':even').not(':first').removeClass('odd').addClass('even');
         })
     });
 </script>
