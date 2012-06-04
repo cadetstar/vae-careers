@@ -1,3 +1,23 @@
+dynamic_form_files
+  name
+  current_version_id
+
+dynamic_files
+  (file_field)
+  dynamic_form_file_id
+
+dynamic_forms
+  name
+
+form_file_links
+  dynamic_form_id
+  dynamic_form_file_id
+
+file_fields
+  dynamic_file_id
+  field_name
+  system_data (define a token system for this)
+
 Change Veteran Status to be drop-down (with blank, yes, no) instead of the five checkboxes
 Add Time status to Position listing on Openings page
 Remove Question and Question Groups to not use the name as an order

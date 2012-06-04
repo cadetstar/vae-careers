@@ -1,17 +1,28 @@
+<div class='new_resource'>
+  <%= link_to "New #{controller_name.singularize.titleize}", {:action => :new} %>
+</div>
 <% klass = controller_name.classify.constantize %>
 <% attributes_to_display = klass.respond_to?('indexed_attributes') ? klass.indexed_attributes : klass.attribute_names.reject{|an| %w(id created_at updated_at).include? an} %>
 <table class='resource_index'>
   <tr>
     <% attributes_to_display.each do |j| %>
-        <th><%= j.humanize %></th>
+        <th data-type="<%= j.gsub(/\W/, '') %>"><%= j.humanize %></th>
     <% end %>
     <th>Commands</th>
   </tr>
+
+  <%
+     sorted_orders = {}
+     attributes_to_display.each do |j|
+       sorted_orders[j] = @resources.sort_by{|k| k.send(j).to_s.gsub(/\W/, '')}.collect{|r| r.id}
+     end
+  %>
+
   <% @resources.each do |r| %>
-      <tr class="<%= cycle('odd','even') %>">
+      <tr class="<%= cycle('odd','even') %>" <%= raw attributes_to_display.collect{|a| "data-#{a}='#{sorted_orders[a].index(r.id)}'"}.join(" ") %>>
         <% attributes_to_display.each do |j| %>
             <% l = r.send(j.gsub(/_id$/, '')) %>
-            <td data-name="<%= j.humanize %>" data-value="<%= l.to_s.gsub(/\W/, '') %>"><%= l.is_a?(Array) ? raw(l.join("<br />")) : l %></td>
+            <td><%= l.is_a?(Array) ? raw(l.join("<br />")) : l %></td>
         <% end %>
         <td><%= link_to 'Edit', :action => :edit, :id => r.id %> &middot; <%= link_to 'Delete', r, :method => :delete, :confirm => "Are you sure?" %><%= additional_commands(r) %></td>
       </tr>
@@ -23,28 +34,24 @@
 </div>
 
 <script type="text/javascript">
-  var lastClicked = '';
-
-  $(document).ready(function() {
-    $('.resource_index th').click(function(e) {
-      var sortKey = $(e.target).html();
-      var items = [];
-      var cells = $('.resource_index td[data-name="' + sortKey + '"]');
-      for (var i = 0; i < cells.length; i++) {
-        items.push($(cells[i]).attr('data-value'));
-      }
-      items.sort();
-
-      if (lastClicked === sortKey) {
-        items.reverse();
-        lastClicked = '';
-      } else {
-        lastClicked = sortKey;
-      }
-
-      for (var j = 0; j < items.length; j++) {
-        $('.resource_index').append($('.resource_index td[data-name="' + sortKey + '"][data-value="' + items[j] + '"]').parents("tr"));
-      }
-    })
-  });
+    var lastClicked = '';
+    var maxNum = <%= @resources.size - 1 %>;
+    $(document).ready(function() {
+        $('.resource_index th').click(function(e) {
+            var sortKey = $(e.target).attr('data-type');
+            if (lastClicked === sortKey) {
+                for (var j = maxNum; j >= 0; j--) {
+                    $('.resource_index').append($('.resource_index tr[data-' + sortKey + '="' + j + '"]'));
+                }
+                lastClicked = '';
+            } else {
+                for (var j = 0; j <= maxNum; j++) {
+                    $('.resource_index').append($('.resource_index tr[data-' + sortKey + '="' + j + '"]'));
+                }
+                lastClicked = sortKey;
+            }
+            $('.resource_index tr').removeClass('even').addClass('odd');
+            $('.resource_index tr').filter(':even').not(':first').removeClass('odd').addClass('even');
+        })
+    });
 </script>
