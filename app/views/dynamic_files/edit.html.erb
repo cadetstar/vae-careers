@@ -1,0 +1,30 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :name, "Name" %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :confirmation_notice %><br />
+      <%= f.text_area :confirmation_notice %>
+    </div>
+    <div>
+      Upload a new revision:<br />
+      <%= f.fields_for :dynamic_file_revisions, DynamicFileRevision.new(:dynamic_file_id => @resource.id) do |g| %>
+          <%= g.file_field :dynamic_file_store %>
+      <% end %>
+    </div>
+    <div>
+      Choose which revision to use:
+      <% @resource.dynamic_file_revisions.each do |r| %>
+          <div>
+            <%= f.radio_button :current_version_id, r.id %> <%= r.created_at %>
+          </div>
+      <% end %>
+    </div>
+    <div class='float_clear'></div>
+    <hr />
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>

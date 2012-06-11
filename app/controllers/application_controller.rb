@@ -74,6 +74,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def generic_reordering
+    rc_frag = params[:resource_class].underscore + '_id'
+    qg_frag = params[:source_class].underscore + '_id'
+    (params[:items] || []).each_with_index do |qg_id,i|
+      if qg = params[:source_class].constantize.find_by_id(qg_id)
+        ogc = params[:link_class].constantize.send("find_or_create_by_#{rc_frag}_and_#{qg_frag}".to_sym, params[:id], qg.id)
+        ogc.group_order = i + 1 if ogc.respond_to?(:group_order)
+        ogc.save
+      end
+    end
+    params[:link_class].constantize.where(["#{rc_frag} = ? and #{qg_frag} not in (?)", params[:id], (params[:items] || [-1])]).each do |old_qg|
+      old_qg.destroy
+    end
+    render :text => ''
+  end
+
   def make_pdf(output_file, input_files)
     `gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{output_file} #{input_files.join(' ')}`
   end

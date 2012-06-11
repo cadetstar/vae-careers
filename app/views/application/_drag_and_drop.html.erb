@@ -1,0 +1,37 @@
+<div class="header"><%= header %></div>
+<div class="questions_container">
+  <div class="questions linked_list">
+    Current Files:
+    <% target.send(current_items).each do |qg| %>
+        <div id="items_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+    <% end %>
+  </div>
+  <div class="questions_origin linked_list">
+    Potential Files:
+    <% potential_items.where(['id not in (?)', [-1] + target.send(current_items).collect{|qg| qg.id}]).each do |qg| %>
+        <div id="items_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+    <% end %>
+  </div>
+</div>
+<div class='float_clear'></div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.questions, .questions_origin').sortable({
+            connectWith: '.linked_list',
+            items: '.question_row',
+            stop: function(event, ui) {
+                console.info("Sort firing.")
+                if (ui.item.qtip('api')) {
+                    ui.item.qtip("hide");
+                }
+                console.info($(this).attr('class'));
+                console.info($('.questions').sortable('serialize'));
+
+                $.ajax({
+                    url: "<%= submit_path %>",
+                    data: $('.questions').sortable('serialize')
+                });
+            }
+        }).disableSelection();
+    });
+</script>

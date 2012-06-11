@@ -12,4 +12,8 @@ class QuestionGroup < ActiveRecord::Base
   def to_s
     name
   end
+
+  def questions_for_tooltip
+    self.questions.join("<br />")
+  end
 end

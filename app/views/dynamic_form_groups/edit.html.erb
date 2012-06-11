@@ -1,0 +1,20 @@
+<div class="resource_name">Edit <%= controller_name.singularize.titleize %></div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :name, "Name" %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>
+<%=
+    render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :dynamic_files,
+            :item_tooltip => :name,
+            :potential_items => DynamicFile,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_class => "DynamicFile", :link_class => "DynamicFileGroupLink", :resource_class => "DynamicFormGroup"),
+            :header => "Files in the Group"
+    }
+%>

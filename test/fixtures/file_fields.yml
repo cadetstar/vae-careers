@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dynamic_file_revision_id: 1
+  field_name: MyString
+  system_data: MyText
+
+two:
+  dynamic_file_revision_id: 1
+  field_name: MyString
+  system_data: MyText

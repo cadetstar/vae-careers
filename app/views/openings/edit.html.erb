@@ -21,24 +21,16 @@
     </div>
 <% end %>
 
-<div class="header">Question Groups (Drag question groups to select or reorder.  Hover to view questions in group)</div>
-<div class="questions_container">
-  <form id="sub_questions_form">
-    <div class="questions">
-      Current Question Groups:
-      <% @resource.question_groups.each do |qg| %>
-          <div class='question_row qtip_target' data-qtip="<%= raw qg.questions.join("<br />") %>"><%= qg.to_s %><input type="hidden" name="question_groups[]" value="<%= qg.id %>" /></div>
-      <% end %>
-    </div>
-  </form>
-  <div class="questions_origin">
-    Potential Question Groups:
-    <% QuestionGroup.where(['id not in (?)', [-1] + @resource.question_groups.collect{|qg| qg.id}]).each do |qg| %>
-        <div class='question_row qtip_target' data-qtip="<%= raw qg.questions.join("<br />") %>"><%= qg.to_s %><input type="hidden" name="question_groups[]" value="<%= qg.id %>" /></div>
-    <% end %>
-  </div>
-</div>
-<div class='float_clear'></div>
+<%=
+    render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :question_groups,
+            :item_tooltip => :questions_for_tooltip,
+            :potential_items => QuestionGroup,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_class => "QuestionGroup", :link_class => "OpeningGroupConnection", :resource_class => "Opening"),
+            :header => "Question Groups (Drag question groups to select or reorder.  Hover to view questions in group)"
+    }
+%>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -49,22 +41,6 @@
             $.get('/openings/description/' + $('#opening_position_id').val(), function(data, textStatus, jqXHR) {
                 $('#opening_description').val(data);
             });
-        });
-        $('.question_row').draggable({revert: 'invalid'});
-        $('.questions, .questions_origin').droppable({
-            drop: function(event, ui) {
-                if ($(this).attr('class').match(/questions_origin/) === null) {
-                    $('#sub_questions_form').append(ui.draggable);
-                }
-                $(this).append(ui.draggable);
-                ui.draggable.qtip("hide");
-                ui.draggable.css({top: 0, left: 0});
-                console.info($(this).attr('class'));
-                $.ajax({
-                    url: "<%= set_opening_groups_path(:id => @resource.id) %>",
-                    data: $('#sub_questions_form').serialize()
-                });
-            }
         });
     });
 </script>

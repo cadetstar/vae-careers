@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  dynamic_file_id: 1
+  dynamic_file_store: MyString
+  uploaded_file_name: MyString
+
+two:
+  dynamic_file_id: 1
+  dynamic_file_store: MyString
+  uploaded_file_name: MyString
