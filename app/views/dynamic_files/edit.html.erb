@@ -16,10 +16,16 @@
     </div>
     <div>
       Choose which revision to use:
+      <%= render :partial => 'application/token_help' %>
       <% @resource.dynamic_file_revisions.each do |r| %>
-          <div>
-            <%= f.radio_button :current_version_id, r.id %> <%= r.created_at %>
+          <div class="dfr_header">
+            <%= f.radio_button :current_version_id, r.id %> <%= File.basename r.dynamic_file_store.url %> - <%= r.created_at %>
           </div>
+          <% r.file_fields.each do |ff| %>
+              <%= f.fields_for :file_fields, ff do |k| %>
+                  <div class="dfr_items"><%= ff.field_name %>: <%= k.text_field :system_data %></div>
+              <% end %>
+          <% end %>
       <% end %>
     </div>
     <div class='float_clear'></div>

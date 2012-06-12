@@ -10,3 +10,5 @@ lib/tasks/data/*.yml
 db/schema.rb
 uploads
 uploads/*
+forms
+forms/*
