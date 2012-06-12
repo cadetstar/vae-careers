@@ -26,4 +26,8 @@ module Vae
   }
 
   RECRUITER_RECOMMENDATION = %w(Please\ Choose 1\ -\ Yes 2\ -\ Maybe 3\ -\ No)
+
+  FORM_TOKENS = {
+      '%FIRST_NAME%' => {:data => :first_name, :name => "First Name of Applicant"}
+  }
 end

@@ -6,7 +6,6 @@ VaeCareers::Application.routes.draw do
   end
 
   match 'question_groups/question_orders/:id', :to => 'question_groups#set_question_groups', :as => 'set_question_groups'
-  match 'openings/question_group_orders/:id', :to => 'openings#set_question_groups', :as => 'set_opening_groups'
   match 'openings/:id/change_status', :to => 'openings#change_status', :as => 'change_opening_status'
 
   match 'submission/file/:id', :to => 'submissions#retrieve_file', :as => 'retrieve_application_file'
@@ -31,6 +30,8 @@ VaeCareers::Application.routes.draw do
   match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
   match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'
 
+  match 'ordering/:resource_class/:id', :to => 'application#generic_reordering', :as => 'generic_reordering'
+
   resources :position_types
   resources :positions
   resources :questions
@@ -40,6 +41,8 @@ VaeCareers::Application.routes.draw do
   resources :comments
   resources :static_texts
   resources :tag_types
+  resources :dynamic_files
+  resources :dynamic_form_groups
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

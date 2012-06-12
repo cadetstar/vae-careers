@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  file_type: MyString
+  file_id: 1
+  opening_id: 1
+  form_type: MyString
+
+two:
+  file_type: MyString
+  file_id: 1
+  opening_id: 1
+  form_type: MyString

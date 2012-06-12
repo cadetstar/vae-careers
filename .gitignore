@@ -12,3 +12,5 @@ uploads
 uploads/*
 public/assets
 public/assets/*
+forms
+forms/*

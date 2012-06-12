@@ -1,0 +1,20 @@
+<div id='token_header'>Click to view token information</div>
+<div id='token_body' style="display: none">
+  <table>
+    <tr>
+      <th>Token</th>
+      <th>What it is?</th>
+    </tr>
+  <% Vae::FORM_TOKENS.each_pair do |k,v| %>
+      <tr>
+        <td><%= k %></td>
+        <td><%= v[:name] %></td>
+      </tr>
+  <% end %>
+  </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#token_header').click(function() {$('#token_body').toggle()});
+    })
+</script>

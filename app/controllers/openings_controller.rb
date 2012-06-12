@@ -5,7 +5,7 @@ class OpeningsController < ApplicationController
   layout :choose_layout
 
   def set_question_groups
-    (params[:question_groups] || []).each_with_index do |qg_id,i|
+    (params[:items] || []).each_with_index do |qg_id,i|
       if qg = QuestionGroup.find_by_id(qg_id)
         ogc = OpeningGroupConnection.find_or_create_by_opening_id_and_question_group_id(@resource.id, qg.id)
         ogc.group_order = i + 1

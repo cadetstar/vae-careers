@@ -3,7 +3,7 @@ class Opening < ActiveRecord::Base
   belongs_to :department
 
   has_many :opening_group_connections, :order => :group_order
-  has_many :question_groups, :through => :opening_group_connections
+  has_many :question_groups, :through => :opening_group_connections, :order => "opening_group_connections.group_order"
 
   has_many :submissions
   has_many :applicants, :through => :submissions
