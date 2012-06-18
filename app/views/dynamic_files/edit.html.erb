@@ -23,7 +23,10 @@
           </div>
           <% r.file_fields.each do |ff| %>
               <%= f.fields_for :file_fields, ff do |k| %>
-                  <div class="dfr_items"><%= ff.field_name %>: <%= k.text_field :system_data %></div>
+                  <div class="dfr_items"><%= ff.field_name %>:
+                    <%= select_tag :fake_system_data, options_for_select(Vae::FORM_TOKENS.collect{|k,v| [v[:name], k]} + [['Custom', 'custom']], :selected => ''), :class => 'data_selector' %>
+                    <%= k.text_field :system_data, :class => 'data_content' %>
+                  </div>
               <% end %>
           <% end %>
       <% end %>
@@ -34,3 +37,37 @@
       <%= f.submit 'Update' %>
     </div>
 <% end %>
+<script type='text/javascript'>
+  $(document).ready(function() {
+      $('select.data_selector').change(function(e) {
+          console.info('Firing the selector: ' + $(e.target).parents('div.dfr_items').length);
+          if ($(e.target).val() === 'custom') {
+              $(e.target).parents('div.dfr_items').find('.data_content').show();
+          } else {
+              $(e.target).parents('div.dfr_items').find('.data_content').hide();
+              $(e.target).parents('div.dfr_items').find('.data_content').val($(e.target).val());
+          }
+      });
+      var fields = $('.data_selector');
+      var found = false;
+      var j;
+      var testValue;
+      for (var i = 0; i < fields.length; i++) {
+          found = false;
+          testValue = $(fields[i]).parents('div').find('.data_content').val();
+          for (j = 0; j < fields[i].options.length; j++) {
+              if (fields[i].options[j].value === testValue) {
+                  found = true;
+                  j = fields[i].options.length;
+                  $(fields[i]).val(testValue);
+              }
+          }
+          if (!found) {
+              $(fields[i]).val('custom');
+              $(fields[i]).trigger('change');
+          }
+      }
+
+
+  })
+</script>
