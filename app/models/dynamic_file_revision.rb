@@ -27,4 +27,21 @@ class DynamicFileRevision < ActiveRecord::Base
     end
     self.save
   end
+
+  def generate_file_with_form(applicant = nil, destination = "tmp/#{Time.now.to_i}.pdf")
+    data = {}
+    self.file_fields.each do |ff|
+      data[ff.field_name] = parse_data_field(ff.system_data, applicant)
+    end
+    $pdftk.fill_form self.dynamic_file_store.current_path, destination, data
+    destination
+  end
+
+  def parse_data_field(text, applicant)
+    return "(BLANK)" if text.blank?
+    Vae::FORM_TOKENS.each do |k,v|
+      text.gsub!(k, applicant.nil? ? v[:name] : applicant.send(v[:data]))
+    end
+    text
+  end
 end

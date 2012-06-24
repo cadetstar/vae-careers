@@ -9,6 +9,9 @@
       <%= f.text_area :confirmation_notice %>
     </div>
     <div>
+      <%= link_to 'Test Compile', test_file_compile_path(:id => @resource.id) %>
+    </div>
+    <div>
       Upload a new revision:<br />
       <%= f.fields_for :dynamic_file_revisions, DynamicFileRevision.new(:dynamic_file_id => @resource.id) do |g| %>
           <%= g.file_field :dynamic_file_store %>

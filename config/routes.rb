@@ -29,6 +29,7 @@ VaeCareers::Application.routes.draw do
   match 'submission/:id/status', :to => 'submissions#change_status', :as => 'change_status'
   match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
   match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'
+  match 'dynamic_files/:id/compile', :to => 'dynamic_files#test_compile', :as => 'test_file_compile'
 
   match 'ordering/:resource_class/:id', :to => 'application#generic_reordering', :as => 'generic_reordering'
 
