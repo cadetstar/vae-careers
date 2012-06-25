@@ -32,6 +32,8 @@ class SubmissionsController < ApplicationController
 
     @submission.update_attributes(params[:submission])
 
+    puts @submission.incomplete_notices.inspect
+
     if @submission.completed?
       flash[:notice] = 'Thank you for applying.  You should receive a confirmation email in a few minutes.'
       redirect_to root_path
@@ -51,13 +53,9 @@ class SubmissionsController < ApplicationController
 
   def generate_or_retrieve
     if (submission = Submission.find_by_id(params[:id]))
-      case params[:type]
-        when 'hiring'
-        when 'generate'
-        when 'retrieve'
-        when 'i9'
-
-      end
+      result = submission.generate_paperwork(params[:type])
+      send_file result, :type => 'application/zip', :disposition => 'attachment', :filename => "#{params[:generate_type] == 'pre' ? 'Pre-Employment' : 'Post-Hiring'} Paperwork - #{submission.applicant.name_lnf}.zip"
+      #result.close
     else
       render :nothing => true
     end

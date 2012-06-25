@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  data: MyText
+  applicant_id: 1
+  phone_type: MyString
+
+two:
+  data: MyText
+  applicant_id: 1
+  phone_type: MyString

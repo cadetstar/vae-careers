@@ -29,8 +29,8 @@ class RemoteUser < ActiveRecord::Base
   private
 
   def method_missing(name, *args)
-    if name.match(/\?$/) and ROLES.include?(name.gsub(/\?$/, ''))
-      self.has_role?(name.gsub(/\?$/, ''))
+    if name.match(/\?$/) and ROLES.include?(name.to_s.gsub(/\?$/, ''))
+      self.has_role?(name.to_s.gsub(/\?$/, ''))
     else
       super
     end

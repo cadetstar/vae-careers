@@ -14,7 +14,9 @@
             :current_items => :dynamic_files,
             :item_tooltip => :name,
             :potential_items => DynamicFile,
-            :submit_path => generic_reordering_path(:id => @resource.id, :source_class => "DynamicFile", :link_class => "DynamicFileGroupLink", :resource_class => "DynamicFormGroup"),
-            :header => "Files in the Group"
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "dynamic_file", :link_class => "DynamicFileGroupLink", :resource_class => "DynamicFormGroup"),
+            :header => "Files in the Group",
+            :header_name => 'Files'
+
     }
 %>

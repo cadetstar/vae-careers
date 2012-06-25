@@ -1,3 +1,5 @@
+require 'fileutils'
+require 'zip/zip'
 class Submission < ActiveRecord::Base
   belongs_to :applicant
   belongs_to :opening
@@ -67,7 +69,7 @@ class Submission < ActiveRecord::Base
         end
       end
     end
-    if self.incomplete_notices.blank? and !self.completed
+    if self.incomplete_notices.empty? and !self.completed
       self.completed = true
       self.save
       self.after_completion
@@ -111,6 +113,80 @@ class Submission < ActiveRecord::Base
         self.save
         return [:notice, "Hiring process for #{self.to_s} terminated."]
     end
+  end
+
+  def generate_paperwork(type)
+    compilable_templates = []
+    separate_templates = []
+    linker = case type
+               when 'pre'
+                 :pre_dynamic_file_links
+               when 'post'
+                 :post_dynamic_file_links
+             end
+    self.opening.send(linker).each do |fl|
+      case fl.file.class.name
+        when 'DynamicFormGroup'
+          fl.file.dynamic_files.each do |df|
+            if df.current_version.can_be_compiled
+              compilable_templates << df.current_version
+            else
+              separate_templates << df.current_version
+            end
+          end
+        when 'DynamicFile'
+          if fl.file.current_version.can_be_compiled
+            compilable_templates << fl.file.current_version
+          else
+            separate_templates << fl.file.current_version
+          end
+      end
+    end
+    location = File.join(Rails.root.to_s, 'tmp', 'submissions', self.id.to_s, type)
+    FileUtils.rm_rf(location)
+    FileUtils.mkdir_p(location)
+    FileUtils.mkdir_p(File.join(location, 'compilations'))
+
+    compiled_files = []
+
+    compilable_templates.each_with_index do |ct, i|
+      ct.generate_file_with_form(self.applicant, c = File.join(location, 'compilations', i.to_s))
+      compiled_files << c
+    end
+
+    `pdftk #{compiled_files.collect{|cf| "\"#{cf}\""}.join(' ')} cat output "#{compiled_file = File.join(location, type == 'pre' ? 'Pre-Employment Packet.pdf' : 'Post-Hiring Packet.pdf')}"`
+
+    separate_templates.each do |st|
+      FileUtils.cp(st.dynamic_file.current_path, File.join(location, 'separates', "#{st.dynamic_file.name}.pdf"))
+      #st.generate_file_with_form(self.applicant, File.join(location, 'separates', "#{st.dynamic_file.name}.pdf"))
+    end
+
+    puts compiled_file
+
+    Zip::ZipFile.open(t = File.join(location, 'compilation.zip'), Zip::ZipFile::CREATE) do |z|
+      if File.exists?(compiled_file)
+        z.add(File.basename(compiled_file), compiled_file)
+      end
+      Dir.glob(File.join(location, 'separates', '*')).each do |s|
+        z.add(File.basename(s), s)
+      end
+    end
+
+    return t
+
+
+    t = Tempfile.new("submission-#{type}-#{Time.now.to_i}")
+    Zip::ZipOutputStream.open(t.path) do |z|
+      if File.exists?(compiled_file)
+        z.put_next_entry(File.basename(compiled_file))
+        z.print IO.read(compiled_file)
+      end
+      Dir.glob(File.join(location, 'separates', '*')).each do |s|
+        z.put_next_entry(File.basename(s))
+        z.print IO.read(s)
+      end
+    end
+    t
   end
 
   def self.indexed_attributes

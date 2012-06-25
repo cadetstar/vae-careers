@@ -23,4 +23,12 @@ class DynamicFile < ActiveRecord::Base
       self.save
     end
   end
+
+  def tooltip
+
+  end
+
+  def to_s
+    name
+  end
 end

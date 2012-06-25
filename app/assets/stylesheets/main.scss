@@ -50,15 +50,23 @@ table.resource_index {
 .questions {
   float: left;
   min-height: 100px;
-  width: 48%;
   border: solid black 1px;
+  margin-right: 1%;
 }
 
 .questions_origin {
   float: right;
   min-height: 100px;
-  width: 48%;
   border: solid black 1px;
+  margin-left: 1%;
+}
+
+.width2 {
+  width: 48%;
+}
+
+.width3 {
+  width: 30%;
 }
 
 .question_row {
@@ -246,4 +254,8 @@ table.resource_index {
   border-top: 1px solid black;
   margin-top: 5px;
   padding-top: 5px;
+}
+
+.data_content {
+  display: none;
 }

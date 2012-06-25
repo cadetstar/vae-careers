@@ -2,7 +2,7 @@
 <% if submission.position.time_type == 'Temporary' %>
   <%= submission.opening %> is for temporary employees, no paperwork will be generated.<br />
 <% else %>
-  <%= link_to 'Retrieve Hiring Process Paperwork', paperwork_path(:id => submission.id, :type => 'hiring') %><br />
+  <%= link_to 'Retrieve Hiring Process Paperwork', paperwork_path(:id => submission.id, :type => 'pre') %><br />
 <% end %>
 <% if @current_user.administrator? %>
   <%= link_to 'Complete Hiring Process for Applicant', change_status_path(:type => 'hire', :id => submission.id), :confirm => t('hiring.references') %><br />

@@ -75,17 +75,44 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_reordering
-    rc_frag = params[:resource_class].underscore + '_id'
-    qg_frag = params[:source_class].underscore + '_id'
-    (params[:items] || []).each_with_index do |qg_id,i|
-      if qg = params[:source_class].constantize.find_by_id(qg_id)
-        ogc = params[:link_class].constantize.send("find_or_create_by_#{rc_frag}_and_#{qg_frag}".to_sym, params[:id], qg.id)
-        ogc.group_order = i + 1 if ogc.respond_to?(:group_order)
-        ogc.save
+    frags = params[:frags] || []
+    values = params[:values] || []
+
+    unless params[:suppress_rc].to_i == 1
+      frags << params[:resource_class].underscore + '_id'
+      values << params[:id]
+    end
+    full_frags = frags.clone
+    if params[:link_class].constantize.attribute_names.include?("#{params[:source_name]}_type")
+      full_frags << "#{params[:source_name]}_type"
+    end
+    full_frags << "#{params[:source_name]}_id"
+
+    params[:items] ||= {}
+    puts params[:items].inspect
+    params[:items].each do |k, v|
+      v.each_with_index do |qg_id,i|
+        if (qg = k.constantize.find_by_id(qg_id))
+          if params[:link_class].constantize.attribute_names.include?("#{params[:source_name]}_type")
+            ogc = params[:link_class].constantize.send("find_or_create_by_#{full_frags.join('_and_')}", *values, qg.class.name, qg.id)
+          else
+            ogc = params[:link_class].constantize.send("find_or_create_by_#{full_frags.join('_and_')}", *values, qg.id)
+          end
+          ogc.group_order = i + 1 if ogc.respond_to?(:group_order)
+          ogc.save
+        end
       end
     end
-    params[:link_class].constantize.where(["#{rc_frag} = ? and #{qg_frag} not in (?)", params[:id], (params[:items] || [-1])]).each do |old_qg|
-      old_qg.destroy
+    if params[:link_class].constantize.attribute_names.include?("#{params[:source_name]}_type")
+      params[:link_class].constantize.where([frags.collect{|f| "#{f} = ?"}.join(' and '), *values]).each do |obj|
+        parent = obj.send(params[:source_name])
+        puts obj.inspect
+        obj.destroy unless (!params[:items][parent.class.name].nil? and params[:items][parent.class.name].include?(parent.id.to_s))
+      end
+    else
+      params[:link_class].constantize.where(["#{frags.collect{|f| "#{f} = ?"}.join(' and ')} and #{params[:source_name]}_id not in (?)", *values, (params[:items] ? params[:items].collect{|k,v| v}.flatten : [-1])]).each do |old_qg|
+        old_qg.destroy
+      end
     end
     render :text => ''
   end
@@ -102,12 +129,12 @@ class ApplicationController < ActionController::Base
 
     #(([exception] + ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace)).join('\r\n'))
     GeneralMailer.error_message(exception,
-                               ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
-                               session.instance_variable_get("@data"),
-                               params,
-                               request.env,
-                               current_user || current_applicant,
-                               request.env['HTTP_HOST'].match(/careers2\.vaecorp\.com/)
+                                ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
+                                session.instance_variable_get("@data"),
+                                params,
+                                request.env,
+                                current_user || current_applicant,
+                                request.env['HTTP_HOST'].match(/careers2\.vaecorp\.com/)
     ).deliver
 
     #redirect_to '/500.html'
