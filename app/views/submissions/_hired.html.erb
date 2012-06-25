@@ -1,13 +1,11 @@
 <% if @current_user.administrator? %>
-  <%= link_to 'Unhire Applicant', change_status_path(:id => submission.id, :type => 'unhire') %><br />
-  <%= link_to 'Assemble New Hire Component Paperwork', paperwork_path(:id => submission.id, :type => 'generate') %><br />
+    <%= link_to 'Unhire Applicant', change_status_path(:id => submission.id, :type => 'unhire') %><br />
 
-  <div id='applicant_setup'>
-    <%= form_tag submission_setup_path(:id => submission.id) do %>
-      Setup Email Comment:<br /><%= text_area_tag 'message', '', :rows => 3, :cols => 25 %><br />
-      <%= submit_tag 'Send Setup Email' %>
-    <% end %>
-  </div>
+    <div id='applicant_setup'>
+      <%= form_tag submission_setup_path(:id => submission.id) do %>
+          Setup Email Comment:<br /><%= text_area_tag 'message', '', :rows => 3, :cols => 25 %><br />
+          <%= submit_tag 'Send Setup Email' %>
+      <% end %>
+    </div>
 <% end %>
-
-<%= link_to 'Retrieve I-9', paperwork_path(:id => submission.id, :type => 'i9') %><br />
+<%= link_to 'Retrieve Post-Hired Paperwork', paperwork_path(:id => submission.id, :type => 'post') %><br />

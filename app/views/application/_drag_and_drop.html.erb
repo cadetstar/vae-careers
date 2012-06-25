@@ -1,23 +1,45 @@
+<% @unique_id ||= 0 %>
+<% @unique_id += 1 %>
+
+<% width_class = (defined?(potential_items2) and potential_items2) ? 'width3' : 'width2' %>
+<% current_name ||= "Current #{header_name}" %>
+<% potential_name ||= "Potential #{header_name}" %>
+<% potential_name2 ||= "Potential #{header_name}" %>
+
+
 <div class="header"><%= header %></div>
 <div class="questions_container">
-  <div class="questions linked_list">
-    Current Files:
+  <div class="questions linked_list<%= @unique_id %> <%= width_class %> storage<%= @unique_id %>">
+    <%= current_name %>:
     <% target.send(current_items).each do |qg| %>
-        <div id="items_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+        <div id="items[<%=qg.class.name %>]_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+    <% end %>
+    <% if defined?(current_items2) %>
+        <% target.send(current_items2).each do |qg| %>
+            <div id="items[<%=qg.class.name %>]_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+        <% end %>
     <% end %>
   </div>
-  <div class="questions_origin linked_list">
-    Potential Files:
+  <div class="questions_origin linked_list<%= @unique_id %> <%= width_class %>">
+    <%= potential_name %>:
     <% potential_items.where(['id not in (?)', [-1] + target.send(current_items).collect{|qg| qg.id}]).each do |qg| %>
-        <div id="items_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+        <div id="items[<%=qg.class.name %>]_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
     <% end %>
   </div>
+  <% if defined?(potential_items2) %>
+      <div class="questions_origin linked_list<%= @unique_id %> <%= width_class %>">
+        <%= potential_name2 %>:
+        <% potential_items2.where(['id not in (?)', [-1] + target.send(current_items2).collect{|qg| qg.id}]).each do |qg| %>
+            <div id="items[<%=qg.class.name %>]_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
+        <% end %>
+      </div>
+  <% end %>
 </div>
 <div class='float_clear'></div>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.questions, .questions_origin').sortable({
-            connectWith: '.linked_list',
+        $('.linked_list<%= @unique_id %>').sortable({
+            connectWith: '.linked_list<%= @unique_id %>',
             items: '.question_row',
             stop: function(event, ui) {
                 console.info("Sort firing.")
@@ -25,11 +47,11 @@
                     ui.item.qtip("hide");
                 }
                 console.info($(this).attr('class'));
-                console.info($('.questions').sortable('serialize'));
+                console.info($('.storage<%= @unique_id %>').sortable('serialize'));
 
                 $.ajax({
                     url: "<%= submit_path %>",
-                    data: $('.questions').sortable('serialize')
+                    data: $('.storage<%= @unique_id %>').sortable('serialize')
                 });
             }
         }).disableSelection();

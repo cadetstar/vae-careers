@@ -27,8 +27,41 @@
             :current_items => :question_groups,
             :item_tooltip => :questions_for_tooltip,
             :potential_items => QuestionGroup,
-            :submit_path => generic_reordering_path(:id => @resource.id, :source_class => "QuestionGroup", :link_class => "OpeningGroupConnection", :resource_class => "Opening"),
-            :header => "Question Groups (Drag question groups to select or reorder.  Hover to view questions in group)"
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "question_group", :link_class => "OpeningGroupConnection", :resource_class => "Opening"),
+            :header => "Question Groups (Drag question groups to select or reorder.  Hover to view questions in group)",
+            :header_name => 'Question Groups'
+    }
+%>
+
+<%=
+    render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :pre_dynamic_files,
+            :current_items2 => :pre_dynamic_form_groups,
+            :item_tooltip => :tooltip,
+            :potential_items => DynamicFile,
+            :potential_items2 => DynamicFormGroup,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "file", :link_class => "DynamicFormOpeningLink", :resource_class => "Opening", :frags => ['form_type', 'opening_id'], :values => ['pre', @resource.id], :suppress_rc => 1),
+            :header => "Pre-Employment Forms (Drag forms to select or reorder.  Hover to view forms in group)",
+            :header_name => 'Forms',
+            :potential_name2 => 'Potential Form Groups',
+            :potential_name => 'Potential Forms'
+    }
+%>
+
+<%=
+    render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :post_dynamic_files,
+            :current_items2 => :post_dynamic_form_groups,
+            :item_tooltip => :tooltip,
+            :potential_items => DynamicFile,
+            :potential_items2 => DynamicFormGroup,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "file", :link_class => "DynamicFormOpeningLink", :resource_class => "Opening", :frags => ['form_type', 'opening_id'], :values => ['post', @resource.id], :suppress_rc => 1),
+            :header => "Post-Employment Forms (Drag forms to select or reorder.  Hover to view forms in group)",
+            :header_name => 'Forms',
+            :potential_name2 => 'Potential Form Groups',
+            :potential_name => 'Potential Forms'
     }
 %>
 

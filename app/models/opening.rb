@@ -8,6 +8,17 @@ class Opening < ActiveRecord::Base
   has_many :submissions
   has_many :applicants, :through => :submissions
 
+  has_many :dynamic_form_opening_links
+
+  has_many :pre_dynamic_file_links, :class_name => "DynamicFormOpeningLink", :conditions => {:form_type => 'pre'}
+  has_many :post_dynamic_file_links, :class_name => "DynamicFormOpeningLink", :conditions => {:form_type => 'post'}
+
+  has_many :pre_dynamic_files, :through => :dynamic_form_opening_links
+  has_many :pre_dynamic_form_groups, :through => :dynamic_form_opening_links
+
+  has_many :post_dynamic_files, :through => :dynamic_form_opening_links
+  has_many :post_dynamic_form_groups, :through => :dynamic_form_opening_links
+
   delegate :name, :time_type, :position_type, :to => :position, :allow_nil => true
   delegate :city, :state, :city_state, :to => :department, :allow_nil => true
 

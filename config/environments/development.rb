@@ -32,3 +32,13 @@ VaeCareers::Application.configure do
 end
 
 $accounts_location = 'http://localhost:3000'
+
+class NilClass
+  def name
+    nil
+  end
+
+  def superclass
+    NilClass
+  end
+end
