@@ -3,6 +3,9 @@ class Department < ActiveRecord::Base
   belongs_to :supervisor, :class_name => 'RemoteUser'
   belongs_to :supervising_department, :class_name => 'Department'
 
+  has_many :remote_user_departments
+  has_many :remote_users, :through => :remote_user_departments
+
   has_many :openings
 
   def self.list_for_select
