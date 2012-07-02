@@ -145,6 +145,7 @@ class Submission < ActiveRecord::Base
     location = File.join(Rails.root.to_s, 'tmp', 'submissions', self.id.to_s, type)
     FileUtils.rm_rf(location)
     FileUtils.mkdir_p(location)
+    FileUtils.mkdir_p(File.join(location, 'compilations'))
 
     compiled_files = []
 
@@ -161,14 +162,27 @@ class Submission < ActiveRecord::Base
     end
 
     puts compiled_file
+
+    Zip::ZipFile.open(t = File.join(location, 'compilation.zip'), Zip::ZipFile::CREATE) do |z|
+      if File.exists?(compiled_file)
+        z.add(File.basename(compiled_file), compiled_file)
+      end
+      Dir.glob(File.join(location, 'separates', '*')).each do |s|
+        z.add(File.basename(s), s)
+      end
+    end
+
+    return t
+
+
     t = Tempfile.new("submission-#{type}-#{Time.now.to_i}")
     Zip::ZipOutputStream.open(t.path) do |z|
       if File.exists?(compiled_file)
-        z.put_next_entry(compiled_file.filename)
+        z.put_next_entry(File.basename(compiled_file))
         z.print IO.read(compiled_file)
       end
       Dir.glob(File.join(location, 'separates', '*')).each do |s|
-        z.put_next_entry(s.filename)
+        z.put_next_entry(File.basename(s))
         z.print IO.read(s)
       end
     end

@@ -54,8 +54,8 @@ class SubmissionsController < ApplicationController
   def generate_or_retrieve
     if (submission = Submission.find_by_id(params[:id]))
       result = submission.generate_paperwork(params[:type])
-      send_file result.path, :type => 'application/zip', :disposition => 'attachment', :filename => "#{params[:generate_type] == 'pre' ? 'Pre-Employment' : 'Post-Hiring'} Paperwork - #{submission.applicant.name_lnf}.zip"
-      result.close
+      send_file result, :type => 'application/zip', :disposition => 'attachment', :filename => "#{params[:generate_type] == 'pre' ? 'Pre-Employment' : 'Post-Hiring'} Paperwork - #{submission.applicant.name_lnf}.zip"
+      #result.close
     else
       render :nothing => true
     end

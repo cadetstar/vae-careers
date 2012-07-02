@@ -1,7 +1,8 @@
+require 'fileutils'
 class DynamicFileRevision < ActiveRecord::Base
   belongs_to :dynamic_file
 
-  has_many :file_fields
+  has_many :file_fields, :order => :field_name
 
   mount_uploader :dynamic_file_store, DynamicFileUploader
 
@@ -33,12 +34,16 @@ class DynamicFileRevision < ActiveRecord::Base
     self.file_fields.each do |ff|
       data[ff.field_name] = parse_data_field(ff.system_data, applicant)
     end
-    $pdftk.fill_form self.dynamic_file_store.current_path, destination, data
+    fdf = PdfForms::Fdf.new data
+    loc = Tempfile.new('pdf-form-data.fdf')
+    loc.close
+    fdf.save_to loc.path
+    `pdftk "#{self.dynamic_file_store.current_path}" fill_form "#{loc.path}" output "#{destination}"`
     destination
   end
 
   def parse_data_field(text, applicant)
-    return "(BLANK)" if text.blank?
+    return "(BLANK)" if text.blank? and applicant.nil?
     Vae::FORM_TOKENS.each do |k,v|
       text.gsub!(k, applicant.nil? ? v[:name] : applicant.send(v[:data]))
     end
