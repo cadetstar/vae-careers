@@ -8,8 +8,12 @@ class Department < ActiveRecord::Base
 
   has_many :openings
 
-  def self.list_for_select
-    Department.order("code").all.collect{|d| [d, d.id]}
+  def self.list_for_select(user = nil)
+    if user and !user.administrator?
+      user.departments.order("code").all
+    else
+      Department.order("code").all
+    end.collect{|d| [d, d.id]}
   end
 
   def self.states_with_departments
