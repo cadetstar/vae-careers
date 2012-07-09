@@ -26,7 +26,7 @@ class NewHireRequest < ActiveRecord::Base
   end
 
   def status
-    STATUSES[self.attributes[:status]]
+    STATUSES[self.attributes[:status] || 0]
   end
 
   def status=(val)

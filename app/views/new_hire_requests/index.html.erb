@@ -1,16 +1,17 @@
 <div>
   <%= link_to 'New Request', new_new_hire_request_path %>
 </div>
-  <% (@show_hr ? [:direct, :approved, :awaiting, :eventual, :ready, :posted] : [:direct, :approved, :awaiting, :posted]).each do |k| %>
+<% (@show_hr ? [:direct, :approved, :awaiting, :eventual, :ready, :posted] : [:direct, :approved, :awaiting, :posted]).each do |k| %>
     <table class="new_hire_requests">
       <tr>
-        <th colspan="6"><%= k.to_s.capitalize %> Requests</th>
+        <th colspan="7"><%= k.to_s.capitalize %> Requests</th>
       </tr>
       <tr>
         <th>Requestor</th>
         <th>Department</th>
         <th>Position</th>
         <th>Request Date</th>
+        <th>Status</th>
         <th>Approvals</th>
         <th>Commands</th>
       </tr>
@@ -20,6 +21,7 @@
             <td><%= nhr.department %></td>
             <td><%= nhr.position %></td>
             <td><%= nhr.created_at %></td>
+            <td><%= nhr.status %></td>
             <td><%= raw nhr.remote_users.collect{|ru| ru.to_s}.join("<br />") %></td>
             <td>
               <% if @show_hr %>
@@ -28,7 +30,11 @@
                   <% elsif k != :posted %>
                       Post &middot; Mark as Filled (options will be available once <%= t 'admins.coo.name' %> approves the request.<br />
                   <% end %>
-                  <%= link_to 'Edit', edit_new_hire_request_path(nhr) %> &middot; <%= link_to 'Destroy', :confirm => 'This will permanently remove the request, are you sure?', :method => :delete %>
+              <% end %>
+              <% if @show_hr %>
+                  <%= link_to 'Edit', edit_new_hire_request_path(nhr) %> &middot; <%= link_to 'Destroy', :confirm => 'This will permanently remove the request, are you sure?', :method => :delete %><br />
+              <% elsif k == :direct and nhr.status == "Not Yet Submitted" %>
+                  <%= link_to 'Edit', edit_new_hire_request_path(nhr) %><br />
               <% end %>
               <% if nhr.remote_users.include? @current_user %>
                   <%= link_to 'Remove Approval', change_nhr_status_path(:status => 'disapprove', :id => nhr.id), :class => 'prompt' %>
@@ -40,7 +46,7 @@
           </tr>
       <% end %>
     </table>
-  <% end %>
+<% end %>
 <div class='overlay'>
   <div class="overlay_block">
     <%= form_tag change_nhr_status_path() do %>
