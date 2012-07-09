@@ -46,7 +46,12 @@ class NewHireRequestsController < ApplicationController
       when 'post'
       when 'filled'
       when 'disapprove'
+        if @resource.remote_users.include?(@current_user)
+          @resource.new_hire_approvals.find_by_remote_user_id(@current_user.id).destroy
+        end
       when 'approve'
+        @resource.remote_users << @current_user unless @resource.remote_users.include?(@current_user)
+
       when 'hold'
       when 'reject'
     end

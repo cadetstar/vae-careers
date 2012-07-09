@@ -47,6 +47,7 @@ VaeCareers::Application.routes.draw do
   resources :dynamic_files
   resources :dynamic_form_groups
   resources :new_hire_requests
+  resources :new_hire_skills
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

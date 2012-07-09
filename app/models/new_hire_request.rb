@@ -10,6 +10,9 @@ class NewHireRequest < ActiveRecord::Base
   has_many :new_hire_approvals
   has_many :remote_users, :through => :new_hire_approvals, :order => "new_hire_approvals.created_at"
 
+  has_many :new_hire_request_skills
+  has_many :new_hire_skills, :through => :new_hire_request_skills
+
   default_scope where(:deleted => false)
 
   scope :direct, lambda {|user| where({:creator_id => user.id})}

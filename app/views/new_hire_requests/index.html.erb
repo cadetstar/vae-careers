@@ -50,8 +50,8 @@
 <div class='overlay'>
   <div class="overlay_block">
     <%= form_tag change_nhr_status_path() do %>
-        <%= text_field_tag :prompt, '' %>
-        <%= submit_tag 'Submit' %>
+        <%= text_area_tag :prompt, '', :class => 'prompt_box' %><br />
+        <%= submit_tag 'Submit' %> <%= submit_tag 'Cancel', :class => 'cancel' %>
     <% end %>
   </div>
 </div>
@@ -59,8 +59,15 @@
     $(document).ready(function() {
         $('a.prompt').click(function (e) {
             $('.overlay form').attr('action', $(e.target).attr('href'));
-            $('.overlay input[type="text"]').val('');
+            $('.overlay textarea').val('');
             $('.overlay').show();
+            e.preventDefault();
+            return false;
+        });
+        $('.cancel').click(function (e) {
+            $('.overlay').hide();
+            e.preventDefault();
+            return false;
         });
         $('form').submit(function() {
             $('.overlay').hide();
