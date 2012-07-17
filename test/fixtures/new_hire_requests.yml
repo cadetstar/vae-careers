@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  position_id: 1
+  department_id: 1
+  creator_id: 1
+  replacement: false
+  incumbent: MyString
+  proposed_wage: MyString
+  budgeted_wage: MyString
+  reason_for_request: MyText
+  criteria: MyText
+  status: 1
+  posted_time: 2012-07-01 11:10:11
+  filled_time: 2012-07-01 11:10:11
+  deleted: false
+
+two:
+  position_id: 1
+  department_id: 1
+  creator_id: 1
+  replacement: false
+  incumbent: MyString
+  proposed_wage: MyString
+  budgeted_wage: MyString
+  reason_for_request: MyText
+  criteria: MyText
+  status: 1
+  posted_time: 2012-07-01 11:10:11
+  filled_time: 2012-07-01 11:10:11
+  deleted: false

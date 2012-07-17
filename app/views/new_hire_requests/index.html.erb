@@ -1,0 +1,77 @@
+<div>
+  <%= link_to 'New Request', new_new_hire_request_path %>
+</div>
+<% (@show_hr ? [:direct, :approved, :awaiting, :eventual, :ready, :posted] : [:direct, :approved, :awaiting, :posted]).each do |k| %>
+    <table class="new_hire_requests">
+      <tr>
+        <th colspan="7"><%= k.to_s.capitalize %> Requests</th>
+      </tr>
+      <tr>
+        <th>Requestor</th>
+        <th>Department</th>
+        <th>Position</th>
+        <th>Request Date</th>
+        <th>Status</th>
+        <th>Approvals</th>
+        <th>Commands</th>
+      </tr>
+      <% @new_hire_requests[k].each do |nhr| %>
+          <tr>
+            <td><%= nhr.creator %></td>
+            <td><%= nhr.department %></td>
+            <td><%= nhr.position %></td>
+            <td><%= nhr.created_at %></td>
+            <td><%= nhr.status %></td>
+            <td><%= raw nhr.remote_users.collect{|ru| ru.to_s}.join("<br />") %></td>
+            <td>
+              <% if @show_hr %>
+                  <% if k == :ready %>
+                      <%= link_to 'Post', change_nhr_status_path(:status => 'post', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Mark as Filled', change_nhr_status_path(:status => 'filled', :id => nhr.id), :class => 'prompt' %><br />
+                  <% elsif k != :posted %>
+                      Post &middot; Mark as Filled (options will be available once <%= t 'admins.coo.name' %> approves the request.<br />
+                  <% end %>
+              <% end %>
+              <% if @show_hr %>
+                  <%= link_to 'Edit', edit_new_hire_request_path(nhr) %> &middot; <%= link_to 'Destroy', :confirm => 'This will permanently remove the request, are you sure?', :method => :delete %><br />
+              <% elsif k == :direct and nhr.status == "Not Yet Submitted" %>
+                  <%= link_to 'Edit', edit_new_hire_request_path(nhr) %><br />
+              <% end %>
+              <% if nhr.remote_users.include? @current_user %>
+                  <%= link_to 'Remove Approval', change_nhr_status_path(:status => 'disapprove', :id => nhr.id), :class => 'prompt' %>
+              <% else %>
+                  <%= link_to 'Approve', change_nhr_status_path(:status => 'approve', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Hold', change_nhr_status_path(:status => 'hold', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Reject', change_nhr_status_path(:status => 'reject', :id => nhr.id), :class => 'prompt' %>
+              <% end %><br />
+              <%= link_to 'Show', nhr %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
+<div class='overlay'>
+  <div class="overlay_block">
+    <h3 style="text-align: center;width: 100%">Enter an optional message:</h3>
+    <%= form_tag change_nhr_status_path() do %>
+        <%= text_area_tag :prompt, '', :class => 'prompt_box' %><br />
+        <%= submit_tag 'Submit' %> <%= submit_tag 'Cancel', :class => 'cancel' %>
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('a.prompt').click(function (e) {
+            $('.overlay form').attr('action', $(e.target).attr('href'));
+            $('.overlay textarea').val('');
+            $('.overlay').show();
+            e.preventDefault();
+            return false;
+        });
+        $('.cancel').click(function (e) {
+            $('.overlay').hide();
+            e.preventDefault();
+            return false;
+        });
+        $('form').submit(function() {
+            $('.overlay').hide();
+        });
+    })
+</script>

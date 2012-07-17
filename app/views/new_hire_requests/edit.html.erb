@@ -1,0 +1,48 @@
+<div class='resource_navigation'>
+  <%= link_to 'Back', :action => :index %>
+</div>
+<div class="resource_name">Edit New Hire Request</div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :position %><br />
+      <%= f.select :position_id, Position.list_for_select %>
+    </div>
+    <div>
+      <%= f.label :department %><br />
+      <%= f.select :department_id, Department.list_for_select(@current_user) %>
+    </div>
+    <div>
+      <%= f.label :replacement, "Is this position replacing a current or former employee?" %><br />
+      <%= f.check_box :replacement %>
+    </div>
+    <div>
+      <%= f.label :incumbent, "If this position is replacing a current or former employee, who is that employee?" %><br />
+      <%= f.text_field :incumbent %>
+    </div>
+    <div>
+      <%= f.label :proposed_wage, "Proposed Wage" %><br />
+      <%= f.text_field :proposed_wage %>
+    </div>
+    <div>
+      <%= f.label :budgeted_wage, "Budgeted Wage" %><br />
+      <%= f.text_field :budgeted_wage %>
+    </div>
+    <div>
+      <%= f.label :reason_for_request, "Reason For Request" %><br />
+      <%= f.text_area :reason_for_request %>
+    </div>
+    <div>
+      <%= f.label :criteria, "Additional Critera" %><br />
+      <%= f.text_area :criteria %>
+    </div>
+    <div>
+      <%= f.label :new_hire_skill_ids, "Choose which skills the applicant should possess:" %><br />
+      <%= hidden_field_tag 'new_hire_request[new_hire_skill_ids][]', '' %>
+      <% NewHireSkill.all.each do |nhs| %>
+          <%= check_box_tag 'new_hire_request[new_hire_skill_ids][]', nhs.id, @resource.new_hire_skills.include?(nhs) %> <%= nhs.name %><br />
+      <% end %>
+    </div>
+    <div>
+      <%= f.submit "Update" %>
+    </div>
+<% end %>

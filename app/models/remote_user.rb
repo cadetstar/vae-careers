@@ -2,10 +2,23 @@ class RemoteUser < ActiveRecord::Base
   has_many :comments, :as => :creator
   has_many :tags, :as => :creator
 
+  has_many :remote_user_departments
+  has_many :departments, :through => :remote_user_departments
+
+  has_many :managed_departments, :class_name => "Department", :foreign_key => :manager_id
+  has_many :supervised_departments, :class_name => "Department", :foreign_key => :supervisor_id
+
+  has_many :new_hire_approvals
+  has_many :new_hire_requests, :through => :new_hire_approvals
+
   ROLES = %w(administrator email_administrator)
 
   def to_s
     [first_name, last_name].compact.join(' ')
+  end
+
+  def subordinate_requests
+    self.supervised_departments.collect{|sd| sd.manager.subordinate_requests + sd.manager.new_hire_requests}.flatten.uniq
   end
 
   def self.with_role(role)
