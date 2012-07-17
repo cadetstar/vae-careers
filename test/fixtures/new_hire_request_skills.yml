@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  new_hire_request_id: 1
+  new_hire_skill_id: 1
+
+two:
+  new_hire_request_id: 1
+  new_hire_skill_id: 1

@@ -12,6 +12,9 @@ class NewHireRequest < ActiveRecord::Base
   has_many :new_hire_approvals
   has_many :remote_users, :through => :new_hire_approvals, :order => "new_hire_approvals.created_at"
 
+  has_many :new_hire_request_skills
+  has_many :new_hire_skills, :through => :new_hire_request_skills
+
   default_scope where(:deleted => false)
 
   scope :direct, lambda {|user| where({:creator_id => user.id})}
@@ -28,11 +31,11 @@ class NewHireRequest < ActiveRecord::Base
   end
 
   def status
-    STATUSES[self.attributes[:status] || 0]
+    STATUSES[self[:status] || 0]
   end
 
   def status=(val)
-    self.attributes[:status] = STATUSES.index(val)
+    self[:status] = STATUSES.index(val)
   end
 
   def change_status(new_status, user, prompt)
@@ -41,6 +44,7 @@ class NewHireRequest < ActiveRecord::Base
         if user.has_role?('administrator')
           self.update_attributes(:status => "Posted")
           opening = Opening.create(:position => self.position, :department => self.department, :description => self.position.description)
+          GeneralMailer.central_mail(self.creator, "An opening has been created for #{self}: #{prompt}", "An opening has been created for a new hire request").deliver
           ["An opening has been created from that request.", nil, opening]
         else
           [nil, "You do not have permission to do that.", nil]
@@ -54,6 +58,10 @@ class NewHireRequest < ActiveRecord::Base
         end
       when 'disapprove'
         if self.remote_users.include? user
+          if self.creator == user
+            self.update_attributes(:status => "Not Yet Submitted")
+          end
+          GeneralMailer.central_mail(self.creator, "#{user} has removed their approval from #{self}: #{prompt}", "A user has removed their approval").deliver
           self.new_hire_approvals.find_by_remote_user_id(user.id).destroy
           ["Approval removed", nil, nil]
         else
@@ -66,13 +74,19 @@ class NewHireRequest < ActiveRecord::Base
           if %w(Held Rejected).include? self.status
             if self.rejector == user or user.has_role?("administrator")
               self.update_attributes(:rejector => nil, :status => "Submitted")
-              self.new_hire_approvals.create(:user_id => user.id)
+              GeneralMailer.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.").deliver
+              self.new_hire_approvals.create(:remote_user_id => user.id)
               ["Request approved.", nil, nil]
             else
               [nil, "That request is currently #{self.status.downcase}, contact #{self.requestor} to correct the status.", nil]
             end
           else
-            self.new_hire_approvals.create(:user_id => user.id)
+            if user == self.creator
+              self.update_attributes(:status => "Submitted")
+            else
+              GeneralMailer.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.").deliver
+            end
+            self.new_hire_approvals.create(:remote_user_id => user.id)
             ["Request approved.", nil, nil]
           end
         end
@@ -84,14 +98,14 @@ class NewHireRequest < ActiveRecord::Base
 <p>You can go to %URL% to correct the issue.</p>
         TEXT
         url = "edit_new_hire_request_path(:id => #{self.id})"
-        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been put on hold", url)
+        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been put on hold", url).deliver
       when 'reject'
         self.update_attributes(:status => "Rejected", :rejector => user)
         message = <<-REJECT
 <p>Your request for #{self.position} created on #{self.created_at} has been rejected by #{user}:</p>
 <p>"#{prompt}"</p>
         REJECT
-        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been rejected")
+        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been rejected").deliver
     end
   end
 end
