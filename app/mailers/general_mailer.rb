@@ -15,4 +15,15 @@ class GeneralMailer < ActionMailer::Base
     @account = account
     mail(:to => 'cadetstar@hotmail.com', :subject => "Error message: #{env['REQUEST_URI']}")
   end
+
+  def central_mail(user_to, message, subject, url = nil)
+    @message = message
+
+    if url
+      the_url = link_to eval(url, :only_path => false)
+      @message.gsub!('%URL%', the_url)
+    end
+
+    mail(:to => user_to.email, :subject => subject)
+  end
 end
