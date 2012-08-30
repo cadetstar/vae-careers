@@ -1,6 +1,6 @@
 class OpeningsController < ApplicationController
   before_filter :is_administrator?, :except => [:public, :view]
-  before_filter :get_resource, :only => [:edit, :update, :destroy, :change_status, :set_question_groups]
+  before_filter :get_resource, :only => [:edit, :update, :destroy, :change_status, :set_question_groups, :view_demographics]
 
   layout :choose_layout
 
@@ -60,35 +60,51 @@ class OpeningsController < ApplicationController
   end
 
   def open_positions_posting
-    openings = Opening.where(:active => true)
+    openings = Opening.where(:active => true).joins(:department)
 
     pdf = Prawn::Document.new
     pdf.font_size 48
     pdf.font pdf.font.name, :style => :bold
+    pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [0, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
+    pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [pdf.bounds.width - 100, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
     pdf.text_box "Open Positions Posting", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height], :width => 100, :height => 100, :overflow => :shrink_to_fit
     pdf.move_down 140
     pdf.font_size 10
     pdf.font pdf.font.name, :style => :normal
+    pdf.move_down 20
 
-    titles = openings.collect{|o| o.position_type}.uniq
-    titles.sort!
-    titles.each do |title|
-      titled_openings = openings.select{|o| o.position_type == title}
-      titled_openings.collect{|to| to.description}.uniq.sort.each do |d|
-        data = []
-        titled_openings.select{|to| to.description == d}.each do |to|
-          data << [(to.department.try(:short_name) || to.department.try(:name) || '').to_s[0,5], to.position.to_s, to.created_at.strftime('%m/%d/%Y')]
+    classifications = Department.select('classification').all.collect{|d| d.classification}.uniq - [nil]
+    classifications.sort!
+    classifications << nil
+    classifications.each do |c|
+      pdf.font_size 14
+      pdf.text (c || 'Uncategorized').upcase, :style => :bold
+      these_openings = openings.where("departments.classification" => c)
+      titles = these_openings.collect{|o| o.position_type}.uniq
+      titles.sort!
+      titles.each do |title|
+        titled_openings = these_openings.select{|o| o.position_type == title}
+        titled_openings.collect{|to| to.description}.uniq.sort.each do |d|
+          data = []
+          titled_openings.select{|to| to.description == d}.each do |to|
+            data << [to.time_type_abbreviation, to.position.to_s, to.department.city_state, (to.department.try(:short_name) || to.department.try(:name) || '').to_s, to.created_at.strftime('%m/%d/%Y')]
+          end
+          pdf.font_size 10
+          t = pdf.table(data, :column_widths => [40, 180, 120, 100, 100], :cell_style => {:borders => [], :overflow => :shrink_to_fit})
+          pdf.font_size 8
+          pdf.text d
+          pdf.move_down 20
         end
-        pdf.font_size 14
-        pdf.table(data, :column_widths => [100, 300, 140], :cell_style => {:borders => []})
-        pdf.font_size 10
-        pdf.text d
-        pdf.move_down 20
       end
     end
 
+
     pdf.render_file File.join(Rails.root, 'tmp', 'opp.pdf')
-    send_file File.join(Rails.root, 'tmp', 'opp.pdf')
+    send_file File.join(Rails.root, 'tmp', 'opp.pdf'), :filename => "Open Positions Posting.pdf"
+  end
+
+  def view_demographics
+
   end
 
   private

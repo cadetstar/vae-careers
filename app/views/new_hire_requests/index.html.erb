@@ -16,7 +16,7 @@
         <th>Commands</th>
       </tr>
       <% @new_hire_requests[k].each do |nhr| %>
-          <tr>
+          <tr class="<%= cycle('odd','even', :name => k) %>">
             <td><%= nhr.creator %></td>
             <td><%= nhr.department %></td>
             <td><%= nhr.position %></td>

@@ -6,49 +6,34 @@
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
   <%= javascript_include_tag "application" %>
+  <%= favicon_link_tag %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="internal">
 <div class='menu_bar'>
-    <div class="menu_link">
-      <%= link_to 'Position Types', position_types_path %>
-    </div>
-  <div class="menu_link">
-    <%= link_to 'Positions', positions_path %>
+  <div class="menu_image">
+    <%= image_tag 'interface_01.jpg' %>
   </div>
-  <div class="menu_link">
-    <%= link_to 'Questions', questions_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Question Groups', question_groups_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Openings', openings_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Generate OPP', opp_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Static Texts', static_texts_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Tag Types', tag_types_path %>
-  </div>
-  <div class="menu_link">
+  <div class="menu_links">
     <%= link_to 'Submissions', submissions_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Files', dynamic_files_path %>
-  </div>
-  <div class="menu_link">
-    <%= link_to 'Form Groups', dynamic_form_groups_path %>
-  </div>
-  <div class="menu_link">
     <%= link_to 'New Hire Requests', new_hire_requests_path %>
   </div>
-  <div class="menu_link">
-    <%= link_to 'New Hire Skills', new_hire_skills_path %>
-  </div>
+  <% if current_user.has_role?('administrator') %>
+      <div class="menu_links">
+        <%= link_to 'Position Types', position_types_path %>
+        <%= link_to 'Positions', positions_path %>
+        <%= link_to 'Questions', questions_path %>
+        <%= link_to 'Question Groups', question_groups_path %>
+        <%= link_to 'Openings', openings_path %>
+        <%= link_to 'Generate OPP', opp_path %>
+        <%= link_to 'Static Texts', static_texts_path %>
+        <%= link_to 'Tag Types', tag_types_path %>
+        <%= link_to 'Files', dynamic_files_path %>
+        <%= link_to 'Form Groups', dynamic_form_groups_path %>
+        <%= link_to 'New Hire Skills', new_hire_skills_path %>
+        <%= link_to 'Reports', reports_path %>
+      </div>
+  <% end %>
 </div>
 <p class='notice'><%= notice %></p>
 <p class="alert"><%= alert %></p>
@@ -56,7 +41,7 @@
 
 <div class="footer">
   <% if current_user %>
-  <%= link_to 'Log Out', logout_path %>
+      <%= link_to 'Log Out', logout_path %>
   <% end %>
 </div>
 </body>

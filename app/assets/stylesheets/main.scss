@@ -1,3 +1,15 @@
+$header_grey: #b8b8b8;
+$even: #b1b3ed;
+
+body {
+  background-color: #DFDFDF;
+  font-family: Calibri, Arial, Serif, Monospace;
+}
+
+body.internal {
+  background-color: white;
+}
+
 .footer {
   position: relative;
   width: 100%;
@@ -8,23 +20,25 @@ table.resource_index {
   width: 100%;
   border: solid black 2px;
   border-collapse: collapse;
-}
 
-.resource_index tr {
-  border-top: solid black 1px;
-  border-bottom: solid black 1px;
-}
+  tr {
+    border-top: solid black 1px;
+    border-bottom: solid black 1px;
+  }
 
-.resource_index th, td {
-  border: solid black 1px;
-}
+  td, th {
+    border: solid black 1px;
+    padding: 1px 3px;
+  }
 
-.resource_index th {
-  background: #b8b8b8;
-}
+  th {
+    background: $header_grey;
+    cursor: pointer;
+  }
 
-.resource_index .even {
-  background: #b1b3ed;
+  .even {
+    background: $even;
+  }
 }
 
 .new_resource {
@@ -32,13 +46,26 @@ table.resource_index {
 }
 
 .menu_bar {
-  padding: 20px 0;
+  padding: 0 0 20px 0;
   width: 100%;
 }
 
-.menu_link {
-  margin: 0 10px;
-  float: left;
+.menu_image {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+.menu_links {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.menu_links a {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .questions_container {
@@ -73,6 +100,9 @@ table.resource_index {
   position: relative;
   cursor: pointer;
   background: #ebebeb;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  padding: 2px;
 }
 
 .filter {
@@ -97,6 +127,12 @@ table.resource_index {
 .openings_header {
   position: relative;
   border-bottom: 2px solid black;
+
+  div {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 .openings_title {
@@ -119,7 +155,12 @@ table.resource_index {
 
 .openings_row {
   position: relative;
+
+  div {
+    padding: 4px;
+  }
 }
+
 
 .not_present_notice {
   text-align: center;
@@ -147,11 +188,11 @@ table.resource_index {
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-}
 
-.submission td {
-  border: none;
-  padding: 4px;
+  td {
+    border: none;
+    padding: 4px;
+  }
 }
 
 .submission_bio_prompt {
@@ -205,10 +246,6 @@ table.resource_index {
   border: 2px solid black;
 }
 
-.resource_index th {
-  cursor: pointer;
-}
-
 .front_page_image {
   position: relative;
   margin-top: 100px;
@@ -216,10 +253,10 @@ table.resource_index {
   padding-left: 100px;
   padding-right: 100px;
   text-align: right;
-}
 
-.front_page_image img {
-  min-width: 100px;
+  img {
+    min-width: 100px;
+  }
 }
 
 .current_tags {
@@ -288,6 +325,13 @@ table.new_hire_requests {
   width: 100%;
   border: 2px solid black;
   border-collapse: collapse;
+
+  th {
+    background-color: $header_grey
+  }
+  td {
+    border-top: 1px solid black;
+  }
 }
 
 .prompt_box {
@@ -295,4 +339,78 @@ table.new_hire_requests {
   position: relative;
   height: 145px;
   margin-top: 10px;
+}
+
+.needed {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+.left_report {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+}
+
+.right_report {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin-left: 200px;
+  min-height: 100px;
+}
+
+.report_legend {
+  display: none;
+}
+
+.report_legend_table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+
+  td {
+    border: none;
+    width: 20%;
+  }
+}
+
+.report_results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#report_fields .report_addition {
+  margin-top: 10px;
+}
+
+form textarea {
+  width: 80%;
+}
+
+.report_filter_indiv_container {
+  border: 2px solid black;
+  padding: 5px;
+
+  .report_addition {
+    border-bottom: 1px solid black;
+    margin: 5px 0;
+    padding-bottom: 5px;
+  }
+}
+
+.add_report_group_link {
+  margin: 5px 0;
+}
+
+.report_update_button {
+  margin: 5px 0;
+}
+
+.new_report_field_link {
+  margin: 5px 0;
 }

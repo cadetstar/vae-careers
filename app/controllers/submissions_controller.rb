@@ -20,6 +20,10 @@ class SubmissionsController < ApplicationController
     if @submission.completed?
       flash[:alert] = "You have already applied for this position.  If you wish to request information regarding your application, please contact #{t('admins.primary.name')} at #{t('admins.primary.email')}"
       redirect_to root_path
+      return
+    end
+    if flash[:alert]
+      @retrying = true
     end
   end
 

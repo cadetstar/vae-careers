@@ -1,4 +1,4 @@
 <div class='individual_comment'>
-  <div class='comment_header'>Posted by: <strong><%= c.creator %></strong> on <%= c.created_at %><% if current_user.has_role?('administrator') %><%= link_to 'Edit', edit_comment_path(c) %> <%= link_to 'Delete', c, :method => :delete, :confirm => 'Are you sure?' %><% end %></div>
+  <div class='comment_header'>Posted by: <strong><%= c.creator %></strong> on <%= c.created_at %><% if current_user.has_role?('administrator') %> -- <%= link_to 'Edit', edit_comment_path(c) %> <%= link_to 'Delete', c, :method => :delete, :confirm => 'Are you sure?' %><% end %></div>
   <div class='comment_body'><%= c.body %></div>
 </div>

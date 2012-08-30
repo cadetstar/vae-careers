@@ -12,3 +12,6 @@ uploads
 uploads/*
 forms
 forms/*
+reports/*.html
+reports/*.xls
+reports/completions/*

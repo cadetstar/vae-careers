@@ -19,7 +19,7 @@ class Opening < ActiveRecord::Base
   has_many :post_dynamic_files, :through => :dynamic_form_opening_links
   has_many :post_dynamic_form_groups, :through => :dynamic_form_opening_links
 
-  delegate :name, :time_type, :position_type, :to => :position, :allow_nil => true
+  delegate :name, :time_type, :position_type, :time_type_abbreviation, :to => :position, :allow_nil => true
   delegate :city, :state, :city_state, :to => :department, :allow_nil => true
 
   scope :public, :joins => [:position, :department], :order => 'active DESC, show_on_opp DESC, positions.name, departments.code', :readonly => false

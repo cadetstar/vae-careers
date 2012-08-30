@@ -1,0 +1,9 @@
+<div style="display: none;" id="remote_clicker">
+  <%= link_to '#', view_results_path(:id => @resource.id), :remote => true %>
+</div>
+<div id="process_status">
+  Processing Report, please wait.
+</div>
+<%= javascript_tag do %>
+    setTimeout(function() {$('#remote_clicker').find('a').click()}, 2000);
+<% end %>

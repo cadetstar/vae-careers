@@ -15,7 +15,7 @@
     </div>
     <div>
       <%= f.label :time_type %><br />
-      <%= f.select :time_type, Vae::TIME_TYPES %>
+      <%= f.select :time_type, Vae::TIME_TYPES.keys %>
     </div>
     <div>
       <%= f.submit 'Update' %>

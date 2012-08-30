@@ -6,8 +6,10 @@ class Submission < ActiveRecord::Base
 
   has_many :submission_answers, :order => 'group_order, question_order'
   has_many :applicant_files
+  has_one  :demographic
   accepts_nested_attributes_for :submission_answers
   accepts_nested_attributes_for :applicant_files
+  accepts_nested_attributes_for :demographic
 
   has_many :comments, :as => :owner
   has_many :tags, :as => :owner
@@ -32,6 +34,31 @@ class Submission < ActiveRecord::Base
   serialize :incomplete_notices
 
   attr_protected :completed, :recruiter_recommendation, :hired, :began_hiring
+
+  REPORT_FIELD_OVERRIDES = {
+      "id" => false,
+      'tag_types' => true,
+      'comments' => true,
+      'first_name' => true,
+      'last_name' => true,
+      'preferred_name' => true,
+      'address_1' => true,
+      'address_2' => true,
+      'city' => true,
+      'state' => true,
+      'zip' => true,
+      'country' => true,
+      'home_phone' => true,
+      'cell_phone' => true,
+      'email' => true,
+      'city_state' => true
+  }
+
+  OVERRIDE_METHOD = {
+
+  }
+
+  scope :reports, joins(:applicant, :openings, :submission_answers, :demographic)
 
   def bounce_new_record
     @perform_completion_check = !new_record?

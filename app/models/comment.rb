@@ -8,4 +8,8 @@ class Comment < ActiveRecord::Base
     super
     "Comment for #{this_owner} by #{this_creator} destroyed."
   end
+
+  def to_s
+    "#{body} by #{creator.to_s} on #{created_at}"
+  end
 end

@@ -16,6 +16,30 @@ class Applicant < ActiveRecord::Base
   validates_format_of :email, :without => /@vaecorp\.com/, :message => "is invalid.  Employees should contact #{I18n.t('admins.primary.name')} to have their accounts set up."
   after_create :send_welcome_email
 
+  REPORT_FIELD_OVERRIDES = {
+      "id" => false,
+      "updated_at" => false,
+      "submissions" => true,
+      "openings" => true,
+      "phones" => true,
+      'home_phone' => true,
+      'cell_phone' => true,
+      'name_std' => true,
+      'name_lnf' => true,
+      'city_state' => true,
+      'reset_password_token' => false,
+      'reset_password_sent_at' => false,
+      'remember_created_at' => false,
+      'encrypted_password' => false
+  }
+
+  OVERRIDE_METHOD = {
+  }
+
+  GROUPED_OPTIONS = %w(submissions openings)
+
+  scope :reports, joins(:submissions, :openings, "LEFT JOIN phones pc ON (pc.applicant_id = applicants.id AND pc.phone_type = 'cell')", "LEFT JOIN phones ph ON (ph.applicant_id = applicants.id AND ph.phone_type = 'home')")
+
   def name_std
     [first_name, last_name].select{|c| !c.blank?}.join(" ")
   end

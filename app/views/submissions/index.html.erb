@@ -11,7 +11,7 @@
     <th>Comments</th>
   </tr>
   <% @resources.each do |r| %>
-    <tr>
+    <tr class="<%=cycle('odd', 'even') %>">
       <td><%= r.first_name %></td>
       <td><%= r.last_name %></td>
       <td><%= link_to 'View Application', r %></td>

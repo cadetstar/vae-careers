@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  creator_id: 1
+  name: MyString
+  operates_on: MyString
+  last_run: 2012-08-25 22:23:09
+
+two:
+  creator_id: 1
+  name: MyString
+  operates_on: MyString
+  last_run: 2012-08-25 22:23:09

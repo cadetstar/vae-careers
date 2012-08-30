@@ -1,0 +1,23 @@
+<%= form_tag execute_report_path(:id => @resource.id) do %>
+    <div>
+      Report: <%= @resource.name %>
+    </div>
+    <div>
+      Parameters for report:
+    </div>
+    <% @resource.report_filters.collect{|rf| rf.report_group}.uniq.sort.each do |g| %>
+        <div class="report_run_group">
+          Report Group #<%= g %>
+          <div class="report_parameters">
+            <% @resource.report_filters.where(:report_group => g).each do |rf| %>
+                <div class="report_indiv_parameters">
+                  <strong><%= rf.name %>: <%= (rf.value.blank? or rf.value.downcase == 'prompt') ? text_field_tag("values[#{rf.id}]", '') : rf.value %></strong>
+                </div>
+            <% end %>
+          </div>
+        </div>
+    <% end %>
+    <div>
+      <%= submit_tag 'Submit Report' %>
+    </div>
+<% end %>

@@ -1,0 +1,13 @@
+%div= link_to 'Back', {:action => :index}
+%table.resource_index
+  %tr
+    %th Gender
+    %th Race
+    %th Veteran Status
+    %th Application Time
+  - @resource.submissions.each do |s|
+    %tr{:class => cycle('odd', 'even')}
+      %td= s.demographic.try(:gender)
+      %td= s.demographic.try(:race)
+      %td= s.demographic.try(:veteran)
+      %td= s.created_at
