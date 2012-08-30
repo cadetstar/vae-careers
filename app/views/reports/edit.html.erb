@@ -1,0 +1,173 @@
+<div class='resource_navigation'>
+  <%= link_to 'Back', {:action => :index} %>
+</div>
+<div class="resource_name">Edit Report</div>
+<%= form_for @resource do |f| %>
+    <div>
+      Name:<br />
+      <%= f.text_field :name %>
+    </div>
+    <div style="position: relative;">
+      <div class="left_report">
+        Name:<br />
+        <%= f.select :operates_on, Report::VALID_MODELS.keys, {}, :class => 'operating' %>
+      </div>
+      <div class="right_report">
+        <% Report::VALID_MODELS.keys.each do |k| %>
+            <div id="legend_<%= k %>" class="report_legend">
+              <h3>Possible fields for <%= k %>.</h3>
+              <% i = 0;max = 5 %>
+              <table class="report_legend_table">
+                <tr>
+
+                  <% (z = get_field_names(k)).keys.sort.each do |a| %>
+                      <% if z[a] %>
+                          <% if i >= max
+                               i = 0 %>
+                              </tr><tr>
+                          <% end %>
+                          <% i += 1 %>
+                          <td><%= a %></td>
+                      <% end %>
+                  <% end %>
+                  <% until i == max or i == 0 %>
+                      <% i += 1 %>
+                      <td> &nbsp; </td>
+                  <% end %>
+                  </tr>
+                  </table>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div id="report_fields">
+      <% @resource.report_fields.each do |rf| %>
+          <%= render :partial => 'report_field', :locals => {:f => f, :rf => rf} %>
+      <% end %>
+    </div>
+    <div class="new_report_field_link">
+      <a href="#" class="new_report_field">Add Report Field</a>
+    </div>
+    <hr />
+    <div>
+      <h4>Report Filters are grouped together.  To be on the report, all the conditions of one of the groups must be met.</h4>
+      E.g. -<br />
+      <ul>
+        <li>
+          Report Group 1 says that the applicant state must be TX
+          <ul>
+            <li>
+              Result: All Texas applicants will be shown
+            </li>
+          </ul>
+        </li>
+        <li>
+          Report Group 1 says the applicant state must be MD and the applicant must be flagged as a manager.<br />
+          Report Group 2 says the applicant state must be VA and the applicant must be flagged as a manager
+          <ul>
+            <li>
+              Result: All manager candidates from MD and VA will be shown.
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div id="report_filters">
+      <% @resource.report_filters.collect{|rf| rf.report_group}.uniq.sort.each do |j| %>
+          <div id="report_filters_<%= j.to_i == 0 ? 1 : j %>" class="report_filter_indiv_container">
+            <span class="report_title">Report Group #<%= j.to_i == 0 ? 1 : j %></span><br />
+            <div class="report_filter_container">
+              <% @resource.report_filters.select{|rf| rf.report_group == j}.each do |rf| %>
+                  <%= render :partial => 'report_filter', :locals => {:f => f, :rf => rf} %>
+              <% end %>
+            </div>
+            <div>
+              <a href="#" class="report_group_add_filter">Add Filter to Group</a> &middot; <a href="#" class="report_group_remove">Remove Group</a>
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class="add_report_group_link">
+      <a href="#" class="add_report_group">Add Report Group</a>
+    </div>
+    <div class="hidden" id="templates">
+      <div id="field_template">
+        <%= render :partial => 'report_field', :locals => {:f => f, :rf => ReportField.new} %>
+      </div>
+      <div id="filter_template">
+        <%= render :partial => 'report_filter', :locals => {:f => f, :rf => ReportFilter.new} %>
+      </div>
+      <div id="group_template">
+        <div id="report_filters_temp" class="report_filter_indiv_container">
+          <span class="report_title">Report Group #</span><br />
+          <div class="report_filter_container">
+
+          </div>
+          <div>
+            <a href="#" class="report_group_add_filter">Add Filter to Group</a> &middot; <a href="#" class="report_group_remove">Remove Group</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="report_update_button">
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>
+<div class='resource_navigation'>
+  <%= link_to 'Back', {:action => :index} %>
+</div>
+<script type="text/javascript">
+    var currentMax = <%= @resource.report_filters.collect{|rf| rf.report_group}.uniq.sort.last || 0 %>;
+    var fieldMax = <%= @resource.report_fields.count %>;
+    var filterMax = <%= @resource.report_filters.count %>;
+    $(document).ready(function() {
+        if ($('#legend_' + $('.operating').val()).length > 0) {
+            $('#legend_' + $('.operating').val()).show();
+        }
+        $(document).on('click', '.report_deletor', function (e) {
+            $(e.target).parents('.report_addition').find('.deletor').val(true);
+            $(e.target).parents('.report_addition').hide();
+            e.preventDefault();
+            return false;
+        })
+        $('.new_report_field').click(function(e) {
+            fieldMax += 1;
+            $('#report_fields').append($('#field_template').html().replace(/field_replace_this/g, fieldMax.toString()));
+            e.preventDefault();
+            return false;
+        })
+        $('.add_report_group').click(function(e) {
+            var temp = $('#group_template').clone();
+            currentMax += 1;
+            temp.find('.report_title').append(currentMax.toString());
+            temp.find('.report_filter_indiv_container').attr('id', 'report_filters_' + currentMax.toString());
+            $('#report_filters').append(temp.contents());
+            e.preventDefault();
+            return false;
+        })
+        $(document).on('click', '.report_group_add_filter', function(e) {
+            filterMax += 1;
+            $(e.target).parents('.report_filter_indiv_container').find('.report_filter_container').append($('#filter_template').html().replace(/filter_replace_this/g, filterMax.toString()));
+            e.preventDefault();
+            return false;
+        })
+        $('form').submit(function (e) {
+            $('#templates').remove();
+            $('.report_group_input').each(function() {
+                console.info($(this).parents('.report_filter_indiv_container').attr('id').replace('report_filters_', ''));
+                $(this).val(parseInt($(this).parents('.report_filter_indiv_container').attr('id').replace('report_filters_', ''), 10));
+            })
+        })
+
+        $('.operating').change(function() {
+            console.info("Changing");
+            $('.report_legend').hide();
+            $('#legend_' + $('.operating').val()).show();
+        })
+
+        $(document).on('click', '.report_group_remove', function (e) {
+            $(e.target).parents('.report_filter_indiv_container').find('.deletor').val(true);
+            $(e.target).parents('.report_filter_indiv_container').hide();
+        })
+    })
+</script>

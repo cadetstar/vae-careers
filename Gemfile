@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.2'
+gem 'haml'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -12,6 +13,8 @@ gem 'therubyracer', :platforms => :ruby
 gem 'prawn'
 gem 'pdf-forms'
 gem 'rubyzip'
+gem 'delayed_job_active_record'
+gem 'spreadsheet'
 
 # Gems used only for assets and not required
 # in production environments by default.

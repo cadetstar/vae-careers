@@ -8,39 +8,14 @@
       <%= f.submit 'Update' %>
     </div>
 <% end %>
-<div class="questions_container">
-  <form id="sub_questions_form">
-    <div class="questions">
-      <% @resource.questions.each do |q| %>
-          <div class='question_row'><%= q.to_s %><input type="hidden" id="questions[]" name="questions[]" value="<%= q.id %>" /></div>
-      <% end %>
-    </div>
-  </form>
-  <div class="questions_origin">
-    <% Question.where(['id not in (?)', [-1] + @resource.questions.collect{|q| q.id}]).each do |q| %>
-        <div class='question_row'><%= q.to_s %><input type="hidden" id="questions[]" name="questions[]" value="<%= q.id %>" /></div>
-    <% end %>
-  </div>
-</div>
-
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.question_row').draggable({revert: 'invalid'});
-        $('.questions, .questions_origin').droppable({
-            drop: function(event, ui) {
-                if ($(this).attr('class').match(/questions_origin/) === null) {
-                    $('#sub_questions_form').append(ui.draggable);
-                }
-                $(this).append(ui.draggable);
-                ui.draggable.css({top: 0, left: 0});
-                console.info($(this).attr('class'));
-                $.ajax({
-                    url: "<%= set_question_groups_path(:id => @resource.id) %>",
-                    data: $('#sub_questions_form').serialize()
-                });
-            }
-        });
-    });
-</script>
+<%=
+    render :partial => 'application/drag_and_drop', :locals => {
+        :target => @resource,
+        :current_items => :questions,
+        :item_tooltip => :to_s,
+        :potential_items => Question,
+        :submit_path => set_question_groups_path(:id => @resource.id),
+        :header => "Questions (drag to reorder)",
+        :header_name => 'Questions'
+}
+%>

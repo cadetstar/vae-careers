@@ -1,0 +1,6 @@
+<% if @finished %>
+$('#process_status').html('<%= link_to 'View Report as HTML', view_results_path(:id => @resource.id) %><br /><%= link_to 'Download Report as Excel Spreadsheet', view_results_path(:id => @resource.id, :excel => 1) %>');
+<% else %>
+$('#process_status').append(' .');
+setTimeout(function() {$('#remote_clicker').find('a').click()}, 2000);
+<% end %>

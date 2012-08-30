@@ -15,6 +15,7 @@ VaeCareers::Application.routes.draw do
   match 'showpublic/:id', :to => redirect('/openings/%{id}/view') # Legacy route
 
   match 'openings/:opening_id/apply', :to => 'submissions#begin_application', :as => 'apply'
+  match 'openings/:id/demographics', :to => 'openings#view_demographics', :as => 'demographics'
   match 'openings/:submission_id/submit', :to => 'submissions#complete_application', :as => 'submit_application'
 
   match '/applicant', :to => redirect('/'), :as => 'applicant_root_path'
@@ -35,6 +36,10 @@ VaeCareers::Application.routes.draw do
 
   match 'ordering/:resource_class/:id', :to => 'application#generic_reordering', :as => 'generic_reordering'
 
+  match 'reports/:id/start', :to => 'reports#start_run', :as => "start_report"
+  match 'reports/:id/execute', :to => 'reports#execute_report', :as => 'execute_report'
+  match 'reports/:id/results', :to => 'reports#view_report', :as => 'view_results'
+
   resources :position_types
   resources :positions
   resources :questions
@@ -48,6 +53,7 @@ VaeCareers::Application.routes.draw do
   resources :dynamic_form_groups
   resources :new_hire_requests
   resources :new_hire_skills
+  resources :reports
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

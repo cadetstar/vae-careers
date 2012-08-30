@@ -13,7 +13,10 @@ module ApplicationHelper
             c << link_to("Show on OPP", change_opening_status_path(:id => resource.id, :new_status => 'show_opp'))
           end
         end
+        c << link_to("View Demographics", demographics_path(:id => resource.id))
         raw " &middot; #{c.join(" &middot; ")}"
+      when 'reports'
+        raw " &middot; #{link_to('Run Report', start_report_path(:id => resource.id))}"
       else
 
     end
@@ -60,6 +63,17 @@ module ApplicationHelper
       when 'Date'
         g.date_field :answer
     end
+  end
+
+  def get_field_names(key)
+    assembler = {}
+    if (klass = Report::VALID_MODELS[key])
+      klass.column_names.each do |c|
+       assembler[c.gsub(/_id$/, '')] = true
+      end
+      assembler.merge!(klass::REPORT_FIELD_OVERRIDES)
+    end
+    assembler
   end
 end
 

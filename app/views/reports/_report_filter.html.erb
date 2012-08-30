@@ -1,0 +1,18 @@
+<% @report_filter_index ||= 0
+   @report_filter_index += 1
+%>
+
+<%= f.fields_for :report_filters, rf, :child_index => (rf.new_record? ? 'filter_replace_this' : @report_filter_index) do |g| %>
+    <div class='report_addition'>
+      Filter:<br />
+      <%= g.hidden_field :_destroy, :class => 'deletor' %>
+      <%= g.hidden_field :report_group, :class => 'report_group_input' %>
+      Name:<br />
+      <%= g.text_field :name %><br />
+      Value (enter 'PROMPT' or leave blank to prompt for value at runtime):<br />
+      <%= g.text_field :value %><br />
+      How should the value be compared?<br />
+      <%= g.select :validation_type, Report::VALIDATION_TYPES %><br />
+      <a href="#" class="report_deletor">Delete Field</a>
+    </div>
+<% end %>

@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
   before_filter :is_administrator?, :except => :create
+  before_filter :is_current_user?
 
   def create
-    @comment = Comment.create(params[:comment])
+    @comment = Comment.create(params[:comment].merge(:creator => current_user))
   end
 
   def edit

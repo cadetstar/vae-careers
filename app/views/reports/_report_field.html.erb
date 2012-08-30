@@ -1,0 +1,8 @@
+<% @report_field_index ||= 0 %>
+<% @report_field_index += 1 %>
+<%= f.fields_for :report_fields, rf, :child_index => (rf.new_record? ? "field_replace_this" : @report_field_index) do |g| %>
+    <div class='report_addition'>
+      <%= g.hidden_field :_destroy, :class => 'deletor' %>
+      Name of field: <%= g.text_field :name %> <a href="#" class="report_deletor">Delete Field</a>
+    </div>
+<% end %>

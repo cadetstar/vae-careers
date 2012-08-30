@@ -14,3 +14,6 @@ public/assets
 public/assets/*
 forms
 forms/*
+reports/*.html
+reports/*.xls
+reports/completions/*

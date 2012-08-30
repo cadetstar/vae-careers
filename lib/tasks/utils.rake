@@ -81,7 +81,7 @@ task :import_data => :environment do
             item.prompt = entry['qtext']
             item.required = entry['isrequired'] == 1
             item.question_type = Vae::QUESTION_TYPES[%w(boolean mchoice smtext medtext month year label date).index(entry['qtype'])]
-            item.choices = entry['qchoices'].split('|').join('\n')
+            item.choices = entry['qchoices'].split('|').join(10.chr)
             item.created_at = entry['created_at']
             item.updated_at = entry['updated_at']
             item.save

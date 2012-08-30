@@ -9,7 +9,7 @@ class DynamicFormGroup < ActiveRecord::Base
   end
 
   def tooltip
-    name
+    self.dynamic_files.collect{|df| df.name}.join("\n")
   end
 
   def to_s

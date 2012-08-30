@@ -9,4 +9,8 @@ class Position < ActiveRecord::Base
   def to_s
     name
   end
+
+  def time_type_abbreviation
+    Vae::TIME_TYPES[time_type]
+  end
 end
