@@ -27,6 +27,9 @@ end
 gem 'jquery-rails'
 gem 'mail'
 
+group :production do
+  gem 'daemons'
+end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
