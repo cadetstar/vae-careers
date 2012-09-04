@@ -17,3 +17,4 @@ forms/*
 reports/*.html
 reports/*.xls
 reports/completions/*
+Gemfile.lock

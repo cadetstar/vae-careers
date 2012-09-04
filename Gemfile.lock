@@ -44,6 +44,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
+    daemons (1.1.9)
     delayed_job (3.0.3)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.2)
@@ -144,6 +145,7 @@ PLATFORMS
 DEPENDENCIES
   carrierwave
   coffee-rails (~> 3.2.2)
+  daemons
   delayed_job_active_record
   devise
   haml
