@@ -1,0 +1,11 @@
+<style>
+  p.indent {text-indent: 10px;}
+</style>
+<p>A new applicant has been opened for viewing:</p>
+<p class="indent"><%= @submission.applicant %> - <%= @submission.opening %></p>
+<% if @ru.notification_time.to_i > 0 %>
+    <p>
+      You will not be notified of new applicants for the next <%= pluralize(@ru.notification_time.to_i, 'hour') %>.
+    </p>
+<% end %>
+<p>Go to <%= link_to root_path(:only_path => false) %> and log in to view your current applicants.</p>

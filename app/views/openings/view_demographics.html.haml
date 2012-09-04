@@ -5,9 +5,9 @@
     %th Race
     %th Veteran Status
     %th Application Time
-  - @resource.submissions.each do |s|
+  - @resource.demographics.each do |d|
     %tr{:class => cycle('odd', 'even')}
-      %td= s.demographic.try(:gender)
-      %td= s.demographic.try(:race)
-      %td= s.demographic.try(:veteran)
-      %td= s.created_at
+      %td= d.gender
+      %td= d.race
+      %td= d.veteran
+      %td= d.created_at

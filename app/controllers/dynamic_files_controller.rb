@@ -15,11 +15,11 @@ class DynamicFilesController < ApplicationController
         file = rev.generate_file_with_form
         send_file file, :filename => "#{resource.name}.pdf"
       else
-        flash[:error] = "There is no current valid revision."
+        flash[:alert] = "There is no current valid revision."
         redirect_to :action => :edit
       end
     else
-      flash[:error] = 'That is not a valid file.'
+      flash[:alert] = 'That is not a valid file.'
       redirect_to :action => :index
     end
   end

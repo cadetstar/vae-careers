@@ -17,9 +17,12 @@
   <div class="menu_links">
     <%= link_to 'Submissions', submissions_path %>
     <%= link_to 'New Hire Requests', new_hire_requests_path %>
+    <%= link_to 'Edit My Settings', edit_remote_user_path(:id => current_user.id) %>
   </div>
   <% if current_user.has_role?('administrator') %>
       <div class="menu_links">
+        <%= link_to 'Applicants', applicants_path %>
+        <%= link_to 'Internal Users', remote_users_path %>
         <%= link_to 'Position Types', position_types_path %>
         <%= link_to 'Positions', positions_path %>
         <%= link_to 'Questions', questions_path %>

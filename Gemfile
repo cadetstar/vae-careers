@@ -15,6 +15,7 @@ gem 'pdf-forms'
 gem 'rubyzip'
 gem 'delayed_job_active_record'
 gem 'spreadsheet'
+gem 'kaminari'
 
 # Gems used only for assets and not required
 # in production environments by default.

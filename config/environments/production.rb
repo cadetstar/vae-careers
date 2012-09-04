@@ -4,7 +4,7 @@ VaeCareers::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
-  config.action_mailer.default_url_options({:host => 'careers2.vaecorp.com'})
+  config.action_mailer.default_url_options = {:host => 'careers2.vaecorp.com'}
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false

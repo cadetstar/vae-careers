@@ -21,8 +21,9 @@
   <% if current_user or current_applicant %>
       <%= link_to 'Sign Out', logout_path %>
       <% if current_applicant %>
-          <%= link_to 'Update Account', edit_registration_path(current_applicant) %>
-          <%= link_to 'Update Profile', profile_path %>
+          <%= link_to 'Update My Account', edit_registration_path(current_applicant) %>
+          <%= link_to 'Update My Profile', profile_path %>
+          <%= link_to 'View My Job Agents', job_agents_path %>
       <% else %>
           <br /><%= link_to 'Admin Section', submissions_path %>
       <% end %>

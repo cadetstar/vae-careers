@@ -22,7 +22,18 @@
   </div>
   <div class="questions_origin linked_list<%= @unique_id %> <%= width_class %>">
     <%= potential_name %>:
-    <% potential_items.where(['id not in (?)', [-1] + target.send(current_items).collect{|qg| qg.id}]).each do |qg| %>
+    <%
+       if potential_items.is_a? Class
+         these_items = potential_items.where(["id not in (?)", [-1] + target.send(current_items).collect{|qg| qg.id}])
+       else
+         if potential_items.is_a? Array
+           these_items = potential_items - target.send(current_items)
+         else
+           these_items = potential_items.all - target.send(current_items)
+         end
+       end
+
+       these_items.each do |qg| %>
         <div id="items[<%=qg.class.name %>]_<%= qg.id %>" class='question_row qtip_target' data-qtip="<%= raw qg.send(item_tooltip) %>"><%= qg.to_s %></div>
     <% end %>
   </div>

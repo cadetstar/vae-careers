@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   before_filter :is_administrator?
-  before_filter :get_resource, :only => [:edit, :update, :destroy, :start_run, :execute_report, :view_report]
+  before_filter :get_resource, :only => [:edit, :update, :destroy, :start_run, :execute_report, :view_report, :purge]
 
 
   def new
@@ -36,5 +36,15 @@ class ReportsController < ApplicationController
         @contents = File.read(File.join(Rails.root, 'reports', @resource.id.to_s + '.html'))
       end
     end
+  end
+
+  def purge
+    number, flash[:alert] = @resource.purge_submissions
+    if number > 0
+      flash[:notice] = "Destroyed #{number} submissions."
+    else
+      flash[:notice] = 'Did not destroy any submissions.'
+    end
+    redirect_to reports_path
   end
 end

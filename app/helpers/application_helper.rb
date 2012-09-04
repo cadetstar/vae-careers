@@ -27,7 +27,7 @@ module ApplicationHelper
     @current_user ||= RemoteUser.find_by_id(session[:current_user])
   end
 
-  def bio_submission_fields
+  def bio_submission_fields(resource = nil)
     [
         ['First Name*', :first_name],
         ['Last Name*', :last_name],
@@ -38,7 +38,7 @@ module ApplicationHelper
         ['Address Line 1', :address_1],
         ['Address Line 2', :address_2],
         ['City', :city],
-        ['State', :state, :select, grouped_options_for_select(Vae::STATES)],
+        ['State', :state, :select, (resource ? grouped_options_for_select(Vae::STATES, resource.state) : grouped_options_for_select(Vae::STATES))],
         ['Zip', :zip],
         ['Country', :country]
     ]
@@ -74,6 +74,15 @@ module ApplicationHelper
       assembler.merge!(klass::REPORT_FIELD_OVERRIDES)
     end
     assembler
+  end
+
+  def get_opening_email_text(from, opening)
+    text = t('opening_email.text').clone
+    text.gsub!('%FROM%', from.to_s)
+    text.gsub!('%OPENING%', opening.to_s)
+    text.gsub!('%OPENING_DESCRIPTION%', opening.description.to_s)
+    text.gsub!('%HIGH_PRIORITY%', opening.high_priority_description.to_s)
+    text
   end
 end
 

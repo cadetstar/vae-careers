@@ -1,3 +1,4 @@
+<%= paginate @resources %>
 <table class='resource_index'>
   <tr>
     <th>First Name</th>
@@ -31,6 +32,7 @@
     </tr>
   <% end %>
 </table>
+<%= paginate @resources %>
 <script type='text/javascript'>
   $(document).ready(function() {
     $('table select').change(function(e) {

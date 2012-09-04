@@ -13,3 +13,27 @@
 <div class="opening_apply_link">
   <%= link_to 'Apply for this position.', apply_path(:opening_id => @opening.id) %>
 </div>
+<% if current_applicant %>
+    <div class="opening_share_link">
+      <%= link_to 'Share this opening.', '#', :class => 'opening_share' %>
+    </div>
+    <div class="opening_share_content" style="display: none;">
+      <%= form_tag share_opening_path(:id => @opening.id) do %>
+          What email addresses would you like to send this opening to?<br />
+          <%= text_area_tag :emails %><br />
+          <%= submit_tag 'Email' %>
+      <% end %>
+    </div>
+    <%= javascript_tag do %>
+        $(document).ready(function() {
+        $('.opening_share').click(function() {
+        $('.opening_share_link').hide();
+        $('.opening_share_content').show();
+        });
+        });
+    <% end %>
+<% else %>
+    <div class="opening_share_link">
+      <%= link_to 'Share this opening. (Login required)', new_applicant_session_path(:return_to => view_opening_path(:id => @opening.id)), :class => 'opening_share' %>
+    </div>
+<% end %>

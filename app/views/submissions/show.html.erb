@@ -10,19 +10,47 @@
 </div>
 <div class='submission_users'>
   Users:<br />
+  <div class="user_display">
+    <%= link_to 'Show Users', '#', :class => 'user_show' %>
+  </div>
+  <div class="user_edit" style="display: none">
+    <%= link_to 'Hide Users', '#', :class => 'user_hide' %>
+
+    <%
+       valid_users = if current_user.has_role?('administrator')
+                       RemoteUser.includes(:departments).all.sort_by{|ru| ru.departments.include?(@resource.department)}
+                     else
+                       current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department)}
+                     end
+
+    %>
+    <%= render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :remote_users,
+            :item_tooltip => :tooltip,
+            :potential_items => valid_users,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "remote_user", :link_class => "SubmissionUser", :resource_class => "Submission", :frags => ['submission_id'], :values => [@resource.id], :suppress_rc => 1),
+            :header => "Users allowed to see this submission:",
+            :header_name => 'Users',
+            :potential_name => 'Potential Users (Users for this department listed first):'
+
+    } %>
+  </div>
 </div>
+<hr />
 <div class='hiring_pipeline'>
   <% if @resource.hired %>
-    <%= render :partial => 'hired', :locals => {:submission => @resource} %>
+      <%= render :partial => 'hired', :locals => {:submission => @resource} %>
   <% elsif @resource.began_hiring %>
-    <%= render :partial => 'in_process', :locals => {:submission => @resource} %>
+      <%= render :partial => 'in_process', :locals => {:submission => @resource} %>
   <% elsif @resource.opening.show_on_opp %>
-    <%= link_to 'Begin Hiring', change_status_path(:type => 'begin', :id => @resource.id), :confirm => t('hiring.offer') %>
+      <%= link_to 'Begin Hiring', change_status_path(:type => 'begin', :id => @resource.id), :confirm => t('hiring.offer') %>
   <% end %>
 </div>
+<hr />
 <div class='biographic_information'>
   <% bio_submission_fields.each do |b| %>
-    <strong><%= b[0].gsub('*', '') %>:</strong> <%= @resource.send(b[1]) %><br />
+      <strong><%= b[0].gsub('*', '') %>:</strong> <%= @resource.send(b[1]) %><br />
   <% end %>
   <strong>Affidavit:</strong> <%= @resource.affidavit %><br />
   <strong>How did they found out about the job?</strong> <%= @resource.where_sourced %>
@@ -35,29 +63,45 @@
     </tr>
     <% last = 0 %>
     <% @resource.submission_answers.each do |sa| %>
-      <% if sa.group_order != last %>
-        <% last = sa.group_order %>
+        <% if sa.group_order != last %>
+            <% last = sa.group_order %>
+            <tr>
+              <td colspan="2" class='separator'> &nbsp; </td>
+            </tr>
+        <% end %>
         <tr>
-          <td colspan="2" class='separator'> &nbsp; </td>
+          <td><%= sa.question_text %></td>
+          <td><%= sa.answer %></td>
         </tr>
-      <% end %>
-      <tr>
-        <td><%= sa.question_text %></td>
-        <td><%= sa.answer %></td>
-      </tr>
     <% end %>
   </table>
 </div>
 <div class='submission_files'>
+  Submission Files:
   <% @resource.applicant_files.each do |af| %>
-    <%= link_to af.applicant_file_store, retrieve_application_file_path(:id => af.id) %><br />
+      <%= link_to af[:applicant_file_store], retrieve_application_file_path(:id => af.id) %><br />
+  <% end %>
+</div>
+<div class='submission_files'>
+  Applicant Files:
+  <% @resource.applicant.applicant_files.each do |af| %>
+      <%= link_to af[:applicant_file_store], retrieve_application_file_path(:id => af.id) %><br />
   <% end %>
 </div>
 <hr />
 <%= render :partial => 'comments/stub' %>
 <% if @current_user.has_role?('administrator') %>
-  <%= render :partial => 'tags/stub' %>
+    <%= render :partial => 'tags/stub' %>
 <% end %>
 <div class='submission_navigation'>
   <%= link_to 'Back', submissions_path %>
 </div>
+<%= javascript_tag do %>
+    $(document).ready(function() {
+    $('.user_show, .user_hide').click(function(e) {
+    $('.user_display, .user_edit').toggle();
+    e.preventDefault();
+    return false;
+    });
+    })
+<% end %>

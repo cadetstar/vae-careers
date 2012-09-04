@@ -16,7 +16,16 @@ class ApplicationController < ActionController::Base
 
   def is_administrator?
     unless current_user and current_user.has_role?('administrator')
+      flash[:alert] = 'You are unable to do that.'
       redirect_to root_path
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    if session[:return_to]
+      session[:return_to]
+    else
+      super
     end
   end
 

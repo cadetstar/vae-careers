@@ -1,0 +1,4 @@
+.resource_navigation= link_to 'Back', {:action => :index}
+.report_results= raw(@contents)
+- if @resource.operates_on == 'Submissions'
+  = link_to 'Destroy these submissions', purge_path(:id => @resource.id)

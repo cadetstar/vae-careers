@@ -29,5 +29,17 @@ en:
       plain: Conference Systems, Inc.\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
   hiring:
     offer: Have you made an offer of employment to the candidate?  You must make an offer of employment to the candidate before he/she can be asked to complete the Background Check Release Form.
-    references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing &amp; feedback must appear in the comments.
+    references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing and feedback must appear in the comments.
   hello: "Hello world"
+  opening_email:
+    text: <p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p>
+    subject: "[VAE Careers] %FROM% shared a posting with you!"
+  confirmation_email:
+    text: <p>Thank you for your application.  We will review it promptly.  Below is a summary of your submission.</p>
+    subject: "[VAE Careers] Thank you for applying to Visual Aids Electronics"
+  notify_others:
+    text: <p>Thank you for your application, but the position of %POSITION% has been filled.  We will keep your application on file and look forward to hiring you soon.</p>
+    subject: "[VAE Careers] Thank you for your application."
+  job_agent:
+    subject: "[VAE Careers] There are new positions matching one of your job agents!"
+    text: "There are new positions that match your job agent (keywords: %KEYWORDS%):"
