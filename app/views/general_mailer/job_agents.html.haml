@@ -1,0 +1,16 @@
+= t('job_agent.text').gsub('%KEYWORDS%', @ja.keywords.split(/[,\n]/).join(', '))
+- @todays.each do |t|
+  %div{:style => 'margin-bottom: 20px;'}
+    %h2= t.to_s
+    = t.description
+    - unless t.high_priority_description.blank?
+      %div{:style => 'color: red'}= t.high_priority_description
+
+- unless @matches.empty?
+  %h2 Other openings matching your job agent:
+  - @matches.each do |t|
+    %div{:style => 'margin-bottom: 20px;'}
+      %h3= t.to_s
+      = t.description
+      - unless t.high_priority_description.blank?
+        %div{:style => 'color: red'}= t.high_priority_description

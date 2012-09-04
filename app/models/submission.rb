@@ -15,6 +15,8 @@ class Submission < ActiveRecord::Base
   has_many :tags, :as => :owner, :dependent => :destroy
   has_many :tag_types, :through => :tags
 
+  has_many :submission_users, :dependent => :destroy
+  has_many :remote_users, :through => :submission_users
 
   delegate :position, :department, :question_groups, :to => :opening
   delegate :first_name, :first_name=, :last_name, :last_name=,
@@ -98,6 +100,7 @@ class Submission < ActiveRecord::Base
     end
     if self.incomplete_notices.empty? and !self.completed
       self.completed = true
+      self.completed_at = Time.now
       self.save
       self.after_completion
     end
@@ -105,7 +108,12 @@ class Submission < ActiveRecord::Base
   end
 
   def after_completion
-
+    # Send confirmation to applicant
+    GeneralMailer.application_confirmation(self).deliver
+    # Send notice to recruiter
+    if (ru = RemoteUser.find_by_email(I18n.t('admins.primary.email')))
+      GeneralMailer.recruiter_application(self, ru).deliver
+    end
   end
 
   def to_s

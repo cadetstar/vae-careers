@@ -34,4 +34,37 @@ class GeneralMailer < ActionMailer::Base
 
     mail(:to => email_to, :subject => I18n.t('opening_email.subject').gsub('%FROM%', @from.to_s))
   end
+
+  def application_confirmation(submission)
+    @submission = submission
+
+    mail(:to => submission.applicant.email, :subject => I18n.t('confirmatioN_email.subject'))
+  end
+
+  def recruiter_application(submission, remote_user)
+    @submission = submission
+
+    mail(:to => remote_user.email, :subject => 'An application has been received.')
+  end
+
+  def notify_email(email, subject, message)
+    mail(:to => email, :subject => subject) do |format|
+      format.html { render :text => message }
+    end
+  end
+
+  def submission_add(ru, submission)
+    @submission = submission
+    @ru = ru
+
+    mail(:to => ru.email, :subject => 'An application has been shared with you.')
+  end
+
+  def job_agents(todays, matches, ja)
+    @todays = todays
+    @matches = matches
+    @ja = ja
+
+    mail(:to => ja.applicant.email, :subject => I18n.t('job_agent.subject'))
+  end
 end

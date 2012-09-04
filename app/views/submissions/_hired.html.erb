@@ -7,5 +7,27 @@
           <%= submit_tag 'Send Setup Email' %>
       <% end %>
     </div>
+    <div id='applicant_notify_others'>
+      <%= form_tag notify_others_path(:id => submission.id) do %>
+          Send Email to Other Applicants for this position:<br />
+          <table class="notification_email_block">
+            <tr>
+              <td>Subject</td>
+              <td><%= text_field_tag 'subject', t('notify_others.subject'), :style => 'width: 80%;' %></td>
+            </tr>
+            <tr>
+              <td>Body</td>
+              <td><%= text_area_tag 'message', t('notify_others.text').gsub('%POSITION%', submission.position.to_s), :rows => 3, :cols => 25 %></td>
+            </tr>
+            <tr>
+              <td>Emails</td>
+              <td><%= select_tag 'emails', options_for_select(submission.opening.submissions.select{|s| s != submission}.collect{|c| [c.applicant, c.email]}), :multiple => true, :size => 5 %></td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= submit_tag 'Send Notification Email' %></td>
+            </tr>
+          </table>
+      <% end %>
+    </div>
 <% end %>
 <%= link_to 'Retrieve Post-Hired Paperwork', paperwork_path(:id => submission.id, :type => 'post') %><br />

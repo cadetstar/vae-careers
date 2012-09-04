@@ -13,6 +13,8 @@ class RemoteUser < ActiveRecord::Base
 
   ROLES = %w(administrator email_administrator)
 
+  attr_protected :id, :roles_mask
+
   def to_s
     [first_name, last_name].compact.join(' ')
   end
@@ -37,6 +39,14 @@ class RemoteUser < ActiveRecord::Base
 
   def has_role?(role)
     self.roles.include?(role.to_s)
+  end
+
+  def self.edittable_attributes
+    %w(notification_time new_hire_expiration)
+  end
+
+  def tooltip
+    to_s
   end
 
   private

@@ -1,0 +1,24 @@
+<% if current_user.has_role?('administrator') %>
+    <div class='resource_navigation'>
+      <%= link_to 'Back', {:action => :index} %>
+    </div>
+<% end %>
+<div class="resource_name">Edit User</div>
+<%= form_for @resource do |f| %>
+    <div>
+      <%= f.label :notification_time, "Time to suppress notification of applicants added (in hours, 0 to always send notifications):" %><br />
+      <%= f.text_field :notification_time %>
+    </div>
+    <div>
+      <%= f.label :new_hire_expiration, "Expiration for Display of New Hire Requests (in days, 0 for no expiration):" %><br />
+      <%= f.text_field :new_hire_expiration %>
+    </div>
+    <div>
+      <%= f.submit 'Update' %>
+    </div>
+<% end %>
+<% if current_user.has_role?('administrator') %>
+    <div class='resource_navigation'>
+      <%= link_to 'Back', {:action => :index} %>
+    </div>
+<% end %>

@@ -28,6 +28,7 @@ class OpeningsController < ApplicationController
       when 'active'
         @resource.active = true
         @resource.show_on_opp = true
+        @resource.posted_at = Time.now
       when 'inactive'
         @resource.active = false
         @resource.show_on_opp = false

@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_filter :authenticate_applicant!, :only => [:begin_application, :complete_application]
-  before_filter :get_resource, :only => [:show]
+  before_filter :get_resource, :only => [:show, :notify_others]
   before_filter :is_current_user?, :except => [:begin_application, :complete_application]
 
   layout :choose_layout
@@ -87,6 +87,21 @@ class SubmissionsController < ApplicationController
       @submission.save
     end
     render :nothing => true
+  end
+
+  def notify_others
+    succeeded = []
+    failed = []
+    params[:emails].each do |e|
+      begin
+        GeneralMailer.notify_email(e, params[:subject], params[:message]).deliver
+        succeeded << e
+      rescue
+        failed << e
+      end
+    end
+    flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
+    flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
   end
 
   private

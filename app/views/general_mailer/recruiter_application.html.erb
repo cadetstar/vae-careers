@@ -1,0 +1,18 @@
+<p>An application has been received from <%= @submission.applicant %></p>
+
+<table>
+  <% bio_submission_fields.each do |f| %>
+      <tr>
+        <td><strong><%= f[0] %></strong></td>
+        <td><%= @submission.try(f[1]) %></td>
+      </tr>
+  <% end %>
+</table>
+
+<p>
+  <strong>Position:</strong> <%= @submission.opening %>
+</p>
+
+<p>
+  <strong>Application submitted:</strong> <%= @submission.completed_at %>
+</p>

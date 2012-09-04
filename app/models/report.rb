@@ -34,7 +34,7 @@ class Report < ActiveRecord::Base
       return [0, 'This report does not operate on submissions.']
     else
       klass, results = self.retrieve_results
-      results.reject!{|r| r.created_at > 2.years.ago}
+      results.reject!{|r| r.completed_at > 2.years.ago}
       results.each do |r|
         r.destroy
       end

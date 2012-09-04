@@ -27,7 +27,7 @@ module ApplicationHelper
     @current_user ||= RemoteUser.find_by_id(session[:current_user])
   end
 
-  def bio_submission_fields
+  def bio_submission_fields(resource = nil)
     [
         ['First Name*', :first_name],
         ['Last Name*', :last_name],
@@ -38,7 +38,7 @@ module ApplicationHelper
         ['Address Line 1', :address_1],
         ['Address Line 2', :address_2],
         ['City', :city],
-        ['State', :state, :select, grouped_options_for_select(Vae::STATES)],
+        ['State', :state, :select, (resource ? grouped_options_for_select(Vae::STATES, resource.state) : grouped_options_for_select(Vae::STATES))],
         ['Zip', :zip],
         ['Country', :country]
     ]

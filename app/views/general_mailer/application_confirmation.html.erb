@@ -1,0 +1,21 @@
+<%= raw t('confirmation_email.text') %>
+<table>
+  <% bio_submission_fields.each do |f| %>
+      <tr>
+        <td><strong><%= f[0] %></strong></td>
+        <td><%= @submission.try(f[1]) %></td>
+      </tr>
+  <% end %>
+  <% @resource.submission_answers.each do |sa| %>
+    <% if sa.group_order != last %>
+      <% last = sa.group_order %>
+      <tr>
+        <td colspan="2"> <hr /> </td>
+      </tr>
+    <% end %>
+    <tr>
+      <td><%= sa.question_text %></td>
+      <td><%= sa.answer %></td>
+    </tr>
+  <% end %>
+</table>

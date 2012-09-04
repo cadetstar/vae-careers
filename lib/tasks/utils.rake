@@ -1,3 +1,29 @@
+desc "Run through Job Agents"
+task :run_job_agents => :environment do
+  JobAgent.all.each do |ja|
+    matches = []
+    todays = []
+    Opening.where(:active => true).each do |o|
+      collection = [o.description.to_s, o.high_priority_description.to_s, o.state.to_s, o.city.to_s, o.position.to_s].join(' ')
+      nouns = ja.keywords.gsub(/\r/, '').split(/[,\n]/).collect{|a| a.downcase}
+      nouns.reject! do |n|
+        collection.match(Regexp.new(n, 'i'))
+      end
+      if nouns.empty?
+        if o.posted_at and o.posted_at > 1.day.ago
+          todays << o
+        else
+          matches << o
+        end
+      end
+    end
+    unless todays.empty?
+      puts "Sending to #{ja.applicant}"
+      GeneralMailer.job_agents(todays, matches, ja).deliver
+    end
+  end
+end
+
 desc "Imports data from a YAML in the lib/tasks/data directory"
 task :import_data => :environment do
   TABLEMAPPER = {

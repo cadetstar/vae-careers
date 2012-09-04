@@ -35,6 +35,8 @@ VaeCareers::Application.routes.draw do
   match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'
   match 'dynamic_files/:id/compile', :to => 'dynamic_files#test_compile', :as => 'test_file_compile'
 
+  match 'submission/:id/notify_other_applicants', :to => 'submissions#notify_others', :as => 'notify_others'
+
   match 'new_hire_requests/status', :to => 'new_hire_requests#change_status', :as => 'change_nhr_status'
 
   match 'ordering/:resource_class/:id', :to => 'application#generic_reordering', :as => 'generic_reordering'
@@ -58,6 +60,8 @@ VaeCareers::Application.routes.draw do
   resources :new_hire_requests
   resources :new_hire_skills
   resources :reports
+  resources :remote_users, :only => [:index, :edit, :update]
+  resources :job_agents
 
   match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
 end

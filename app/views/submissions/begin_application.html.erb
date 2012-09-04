@@ -4,7 +4,7 @@
 <%= form_for @submission, :url => submit_application_path(:submission_id => @submission.id) do |f| %>
 
     <table class="submission">
-      <% bio_submission_fields.each do |line| %>
+      <% bio_submission_fields(@submission).each do |line| %>
           <tr>
             <td class="submission_bio_prompt"><%= line[0] %></td>
             <td class="submission_answer"><%= line[3] ? f.send(line[2] || :text_field, line[1], line[3]): f.send(line[2] || :text_field, line[1]) %></td>
