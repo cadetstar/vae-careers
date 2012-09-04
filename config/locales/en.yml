@@ -43,3 +43,6 @@ en:
   job_agent:
     subject: "[VAE Careers] There are new positions matching one of your job agents!"
     text: "There are new positions that match your job agent (keywords: %KEYWORDS%):"
+  welcome_email:
+    subject: "[VAE Careers] Welcome to VAE Careers!"
+    text: Thank you for signing up for the Visual Aids Electronics website.
