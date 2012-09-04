@@ -447,3 +447,14 @@ hr {
   margin-bottom: 10px;
   font-weight: bold;
 }
+
+.applied_for {
+  margin-top: 10px;
+  table {
+    border: solid 2px black;
+  }
+  td, th {
+    border: solid 1px black;
+  }
+}
+
