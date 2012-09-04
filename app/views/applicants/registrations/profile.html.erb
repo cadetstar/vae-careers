@@ -36,7 +36,7 @@
     <% @applicant.submissions.each do |s| %>
         <tr>
           <td><%= s.opening %></td>
-          <td><%= s.completed_at %></td>
+          <td><%= s.completed_at || 'Incomplete' %></td>
         </tr>
     <% end %>
   </table>
