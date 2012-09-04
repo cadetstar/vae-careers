@@ -1,0 +1,12 @@
+= link_to 'Back', applicants_path
+.header Applicant Profile
+- %w(first_name last_name preferred_name home_phone cell_phone address_1 address_2 city state zip country).each do |f|
+  .profile_row
+    %strong= "#{f.humanize}:"
+    = @resource.send(f.to_sym)
+
+%hr
+
+= render :partial => 'comments/stub'
+
+= render :partial => 'tags/stub'

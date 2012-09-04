@@ -1,5 +1,6 @@
 class GeneralMailer < ActionMailer::Base
   default from: "careers@vaecorp.com"
+  add_template_helper(ApplicationHelper)
 
   def welcome_email(applicant)
     @applicant = applicant
@@ -25,5 +26,12 @@ class GeneralMailer < ActionMailer::Base
     end
 
     mail(:to => user_to.email, :subject => subject)
+  end
+
+  def opening_mail(email_to, from, opening)
+    @from = from
+    @opening = opening
+
+    mail(:to => email_to, :subject => I18n.t('opening_email.subject').gsub('%FROM%', @from.to_s))
   end
 end

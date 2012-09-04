@@ -1,6 +1,6 @@
 class OpeningsController < ApplicationController
-  before_filter :is_administrator?, :except => [:public, :view]
-  before_filter :get_resource, :only => [:edit, :update, :destroy, :change_status, :set_question_groups, :view_demographics]
+  before_filter :is_administrator?, :except => [:public, :view, :share]
+  before_filter :get_resource, :only => [:edit, :update, :destroy, :change_status, :set_question_groups, :view_demographics, :share]
 
   layout :choose_layout
 
@@ -105,6 +105,31 @@ class OpeningsController < ApplicationController
 
   def view_demographics
 
+  end
+
+  def share
+    emails = params[:emails].to_s.split(/[,\n]/)
+    emails.reject!{|e| e.blank?}
+    puts emails.inspect
+    succeeded = []
+    failed = []
+    if emails.size > 0
+      emails.each do |e|
+        begin
+          GeneralMailer.opening_mail(e, current_applicant, @resource).deliver
+          succeeded << e
+        rescue
+          failed << e
+        end
+      end
+    end
+    unless succeeded.empty?
+      flash[:notice] = "Emails sent to #{succeeded.join(', ')}"
+    end
+    unless failed.empty?
+      flash[:alert] = "EmaIls failed to send to #{failed.join(', ')}"
+    end
+    redirect_to root_path
   end
 
   private

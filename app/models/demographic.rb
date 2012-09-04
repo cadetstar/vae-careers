@@ -1,7 +1,6 @@
 class Demographic < ActiveRecord::Base
   belongs_to :submission
-
-  delegate :opening, :to => :submission
+  belongs_to :opening
 
   scope :reports, joins(:submission => :opening)
 
@@ -15,5 +14,10 @@ class Demographic < ActiveRecord::Base
   OVERRIDE_METHOD = {
 
   }
+  after_create :set_opening
 
+  def set_opening
+    self.opening = self.submission.try(:opening)
+    self.save
+  end
 end

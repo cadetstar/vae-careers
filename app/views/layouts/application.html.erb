@@ -20,6 +20,7 @@
   </div>
   <% if current_user.has_role?('administrator') %>
       <div class="menu_links">
+        <%= link_to 'Applicants', applicants_path %>
         <%= link_to 'Position Types', position_types_path %>
         <%= link_to 'Positions', positions_path %>
         <%= link_to 'Questions', questions_path %>

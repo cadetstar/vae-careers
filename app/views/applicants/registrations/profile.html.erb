@@ -8,8 +8,8 @@
     <div class="profile_row"><%= f.label :address_1, 'Address Line 1' %><br /><%=  f.text_field :address_1 %></div>
     <div class="profile_row"><%= f.label :address_2, 'Address Line 2' %><br /><%=  f.text_field :address_2 %></div>
     <div class="profile_row"><%= f.label :city %><br /><%=  f.text_field :city %></div>
-    <div class="profile_row"><%= f.label :state, 'State/Province' %><br /><%=  f.select :state, grouped_options_for_select(Vae::STATES.reject{|k,v| k == "countries"}) %></div>
+    <div class="profile_row"><%= f.label :state, 'State/Province' %><br /><%=  f.select :state, grouped_options_for_select(Vae::STATES.reject{|k,v| k == "countries"}, @applicant.state) %></div>
     <div class="profile_row"><%= f.label :zip %><br /><%=  f.text_field :zip %></div>
-    <div class="profile_row"><%= f.label :country %><br /><%=  f.select :country, options_for_select(Vae::STATES["countries"]) %></div>
+    <div class="profile_row"><%= f.label :country %><br /><%=  f.select :country, options_for_select(Vae::STATES["countries"], @applicant.country) %></div>
     <div class="profile_row"><%= f.submit "Update" %></div>
 <% end %>

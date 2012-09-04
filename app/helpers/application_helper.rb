@@ -75,6 +75,15 @@ module ApplicationHelper
     end
     assembler
   end
+
+  def get_opening_email_text(from, opening)
+    text = t('opening_email.text').clone
+    text.gsub!('%FROM%', from.to_s)
+    text.gsub!('%OPENING%', opening.to_s)
+    text.gsub!('%OPENING_DESCRIPTION%', opening.description.to_s)
+    text.gsub!('%HIGH_PRIORITY%', opening.high_priority_description.to_s)
+    text
+  end
 end
 
 module ActionView

@@ -77,7 +77,8 @@ class SubmissionsController < ApplicationController
   end
 
   def index
-    @resources = Submission.where(:completed => true).order("recruiter_recommendation nulls first, created_at")
+    params[:page] ||= 1
+    @resources = Submission.where(:completed => true).order("recruiter_recommendation nulls first, created_at").page(params[:page])
   end
 
   def update_recommendation
@@ -87,6 +88,8 @@ class SubmissionsController < ApplicationController
     end
     render :nothing => true
   end
+
+  private
 
   def choose_layout
     case action_name

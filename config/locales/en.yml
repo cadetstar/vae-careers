@@ -31,3 +31,7 @@ en:
     offer: Have you made an offer of employment to the candidate?  You must make an offer of employment to the candidate before he/she can be asked to complete the Background Check Release Form.
     references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing &amp; feedback must appear in the comments.
   hello: "Hello world"
+  opening_email:
+    text: <p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p>
+    subject: "[VAE Careers] %FROM% shared a posting with you!"
+

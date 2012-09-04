@@ -8,6 +8,10 @@ class Applicant < ActiveRecord::Base
   has_many :openings, :through => :submissions
   has_many :applicant_files
   has_many :phones
+  has_many :comments, :as => :owner
+  has_many :tags, :as => :owner, :dependent => :destroy
+  has_many :tag_types, :through => :tags
+
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
@@ -30,7 +34,8 @@ class Applicant < ActiveRecord::Base
       'reset_password_token' => false,
       'reset_password_sent_at' => false,
       'remember_created_at' => false,
-      'encrypted_password' => false
+      'encrypted_password' => false,
+      'tags' => true
   }
 
   OVERRIDE_METHOD = {
@@ -74,6 +79,10 @@ class Applicant < ActiveRecord::Base
     cp = self.phones.find_or_create_by_phone_type('cell')
     cp.data = val
     cp.save
+  end
+
+  def self.indexed_attributes
+    %w(email first_name last_name preferred_name city state zip country tags current_sign_in_at last_sign_in_at sign_in_count)
   end
 
   private

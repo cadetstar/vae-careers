@@ -4,15 +4,15 @@ class Submission < ActiveRecord::Base
   belongs_to :applicant
   belongs_to :opening
 
-  has_many :submission_answers, :order => 'group_order, question_order'
-  has_many :applicant_files
+  has_many :submission_answers, :order => 'group_order, question_order', :dependent => :destroy
+  has_many :applicant_files, :dependent => :destroy
   has_one  :demographic
   accepts_nested_attributes_for :submission_answers
   accepts_nested_attributes_for :applicant_files
   accepts_nested_attributes_for :demographic
 
-  has_many :comments, :as => :owner
-  has_many :tags, :as => :owner
+  has_many :comments, :as => :owner, :dependent => :destroy
+  has_many :tags, :as => :owner, :dependent => :destroy
   has_many :tag_types, :through => :tags
 
 

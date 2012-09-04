@@ -42,7 +42,7 @@ class NewHireRequestsController < ApplicationController
 
   def change_status
     # post, filled, disapprove, approve, hold, reject
-    flash[:notice], flash[:error], new_resource = @resource.change_status(params[:status].downcase, @current_user, params[:prompt])
+    flash[:notice], flash[:alert], new_resource = @resource.change_status(params[:status].downcase, @current_user, params[:prompt])
     if new_resource
       redirect_to new_resource
     else

@@ -19,6 +19,8 @@ class Opening < ActiveRecord::Base
   has_many :post_dynamic_files, :through => :dynamic_form_opening_links
   has_many :post_dynamic_form_groups, :through => :dynamic_form_opening_links
 
+  has_many :demographics
+
   delegate :name, :time_type, :position_type, :time_type_abbreviation, :to => :position, :allow_nil => true
   delegate :city, :state, :city_state, :to => :department, :allow_nil => true
 

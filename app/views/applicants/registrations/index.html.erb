@@ -1,4 +1,4 @@
-<% @klass ||= controller_name.classify.constantize %>
+<% @klass ||= controller_name.singularize.constantize %>
 
 <% unless @suppress_new %>
     <div class='new_resource'>
@@ -27,7 +27,7 @@
             <% l = r.send(j.gsub(/_id$/, '')) %>
             <td><%= raw(l.is_a?(Array) ? l.join("<br />") : (l.is_a?(String) ? l.gsub(/\n/, '<br />') : l)) %></td>
         <% end %>
-        <td><%= link_to 'Edit', :action => :edit, :id => r.id %> &middot; <%= link_to 'Delete', r, :method => :delete, :confirm => "Are you sure?" %><%= additional_commands(r) %></td>
+        <td><%= link_to 'View', applicant_view_path(r) %></td>
       </tr>
   <% end %>
 </table>

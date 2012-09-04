@@ -3,6 +3,8 @@ VaeCareers::Application.routes.draw do
   devise_scope :applicant do
     match 'applicants/profile', :to => 'applicants/registrations#profile', :as => 'profile'
     match 'applicants/profile/update', :to => 'applicants/registrations#profile_update', :as => 'profile_update'
+    match 'applicants', :to => 'applicants/registrations#index', :as => 'applicants', :method => :get
+    match 'applicant/:id/view', :to => 'applicants/registrations#view', :as => 'applicant_view'
   end
 
   match 'question_groups/question_orders/:id', :to => 'question_groups#set_question_groups', :as => 'set_question_groups'
@@ -17,6 +19,7 @@ VaeCareers::Application.routes.draw do
   match 'openings/:opening_id/apply', :to => 'submissions#begin_application', :as => 'apply'
   match 'openings/:id/demographics', :to => 'openings#view_demographics', :as => 'demographics'
   match 'openings/:submission_id/submit', :to => 'submissions#complete_application', :as => 'submit_application'
+  match 'openings/:id/share', :to => 'openings#share', :as => 'share_opening'
 
   match '/applicant', :to => redirect('/'), :as => 'applicant_root_path'
   match 'from_accounts/return', :to => 'remote_sessions#from_accounts', :as => 'from_accounts'
@@ -39,6 +42,7 @@ VaeCareers::Application.routes.draw do
   match 'reports/:id/start', :to => 'reports#start_run', :as => "start_report"
   match 'reports/:id/execute', :to => 'reports#execute_report', :as => 'execute_report'
   match 'reports/:id/results', :to => 'reports#view_report', :as => 'view_results'
+  match 'reports/:id/purge', :to => 'reports#purge', :as => 'purge'
 
   resources :position_types
   resources :positions
