@@ -16,24 +16,24 @@
   </div>
   <div class="menu_links">
     <%= link_to 'Submissions', submissions_path %>
-    <%= link_to 'New Hire Requests', new_hire_requests_path %>
-    <%= link_to 'Edit My Settings', edit_remote_user_path(:id => current_user.id) %>
+    <%= link_to 'New&nbsp;Hire&nbsp;Requests', new_hire_requests_path %>
+    <%= link_to 'Edit&nbsp;My&nbsp;Settings', edit_remote_user_path(:id => current_user.id) %>
   </div>
   <% if current_user.has_role?('administrator') %>
       <div class="menu_links">
         <%= link_to 'Applicants', applicants_path %>
-        <%= link_to 'Internal Users', remote_users_path %>
-        <%= link_to 'Position Types', position_types_path %>
+        <%= link_to 'Internal&nbsp;Users', remote_users_path %>
+        <%= link_to 'Position&nbsp;Types', position_types_path %>
         <%= link_to 'Positions', positions_path %>
         <%= link_to 'Questions', questions_path %>
-        <%= link_to 'Question Groups', question_groups_path %>
+        <%= link_to 'Question&nbsp;Groups', question_groups_path %>
         <%= link_to 'Openings', openings_path %>
-        <%= link_to 'Generate OPP', opp_path %>
-        <%= link_to 'Static Texts', static_texts_path %>
-        <%= link_to 'Tag Types', tag_types_path %>
+        <%= link_to 'Generate&nbsp;OPP', opp_path %>
+        <%= link_to 'Static&nbsp;Texts', static_texts_path %>
+        <%= link_to 'Tag&nbsp;Types', tag_types_path %>
         <%= link_to 'Files', dynamic_files_path %>
-        <%= link_to 'Form Groups', dynamic_form_groups_path %>
-        <%= link_to 'New Hire Skills', new_hire_skills_path %>
+        <%= link_to 'Form&nbsp;Groups', dynamic_form_groups_path %>
+        <%= link_to 'New&nbsp;Hire&nbsp;Skills', new_hire_skills_path %>
         <%= link_to 'Reports', reports_path %>
       </div>
   <% end %>

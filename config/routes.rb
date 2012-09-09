@@ -63,5 +63,5 @@ VaeCareers::Application.routes.draw do
   resources :remote_users, :only => [:index, :edit, :update]
   resources :job_agents
 
-  match 'user/internal', :to => redirect('/position_types')#, :as => 'internal_user'
+  match 'user/internal', :to => redirect('/submissions')#, :as => 'internal_user'
 end

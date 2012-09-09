@@ -34,12 +34,13 @@ class ReportsController < ApplicationController
         send_file(filename, :filename => "Report #{@resource.name}.xls")
       else
         @contents = File.read(File.join(Rails.root, 'reports', @resource.id.to_s + '.html'))
+        @flush_params = File.read(File.join(Rails.root, 'reports', 'completions', @resource.id.to_s))
       end
     end
   end
 
   def purge
-    number, flash[:alert] = @resource.purge_submissions
+    number, flash[:alert] = @resource.purge_submissions(params[:flush_params])
     if number > 0
       flash[:notice] = "Destroyed #{number} submissions."
     else

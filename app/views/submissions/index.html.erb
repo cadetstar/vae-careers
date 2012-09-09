@@ -12,35 +12,40 @@
     <th>Comments</th>
   </tr>
   <% @resources.each do |r| %>
-    <tr class="<%=cycle('odd', 'even') %>">
-      <td><%= r.first_name %></td>
-      <td><%= r.last_name %></td>
-      <td><%= link_to 'View Application', r %></td>
-      <td><%= r.email %></td>
-      <td><%= r.city_state %></td>
-      <td><%= r.opening %></td>
-      <td><%= r.created_at.to_s(:with_zone) %></td>
-      <td>
-        <%= select_tag "#{r.id}_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, r.recruiter_recommendation) %><br />
-        <%= r.tags.collect{|t| t.to_s}.join(", ") %>
-      </td>
-      <td>
-        <% if r.comments.size > 0 %>
-          <%= link_to r.comments.order(:created_at).last.created_at.to_s(:with_zone), submission_path(:id => r.id, :anchor => "comments") %>
-        <% end %>
-      </td>
-    </tr>
+      <tr class="<%=cycle('odd', 'even') %>">
+        <td><%= r.first_name %></td>
+        <td><%= r.last_name %></td>
+        <td><%= link_to 'View Application', r %></td>
+        <td><%= r.email %></td>
+        <td><%= r.city_state %></td>
+        <td><%= r.opening %></td>
+        <td><%= r.created_at.to_s(:with_zone) %></td>
+        <td>
+          <% if current_user.has_role?('administrator') %>
+              <%= select_tag "#{r.id}_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, r.recruiter_recommendation) %>
+          <% else %>
+              <%= r.recruiter_recommendation %>
+          <% end %><br />
+          <%= r.tags.collect{|t| t.to_s}.join(", ") %><br />
+          Applicant Tags: <%= r.applicant.tags.collect{|t| t.to_s}.join(', ') %>
+        </td>
+        <td>
+          <% if r.comments.size > 0 %>
+              <%= link_to r.comments.order(:created_at).last.created_at.to_s(:with_zone), submission_path(:id => r.id, :anchor => "comments") %>
+          <% end %>
+        </td>
+      </tr>
   <% end %>
 </table>
 <%= paginate @resources %>
 <script type='text/javascript'>
-  $(document).ready(function() {
-    $('table select').change(function(e) {
-      console.info($(e.target));
-      $.ajax({
-        url: '/submission/' + $(e.target).attr('id').replace('_', '/'),
-        data: 'recommendation=' + $(e.target).val()
-      })
-    });
-  })
+    $(document).ready(function() {
+        $('table select').change(function(e) {
+            console.info($(e.target));
+            $.ajax({
+                url: '/submission/' + $(e.target).attr('id').replace('_', '/'),
+                data: 'recommendation=' + $(e.target).val()
+            })
+        });
+    })
 </script>

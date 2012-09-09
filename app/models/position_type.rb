@@ -10,8 +10,12 @@ class PositionType < ActiveRecord::Base
   end
 
   def destroy
-    super
-    "Position Type #{self.id}/#{self.name} destroyed."
+    if self.positions.size > 0
+      "You cannot destroy this position type as it has positions attached."
+    else
+      super
+      "Position Type #{self.id}/#{self.name} destroyed."
+    end
   end
 
   def to_s

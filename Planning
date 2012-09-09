@@ -1,3 +1,22 @@
+Filter Applicants
+Filter Submissions
+Fix Internal Users (show roles instead of mask)
+Add Inactive flag to users on careers and accounts
+Add departments display and supervisor display to users
+Automatically add supervisors when a user is added.
+Fix the question groups (reorder is clearing them out)
+Add Generating date to OPP
+Make sure tag description shows up as tooltip
+Finish implementing form fields for dynamic files
+Add Report Field header
+Pass around or save parameters for reports
+
+
+
+---------------------------------------------------------------
+
+
+
 Need to fix the fill form gem to properly handle spaces in file names (by quoting them)
 
 

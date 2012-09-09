@@ -13,4 +13,13 @@ class Position < ActiveRecord::Base
   def time_type_abbreviation
     Vae::TIME_TYPES[time_type]
   end
+
+  def destroy
+    if self.openings.size > 0
+      "You cannot destroy this position as it has openings attached."
+    else
+      super
+      "Position #{self.id}/#{self.name} destroyed."
+    end
+  end
 end

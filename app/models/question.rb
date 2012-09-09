@@ -10,7 +10,11 @@ class Question < ActiveRecord::Base
     required ? 'Yes' : 'No'
   end
 
+  def choice_options
+    choices.gsub(/\r/, '').gsub(/\n/, '<br />')
+  end
+
   def self.indexed_attributes
-    %w(name prompt question_type choices is_required?)
+    %w(name prompt question_type choice_options is_required?)
   end
 end
