@@ -10,8 +10,12 @@ lib/tasks/data/*.yml
 db/schema.rb
 uploads
 uploads/*
+public/assets
+public/assets/*
 forms
 forms/*
 reports/*.html
 reports/*.xls
 reports/completions/*
+Gemfile.lock
+nohup.out
