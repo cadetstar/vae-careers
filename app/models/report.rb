@@ -33,7 +33,7 @@ class Report < ActiveRecord::Base
     unless self.operates_on == 'Submissions'
       return [0, 'This report does not operate on submissions.']
     else
-      klass, results = self.retrieve_results
+      klass, results = self.retrieve_results(params)
       results.reject!{|r| r.completed_at > 2.years.ago}
       results.each do |r|
         r.destroy
@@ -42,7 +42,7 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def retrieve_results
+  def retrieve_results(params = {})
     klass = VALID_MODELS[self.operates_on] || VALID_MODELS.values.first
 
     results = []
@@ -62,7 +62,7 @@ class Report < ActiveRecord::Base
             method_name = "LOWER(#{method_name})"
             value = value.downcase
           end
-          if (col = klass.columns.select{|c| c.name == method_name})
+          if (col = klass.columns.select{|c| c.name == method_name}.first)
             if col.type == :datetime
               begin
                 parsed_value = Time.parse(value)
@@ -155,7 +155,7 @@ class Report < ActiveRecord::Base
       File.delete(completer)
     end
 
-    klass, results = self.retrieve_results
+    klass, results = self.retrieve_results(params)
 
     if File.exists?(filename + '.xls')
       File.delete(filename + '.xls')

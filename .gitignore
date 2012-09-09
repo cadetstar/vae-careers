@@ -18,3 +18,4 @@ reports/*.html
 reports/*.xls
 reports/completions/*
 Gemfile.lock
+nohup.out
