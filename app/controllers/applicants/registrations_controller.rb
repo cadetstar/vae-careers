@@ -20,8 +20,15 @@ class Applicants::RegistrationsController < Devise::RegistrationsController
   end
 
   def index
+    session[:applicants] ||= {}
+    session[:applicants][:name] ||= ''
+
+    if params[:name]
+      session[:applicants][:name] = params[:name]
+    end
+
     params[:page] ||= 1
-    @resources = Applicant.order('last_name, first_name').page(params[:page])
+    @resources = Applicant.order('last_name, first_name').where(["LOWER(first_name) || ' ' || LOWER(last_name) like ? or LOWER(email) like ?", "%#{session[:applicants][:name].downcase}%", "%#{session[:applicants][:name].downcase}%"]).page(params[:page])
     @klass = Applicant
     @suppress_new = true
   end

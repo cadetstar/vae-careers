@@ -3,7 +3,7 @@ class RemoteUsersController < ApplicationController
   skip_before_filter :get_resource
 
   def index
-    super
+    @resources = RemoteUser.unscoped.includes(:departments, :managed_departments, :supervised_departments).order('inactive, last_name, first_name')
     @suppress_delete = true
   end
 

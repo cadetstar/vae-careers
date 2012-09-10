@@ -1,3 +1,19 @@
+<%= form_tag({:action => :index}, :method => :get) do %>
+    <div class='filtering'>
+      <div class='filtering_row'>
+        <div class='filter_name'>
+          Name:
+        </div>
+        <div class='filter_inputs'>
+          <%= text_field_tag 'name', session[:applicants][:name] %>
+        </div>
+      </div>
+      <div class="filtering_row">
+        <%= submit_tag 'Filter' %>
+      </div>
+    </div>
+<% end %>
+<hr />
 <% @klass ||= controller_name.singularize.constantize %>
 
 <% unless @suppress_new %>

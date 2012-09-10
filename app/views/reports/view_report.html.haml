@@ -1,4 +1,8 @@
 .resource_navigation= link_to 'Back', {:action => :index}
 .report_results= raw(@contents)
+
 - if @resource.operates_on == 'Submissions'
-  = link_to 'Destroy these submissions', purge_path(:id => @resource.id, :flush_params => @flush_params)
+  = form_tag(purge_path(:id => @resource.id)) do
+    = hidden_field_tag :flush_params, @flush_params
+    = submit_tag 'Destroy these submissions'
+

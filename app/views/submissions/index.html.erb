@@ -1,3 +1,27 @@
+<%= form_tag({:action => :index}, :method => :get) do %>
+    <div class='filtering'>
+      <div class='filtering_row'>
+        <div class='filter_name'>
+          Name:
+        </div>
+        <div class='filter_inputs'>
+          <%= text_field_tag 'name', session[:submissions][:name] %>
+        </div>
+      </div>
+      <div class='filtering_row'>
+        <div class='filter_name'>
+          Position:
+        </div>
+        <div class='filter_inputs'>
+          <%= select_tag 'opening_id', options_for_select([['All Positions', 0]] + Opening.joins([:position, :department]).includes([:position, :department]).order('positions.name, departments.state').all.collect{|o| [o.to_s, o.id]}, session[:submissions][:opening_id]) %>
+        </div>
+      </div>
+      <div class="filtering_row">
+        <%= submit_tag 'Filter' %>
+      </div>
+    </div>
+<% end %>
+<hr />
 <%= paginate @resources %>
 <table class='resource_index'>
   <tr>
@@ -21,13 +45,13 @@
         <td><%= r.opening %></td>
         <td><%= r.created_at.to_s(:with_zone) %></td>
         <td>
-          <% if current_user.has_role?('administrator') %>
-              <%= select_tag "#{r.id}_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, r.recruiter_recommendation) %>
-          <% else %>
-              <%= r.recruiter_recommendation %>
-          <% end %><br />
-          <%= r.tags.collect{|t| t.to_s}.join(", ") %><br />
-          Applicant Tags: <%= r.applicant.tags.collect{|t| t.to_s}.join(', ') %>
+          <div><% if current_user.has_role?('administrator') %>
+                <%= select_tag "#{r.id}_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, r.recruiter_recommendation) %>
+            <% else %>
+                <%= r.recruiter_recommendation %>
+            <% end %></div>
+          <%= raw r.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
+          <div>Applicant Tags:</div><%= raw r.applicant.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
         </td>
         <td>
           <% if r.comments.size > 0 %>

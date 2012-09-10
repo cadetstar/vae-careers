@@ -6,6 +6,10 @@ class TagType < ActiveRecord::Base
     :text_area
   end
 
+  def tooltip
+    description.blank? ? name : description
+  end
+
   def to_s
     name
   end

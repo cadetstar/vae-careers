@@ -1,5 +1,6 @@
 $header_grey: #b8b8b8;
 $even: #b1b3ed;
+$inactive: #d4a3aa;
 
 body {
   background-color: #DFDFDF;
@@ -38,6 +39,10 @@ table.resource_index {
 
   .even {
     background: $even;
+  }
+
+  .inactive {
+    background: $inactive;
   }
 }
 
@@ -459,3 +464,24 @@ hr {
   }
 }
 
+.tag_in_submission {
+  text-indent: 10px;;
+}
+
+.filtering {
+  .filtering_row {
+    position: relative;
+
+    .filter_name {
+      position: absolute;
+      width: 100px;
+      top: 0;
+      left: 0;
+    }
+
+    .filter_inputs {
+      position: relative;
+      margin-left: 100px;
+    }
+  }
+}

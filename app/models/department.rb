@@ -44,6 +44,7 @@ class Department < ActiveRecord::Base
 
       user_info.each do |u|
         remote_user = RemoteUser.find_or_create_by_email(u['email'])
+        puts u.inspect
         remote_user.update_attributes(u.select{|k,v| k != 'id' and (RemoteUser.attribute_names.include?(k) or k == 'roles')})
       end
 

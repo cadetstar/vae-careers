@@ -29,12 +29,30 @@ class Report < ActiveRecord::Base
       'Before' => 'lesser'
   }
 
-  def purge_submissions
+  def purge_submissions(packed_params)
     unless self.operates_on == 'Submissions'
       return [0, 'This report does not operate on submissions.']
     else
+      params = {}
+      unless params.blank?
+        begin
+          params = JSON.parse(packed_params)
+        rescue
+          return [0, 'There was a problem attempting to purge the applicants.']
+        end
+      end
+
+      puts "*************************"
+      puts "*************************"
+      puts "*************************"
+      puts packed_params.inspect
+      puts params.inspect
+      puts "*************************"
+      puts "*************************"
+      puts "*************************"
+
       klass, results = self.retrieve_results(params)
-      results.reject!{|r| r.completed_at > 2.years.ago}
+      results.reject!{|r| r.completed_at ? (r.completed_at > 2.years.ago) : (r.created_at > 2.years.ago)}
       results.each do |r|
         r.destroy
       end
@@ -197,12 +215,12 @@ class Report < ActiveRecord::Base
       end
       f.write("</tr>")
     end
-    f.write("<table>")
+    f.write("</table>")
     f.close
     book.write(filename + '.xls')
 
     c = File.new(completer, 'w')
-    c.puts "Done"
+    c.puts params.to_json
     c.close
   end
 

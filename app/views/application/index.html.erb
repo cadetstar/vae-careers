@@ -22,7 +22,7 @@
   %>
 
   <% @resources.each do |r| %>
-      <tr class="<%= cycle('odd','even') %>" <%= raw attributes_to_display.collect{|a| "data-#{a}='#{sorted_orders[a].index(r.id)}'"}.join(" ") %>>
+      <tr class="<%= (r.respond_to?('inactive') and r.inactive?) ? 'inactive' : cycle('odd','even') %>" <%= raw attributes_to_display.collect{|a| "data-#{a}='#{sorted_orders[a].index(r.id)}'"}.join(" ") %>>
         <% attributes_to_display.each do |j| %>
             <% l = r.send(j.gsub(/_id$/, '')) %>
             <td><%= raw(l.is_a?(Array) ? l.join("<br />") : (l.is_a?(String) ? l.gsub(/\n/, '<br />') : l)) %></td>

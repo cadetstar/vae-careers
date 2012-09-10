@@ -77,8 +77,36 @@ class SubmissionsController < ApplicationController
   end
 
   def index
+    session[:submissions] ||= {}
+    session[:submissions][:name] ||= ''
+    session[:submissions][:opening_id] ||= nil
+
+    if params[:name]
+      if session[:submissions][:name] != params[:name]
+        params[:page] = 1
+        session[:submissions][:name] = params[:name]
+      end
+    end
+
+    if params[:opening_id]
+      if session[:submissions][:opening_id] != params[:opening_id].to_i
+        params[:page] = 1
+        if params[:opening_id].to_i > 0
+          session[:submissions][:opening_id] = params[:opening_id].to_i
+        else
+          session[:submissions][:opening_id] = nil
+        end
+
+      end
+    end
+
     params[:page] ||= 1
-    @resources = Submission.where(:completed => true).order("recruiter_recommendation nulls first, created_at").page(params[:page])
+    @resources = Submission.joins(:applicant).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types]).where(:completed => true).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ?", "%#{session[:submissions][:name].downcase}%"])
+    if session[:submissions][:opening_id]
+      @resources = @resources.where(:opening_id => session[:submissions][:opening_id])
+    end
+
+    @resources = @resources.order("recruiter_recommendation, completed_at").page(params[:page])
   end
 
   def update_recommendation

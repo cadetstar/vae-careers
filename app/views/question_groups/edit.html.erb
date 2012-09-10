@@ -14,7 +14,7 @@
         :current_items => :questions,
         :item_tooltip => :to_s,
         :potential_items => Question,
-        :submit_path => set_question_groups_path(:id => @resource.id),
+        :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "question", :link_class => "QuestionGroupConnection", :resource_class => "QuestionGroup", :frags => ['question_group_id'], :values => [@resource.id], :suppress_rc => 1),
         :header => "Questions (drag to reorder)",
         :header_name => 'Questions'
 }
