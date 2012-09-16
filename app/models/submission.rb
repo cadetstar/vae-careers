@@ -23,7 +23,8 @@ class Submission < ActiveRecord::Base
            :preferred_name, :preferred_name=, :address_1, :address_1=,
            :address_2, :address_2=, :city, :city=, :state, :state=,
            :zip, :zip=, :country, :country=, :home_phone, :home_phone=,
-           :cell_phone, :cell_phone=, :email, :email=, :city_state, :to => :applicant
+           :cell_phone, :cell_phone=, :email, :email=, :city_state,
+           :home_or_cell, :combined_address, :full_address, :csz, :to => :applicant
 
   before_save  :bounce_new_record
   after_create :copy_questions
@@ -177,6 +178,20 @@ class Submission < ActiveRecord::Base
           end
       end
     end
+
+    if (state = self.applicant.try(:state))
+      DynamicFile.where(:state => state).each do |df|
+        if df.current_version.can_be_compiled
+          compilable_templates << df.current_version
+        else
+          separate_templates << df.current_version
+        end
+      end
+    end
+
+    compilable_templates.uniq!
+    separate_templates.uniq!
+
     location = File.join(Rails.root.to_s, 'tmp', 'submissions', self.id.to_s, type)
     FileUtils.rm_rf(location)
     FileUtils.mkdir_p(location)
@@ -210,18 +225,18 @@ class Submission < ActiveRecord::Base
     return t
 
 
-    t = Tempfile.new("submission-#{type}-#{Time.now.to_i}")
-    Zip::ZipOutputStream.open(t.path) do |z|
-      if File.exists?(compiled_file)
-        z.put_next_entry(File.basename(compiled_file))
-        z.print IO.read(compiled_file)
-      end
-      Dir.glob(File.join(location, 'separates', '*')).each do |s|
-        z.put_next_entry(File.basename(s))
-        z.print IO.read(s)
-      end
-    end
-    t
+    #t = Tempfile.new("submission-#{type}-#{Time.now.to_i}")
+    #Zip::ZipOutputStream.open(t.path) do |z|
+    #  if File.exists?(compiled_file)
+    #    z.put_next_entry(File.basename(compiled_file))
+    #    z.print IO.read(compiled_file)
+    #  end
+    #  Dir.glob(File.join(location, 'separates', '*')).each do |s|
+    #    z.put_next_entry(File.basename(s))
+    #    z.print IO.read(s)
+    #  end
+    #end
+    #t
   end
 
   def self.indexed_attributes

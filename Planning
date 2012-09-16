@@ -1,5 +1,7 @@
 Finish implementing form fields for dynamic files
 Add Report Field header
+Add state field to dynamic file -> Have the report compilation code automatically pull all state-defined files for applicant's state
+
 
 
 ---------------------------------------------------------------

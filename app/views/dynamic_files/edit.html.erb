@@ -12,6 +12,14 @@
       <%= f.text_area :confirmation_notice %>
     </div>
     <div>
+      <%= f.label :pre_state, raw("If this file should be included in a <strong>pre-hiring</strong> packet based on the applicant's state, specify that here:") %><br />
+      <%= f.select :pre_state, grouped_options_for_select({"none" => [["None", nil]]}.merge(Vae::STATES.reject{|k,v| k == "countries"}), @resource.pre_state) %>
+    </div>
+    <div>
+      <%= f.label :post_state, raw("If this file should be included in a <strong>post-hired</strong> packet based on the applicant's state, specify that here:") %><br />
+      <%= f.select :post_state, grouped_options_for_select({"none" => [["None", nil]]}.merge(Vae::STATES.reject{|k,v| k == "countries"}), @resource.post_state) %>
+    </div>
+    <div>
       <%= link_to 'Test Compile', test_file_compile_path(:id => @resource.id) %>
     </div>
     <div>
@@ -21,20 +29,32 @@
       <% end %>
     </div>
     <div>
-      Choose which revision to use:
+      <hr />
       <%= render :partial => 'application/token_help' %>
+      <hr />
+      Choose which revision to use:
       <% @resource.dynamic_file_revisions.each do |r| %>
           <div class="dfr_header">
             <%= f.radio_button :current_version_id, r.id %> <%= File.basename r.dynamic_file_store.url %> - <%= r.created_at %>
           </div>
-          <% r.file_fields.each do |ff| %>
-              <%= f.fields_for :file_fields, ff do |k| %>
-                  <div class="dfr_items"><%= ff.field_name %>:
-                    <%= select_tag :fake_system_data, options_for_select(Vae::FORM_TOKENS.collect{|k,v| [v[:name], k]} + [['Custom', 'custom']], :selected => ''), :class => 'data_selector' %>
-                    <%= k.text_field :system_data, :class => 'data_content' %>
-                  </div>
-              <% end %>
-          <% end %>
+          <table>
+
+            <% r.file_fields.each do |ff| %>
+                <%= f.fields_for :file_fields, ff do |k| %>
+                    <tr class="dfr_items">
+                      <td>
+                        <%= ff.field_name %>:
+                      </td>
+                      <td>
+                        <%= select_tag :fake_system_data, options_for_select(Vae::FORM_TOKENS.collect{|k,v| [v[:name], k]}.sort + [['Custom', 'custom']], :selected => ''), :class => 'data_selector' %>
+                      </td>
+                      <td>
+                        <%= k.text_field :system_data, :class => 'data_content' %>
+                      </td>
+                    </tr>
+                <% end %>
+            <% end %>
+          </table>
       <% end %>
     </div>
     <div class='float_clear'></div>
@@ -44,36 +64,36 @@
     </div>
 <% end %>
 <script type='text/javascript'>
-  $(document).ready(function() {
-      $('select.data_selector').change(function(e) {
-          console.info('Firing the selector: ' + $(e.target).parents('div.dfr_items').length);
-          if ($(e.target).val() === 'custom') {
-              $(e.target).parents('div.dfr_items').find('.data_content').show();
-          } else {
-              $(e.target).parents('div.dfr_items').find('.data_content').hide();
-              $(e.target).parents('div.dfr_items').find('.data_content').val($(e.target).val());
-          }
-      });
-      var fields = $('.data_selector');
-      var found = false;
-      var j;
-      var testValue;
-      for (var i = 0; i < fields.length; i++) {
-          found = false;
-          testValue = $(fields[i]).parents('div').find('.data_content').val();
-          for (j = 0; j < fields[i].options.length; j++) {
-              if (fields[i].options[j].value === testValue) {
-                  found = true;
-                  j = fields[i].options.length;
-                  $(fields[i]).val(testValue);
-              }
-          }
-          if (!found) {
-              $(fields[i]).val('custom');
-              $(fields[i]).trigger('change');
-          }
-      }
+    $(document).ready(function() {
+        $('select.data_selector').change(function(e) {
+            console.info('Firing the selector: ' + $(e.target).parents('div.dfr_items').length);
+            if ($(e.target).val() === 'custom') {
+                $(e.target).parents('tr.dfr_items').find('.data_content').show();
+            } else {
+                $(e.target).parents('tr.dfr_items').find('.data_content').hide();
+                $(e.target).parents('tr.dfr_items').find('.data_content').val($(e.target).val());
+            }
+        });
+        var fields = $('.data_selector');
+        var found = false;
+        var j;
+        var testValue;
+        for (var i = 0; i < fields.length; i++) {
+            found = false;
+            testValue = $(fields[i]).parents('tr').find('.data_content').val();
+            for (j = 0; j < fields[i].options.length; j++) {
+                if (fields[i].options[j].value === testValue) {
+                    found = true;
+                    j = fields[i].options.length;
+                    $(fields[i]).val(testValue);
+                }
+            }
+            if (!found) {
+                $(fields[i]).val('custom');
+                $(fields[i]).trigger('change');
+            }
+        }
 
 
-  })
+    })
 </script>

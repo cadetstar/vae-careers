@@ -38,7 +38,7 @@ class Applicant < ActiveRecord::Base
       'reset_password_sent_at' => false,
       'remember_created_at' => false,
       'encrypted_password' => false,
-      'tags' => true
+      'tag_types' => true
   }
 
   OVERRIDE_METHOD = {
@@ -82,6 +82,22 @@ class Applicant < ActiveRecord::Base
     cp = self.phones.find_or_create_by_phone_type('cell')
     cp.data = val
     cp.save
+  end
+
+  def home_or_cell
+    home_phone.blank? ? cell_phone : home_phone
+  end
+
+  def combined_address
+    [address_1, address_2].compact.join(', ')
+  end
+
+  def csz
+    "#{city}, #{state}  #{zip}"
+  end
+
+  def full_address
+    [address_1, address_2, csz].compact.join(', ')
   end
 
   def self.indexed_attributes

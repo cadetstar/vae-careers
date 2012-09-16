@@ -32,6 +32,24 @@ module Vae
   RECRUITER_RECOMMENDATION = %w(Please\ Choose 1\ -\ Yes 2\ -\ Maybe 3\ -\ No)
 
   FORM_TOKENS = {
-      '%FIRST_NAME%' => {:data => :first_name, :name => "First Name of Applicant"}
+      '%FIRST_NAME%'      => {:data => :first_name,       :name => 'First Name'},
+      '%LAST_NAME%'       => {:data => :last_name,        :name => 'Last Name'},
+      '%ADDRESS1%'        => {:data => :address_1,        :name => 'Address Line 1'},
+      '%ADDRESS2%'        => {:data => :address_2,        :name => 'Address Line 2'},
+      '%CITY%'            => {:data => :city,             :name => 'City'},
+      '%STATE%'           => {:data => :state,            :name => 'State'},
+      '%COUNTRY%'         => {:data => :country,          :name => 'Country'},
+      '%CELL_PHONE%'      => {:data => :cell_phone,       :name => 'Cell Phone'},
+      '%HOME_PHONE%'      => {:data => :home_phone,       :name => 'Home Phone'},
+      '%HOME_OR_CELL%'    => {:data => :home_or_cell,     :name => 'Home or Cell Phone (if home phone is blank)'},
+      '%CITY_STATE%'      => {:data => :city_state,       :name => 'City, State'},
+      '%EMAIL%'           => {:data => :email,            :name => 'Email Address'},
+      '%NAME_LNF%'        => {:data => :name_lnf,         :name => 'Name (Last Name First)'},
+      '%NAME_STD%'        => {:data => :name_std,         :name => 'Name (First Name Last Name)'},
+      '%PREFERRED_NAME%'  => {:data => :preferred_name,   :name => 'Preferred Name'},
+      '%ZIP%'             => {:data => :zip,              :name => 'Zip Code'},
+      '%CSZ%'             => {:data => :csz,              :name => 'City State and Zip'},
+      '%COMBINED_ADDR%'   => {:data => :combined_address, :name => 'Combined Address Lines'},
+      '%FULL_ADDRESS%'    => {:data => :full_address,     :name => 'Full Address with City, State and Zip'}
   }
 end

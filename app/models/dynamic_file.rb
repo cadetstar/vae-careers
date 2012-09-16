@@ -13,8 +13,12 @@ class DynamicFile < ActiveRecord::Base
 
   after_save :check_for_default
 
+  def applicant_states
+    "<strong>Pre</strong>: #{self.pre_state.blank? ? 'None' : self.pre_state}<br /><strong>Post</strong>: #{self.post_state.blank? ? 'None' : self.post_state}"
+  end
+
   def self.indexed_attributes
-    %w(name confirmation_notice)
+    %w(name applicant_states confirmation_notice)
   end
 
   def check_for_default
