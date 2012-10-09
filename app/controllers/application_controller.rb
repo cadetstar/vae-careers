@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
         obj.destroy unless (!params[:items][parent.class.name].nil? and params[:items][parent.class.name].include?(parent.id.to_s))
       end
     else
-      params[:link_class].constantize.where(["#{frags.collect{|f| "#{f} = ?"}.join(' and ')} and #{params[:source_name]}_id not in (?)", *values, (params[:items] ? params[:items].collect{|k,v| v}.flatten : [-1])]).each do |old_qg|
+      params[:link_class].constantize.where(["#{frags.collect{|f| "#{f} = ?"}.join(' and ')} and #{params[:source_name]}_id not in (?)", *values, (!params[:items].empty? ? params[:items].collect{|k,v| v}.flatten : [-1])]).each do |old_qg|
         old_qg.destroy
       end
     end
