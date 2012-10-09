@@ -103,7 +103,7 @@ class Submission < ActiveRecord::Base
       self.completed = true
       self.completed_at = Time.now
       self.save
-      self.after_completion
+      self.after_completion unless ENV['RAKING']
     end
     true
   end

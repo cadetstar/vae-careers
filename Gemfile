@@ -7,6 +7,7 @@ gem 'haml'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'mysql2'
 gem 'devise'
 gem 'carrierwave'
 gem 'therubyracer', :platforms => :ruby

@@ -24,6 +24,138 @@ task :run_job_agents => :environment do
   end
 end
 
+def loop_through_a_table(table_name)
+  puts ""
+  puts "Attempting #{table_name}"
+  include Mapping
+
+  Migrator.table_name = table_name
+  klass = TABLEMAPPER[table_name][:model]
+  Migrator.all.each do |entry|
+    print "#{entry['id']}\t"
+    item = klass.unscoped.find_or_create_by_id(entry['id'])
+    klass.columns.each do |c|
+      next if c.name == 'id'
+      if klass.respond_to? "migrate_#{c.name}".to_sym
+        klass.send("migrate_#{c.name}".to_sym, item, entry)
+      elsif c.name == 'created_at' or c.name == 'updated_at'
+        item.send("#{c.name}=", entry[TABLEMAPPER[table_name][:fields][c.name] || c.name] || Time.now)
+      else
+        item.send("#{c.name}=", entry[TABLEMAPPER[table_name][:fields][c.name] || c.name])
+      end
+    end
+    item.save
+  end
+end
+
+desc "Test direct connection"
+task :direct_import => :environment do
+  ENV['RAKING'] = '1'
+
+  %w(posjobtypes positions appquestions appqgroups grpquestions openings openinggroups demodatas nhskills newhirerequests skillrequests).each do |k|
+    loop_through_a_table(k)
+  end
+
+  Migrator.table_name = 'applicants'
+  klass = Submission
+
+  manager = TagType.find_or_create_by_name('Manager', :description => 'Identified applicants who might have management potential.')
+  system = RemoteUser.find_or_create_by_email('admin@vaecorp.com', :first_name => 'System')
+  repository = Applicant.find_or_create_by_email('cadetstar@hotmail.com', :first_name => 'Users with invalid emails', :password => 'Enterprise1701!', :password_confirmation => 'Enterprise1701!')
+
+  puts ""
+  puts "Doing submissions"
+  Migrator.order('created_at').all.each do |entry|
+    print "#{entry['id']}\t"
+    pass = ('a'..'z').to_a.sample(20).join('')
+    unless (applicant = Applicant.find_or_create_by_email((entry['email'] || '').rstrip.downcase, :password => pass, :password_confirmation => pass)) and applicant.id
+      puts ""
+      puts applicant.errors.inspect
+      puts "'#{entry['email']}'"
+      applicant = repository
+    end
+    Migrator.connection.select_all("SELECT opening_id from openingapplicants where applicant_id = #{entry['id']}").each do |o|
+      s = Submission.find_or_create_by_applicant_id_and_opening_id(applicant.id, o['opening_id'])
+      s.where_sourced = (entry['osdd'] == 'None') ? entry['openingsource'] : (entry['osdd'] || entry['openingsource'])
+      s.recruiter_recommendation = entry['recommendation']
+      s.hired = entry['hired']
+      s.completed = true
+      s.completed_at = s.created_at
+      s.began_hiring = entry['begproc']
+      s.affidavit = entry['affidavit']
+
+      s.first_name = entry['firstname']
+      s.last_name = entry['lastname']
+      s.preferred_name = entry['prefname']
+      s.home_phone = entry['homephone']
+      s.cell_phone = entry['cellphone']
+      s.address_1 = entry['addr1']
+      s.address_2 = entry['addr2']
+      s.city = entry['city']
+      s.state = entry['state']
+      s.zip = entry['zip']
+      s.country = entry['country']
+      s.inactive = !entry['active']
+
+      if entry['candidate']
+        s.tags.find_or_create_by_tag_type_id(manager.id, :creator => system)
+      end
+
+      Migrator.connection.select_all("SELECT ident, answer from appanswers left join appquestions on (appquestion_id = appquestions.id) where applicant_id = #{entry['id']}").each do |aa|
+        if (q = Question.find_by_name(aa['ident']))
+          s.submission_answers.find_or_create_by_question_id(q.id, :answer => aa['answer'])
+        end
+      end
+
+      Migrator.connection.select_all("SELECT email, firstname, lastname, comment, appcomments.created_at from appcomments left join users on (user_id = users.id) where applicant_id = #{entry['id']}").each do |ac|
+        u = RemoteUser.find_or_create_by_email(ac['email'], :inactive => true, :first_name => ac['firstname'], :last_name => ac['lastname'])
+        s.comments.create(:created_at => ac['appcomments.created_at'], :body => ac['comment'])
+      end
+    end
+  end
+  repository.first_name = 'Users with invalid emails'
+  repository.save
+
+  # Finish mapping of nhskills, newhirerequests, skillrequests and approvals
+
+
+  #In order,
+  #accesses
+  #reports
+  #repfields
+  #permissions -> roles
+  #appfiles
+
+
+  # Do activities later
+
+
+
+  Question.order(:name).each_with_index do |j, i|
+    j.question_group_connections.each do |qgc|
+      qgc.group_order = i
+      qgc.save
+    end
+    arr = j.name.to_s.split(' - ')
+    if arr.size > 1
+      j.name = arr[1..-1].join(' - ')
+    end
+    j.save
+  end
+  QuestionGroup.order(:name).each_with_index do |j, i|
+    j.opening_group_connections.each do |ogc|
+      ogc.group_order = i
+      ogc.save
+    end
+    arr = j.name.to_s.split(' - ')
+    if arr.size > 1
+      j.name = arr[1..-1].join(' - ')
+    end
+    j.save
+  end
+end
+
+
 desc "Imports data from a YAML in the lib/tasks/data directory"
 task :import_data => :environment do
   TABLEMAPPER = {
@@ -95,9 +227,9 @@ task :import_data => :environment do
 
 
     local_name = k.split(".")[1]
+    data = YAML.load(parseable.join(""))
     if TABLEMAPPER[local_name]
-      data = YAML.load(parseable.join(""))
-      puts data.size
+      puts "#{local_name}: #{data.size}"
       klass = TABLEMAPPER[local_name][:model]
       case local_name
         when 'appquestions'
@@ -127,7 +259,7 @@ task :import_data => :environment do
           end
       end
     else
-      puts "Not processing #{local_name} as it is not mapped."
+      puts "Not processing #{local_name} as it is not mapped: #{data.first.inspect}"
     end
   end
   Question.order(:name).each_with_index do |j, i|

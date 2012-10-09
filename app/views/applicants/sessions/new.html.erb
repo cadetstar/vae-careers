@@ -1,7 +1,7 @@
 <h2>Sign in</h2>
 
 <div class='applicant_login_instructions'>
-  <%= raw StaticText.retrieve('applicant_login') %>
+  <%= raw t('applicant_login_prompt') %>
 </div>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>

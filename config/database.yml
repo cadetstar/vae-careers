@@ -33,3 +33,11 @@ production:
   password: postgres
   host: localhost
   port: 5432
+
+old:
+  adapter: mysql2
+  encoding: utf8
+  database: vaecorpc_careers
+  username: vaecorpc_career
+  password: $up3rc@r
+  host: careers.vaecorp.com

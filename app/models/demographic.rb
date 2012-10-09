@@ -20,4 +20,12 @@ class Demographic < ActiveRecord::Base
     self.opening = self.submission.try(:opening)
     self.save
   end
+
+  def self.migrate_veteran(item, entry)
+    if (entry['isdisabledvet'].to_i + entry['isbadgevet'].to_i + entry['is12985vet'].to_i + entry['issepvet'].to_i) > 0
+      item.veteran = true
+    elsif entry['isnotvet'].to_i == 1
+      item.veteran = false
+    end
+  end
 end

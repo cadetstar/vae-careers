@@ -107,6 +107,6 @@ class Applicant < ActiveRecord::Base
   private
 
   def send_welcome_email
-    GeneralMailer.welcome_email(self).deliver
+    GeneralMailer.welcome_email(self).deliver unless ENV['RAKING']
   end
 end
