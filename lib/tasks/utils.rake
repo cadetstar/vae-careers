@@ -111,6 +111,7 @@ task :direct_import => :environment do
         u = RemoteUser.find_or_create_by_email(ac['email'], :inactive => true, :first_name => ac['firstname'], :last_name => ac['lastname'])
         s.comments.create(:created_at => ac['appcomments.created_at'], :body => ac['comment'])
       end
+      s.save
     end
   end
   repository.first_name = 'Users with invalid emails'
