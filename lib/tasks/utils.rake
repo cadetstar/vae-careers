@@ -108,8 +108,10 @@ task :direct_import => :environment do
         else
           k = k.to_s
         end
-        if (q = Question.find_by_name(aa['ident'])) or (q = Question.find_by_name(k))
-          s.submission_answers.find_or_create_by_question_id(q.id, :answer => aa['answer'])
+        if (q = Question.find_by_name(aa['ident']) || Question.find_by_name(k))
+          sa = s.submission_answers.find_or_create_by_question_id(q.id)
+          sa.answer = aa['answer']
+          sa.save
         end
       end
 
