@@ -102,7 +102,13 @@ task :direct_import => :environment do
       end
 
       Migrator.connection.select_all("SELECT ident, answer from appanswers left join appquestions on (appquestion_id = appquestions.id) where applicant_id = #{entry['id']}").each do |aa|
-        if (q = Question.find_by_name(aa['ident']))
+        k = aa['ident'].split(' - ')
+        if k.size > 1
+          k = k[1..-1].join(' - ')
+        else
+          k = k.to_s
+        end
+        if (q = Question.find_by_name(aa['ident'])) or (q = Question.find_by_name(k))
           s.submission_answers.find_or_create_by_question_id(q.id, :answer => aa['answer'])
         end
       end
