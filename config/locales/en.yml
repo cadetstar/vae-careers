@@ -25,8 +25,14 @@ en:
       html: <p>Visual Aids Electronics<br />12910 Cloverleaf Center Drive<br />Suite 100<br />Germantown, MD 20874</p>
       plain: Visual Aids Electronics\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
     csi:
-      html: <p>Conference Systems, Inc.<br />12910 Cloverleaf Center Drive<br />Suite 100<br />Germantown, MD 20874</p>
-      plain: Conference Systems, Inc.\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
+      html: <p>Conference Systems, Inc.<br />20405 Seneca Meadows Parkway<br />Germantown, MD 20876</p>
+      plain: Conference Systems, Inc.\n20405 Seneca Meadows Parkway\nGermantown, MD 20876
+  phones:
+    main: 301-330-6900
+    fax: 301-330-6901
+  companies:
+    vae: Visual Aids Electronics, Corp.
+    csi: Conference Systems, Inc.
   hiring:
     offer: Have you made an offer of employment to the candidate?  You must make an offer of employment to the candidate before he/she can be asked to complete the Background Check Release Form.
     references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing and feedback must appear in the comments.

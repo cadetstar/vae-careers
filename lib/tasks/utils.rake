@@ -109,9 +109,17 @@ task :direct_import => :environment do
           k = k.to_s
         end
         if (q = Question.find_by_name(aa['ident']) || Question.find_by_name(k))
+          puts aa['answer']
           sa = s.submission_answers.find_or_create_by_question_id(q.id)
           sa.answer = aa['answer']
-          sa.save
+          puts "SAVING!"
+          puts "**************************"
+          puts "**************************"
+          puts "**************************"
+          puts sa.save
+          puts "**************************"
+          puts "**************************"
+          puts "**************************"
         end
       end
 

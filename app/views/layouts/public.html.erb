@@ -10,26 +10,117 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class='header_image'><%= image_tag('http://careers.vaecorp.com/images/interface_01.jpg') %></div>
-<h3 class="header_text">Careers</h3>
-<div class='notice'><%= raw notice %></div>
-<div class="alert"><%= raw alert %></div>
-<%= yield %>
+<div id="TopMenuWrap">
+  <div id="TopMenuContent">
+    <div id="TopMenuLinks">
+      <%= link_to 'HOME', root_path %> | <%= link_to 'CONTACT US', 'http://www.vaecorp.com/Pages/About/ContactMain.aspx' %> | <%= link_to 'EMPLOYEES', 'http://employees.vaecorp.com/asp/index.asp', :target => '_blank' %>
+    </div>
+  </div>
+</div>
+<div id="HeaderWrap">
+  <div id="HeaderContent">
+    <%= link_to '', root_path, :class => 'VAElogo' %>
+    <div id="SocialIcons">
+      <label ID="Label1" style="float: left; margin: 7px 4px;">FOLLOW US ON:</label>
+      <table id="SocialTable">
+        <tr>
+          <td><a class="Facebook" target="_blank" href="http://www.facebook.com/pages/Visual-Aids-Electronics-VAE/109141915778443"></a></td>
+          <td><a class="Twitter" target="_blank" href="https://twitter.com/vaecorp"></a></td>
+          <td><a class="Youtube" target="_blank" href="http://www.youtube.com/vaecorp"></a></td>
+        </tr>
+      </table>
+      <label ID="Label2" style="float: left; margin: 7px 4px;">(301) 330-6900</label>
+    </div>
+  </div>
+</div>
+<div id="MenuWrap">
+  <div id="MenuContent">
+    <div id="MenuCenter">
+      <ul id="nav">
+        <li>
+          <a href="http://VAEcorp.com/Pages/About/About.aspx" class="menuLinks">ABOUT VAE</a>
+          <ul>
+            <li><a href="http://VAEcorp.com/Pages/About/OwnersMessage.aspx" class="menuLinks">OWNERS MESSAGE</a></li>
+            <li><a href="http://VAEcorp.com/Pages/About/NatPresence.aspx" class="menuLinks">NATIONAL PRESENCE</a></li>
+            <li><a href="http://VAEcorp.com/Pages/About/ConventionServices.aspx" class="menuLinks">CONVENTION SERVICES</a></li>
+            <li><a href="http://VAEcorp.com/Pages/About/CSI.aspx" class="menuLinks">CONFERENCE SYSTEMS</a></li>
+          </ul>
+        </li>
 
-<div class="footer">
-  <%= link_to 'Current Openings', root_path %><br /><br />
-  <% if current_user or current_applicant %>
-      <%= link_to 'Sign Out', logout_path %>
-      <% if current_applicant %>
-          <%= link_to 'Update My Account', edit_registration_path(current_applicant) %>
-          <%= link_to 'Update My Profile', profile_path %>
-          <%= link_to 'View My Job Agents', job_agents_path %>
-      <% else %>
-          <br /><%= link_to 'Admin Section', submissions_path %>
-      <% end %>
-  <% else %>
-      <%= link_to 'Login', new_applicant_session_path %>
-  <% end %><br />
+        <li>
+          <a class="menuLinks">IN-HOUSE HOTEL AUDIOVISUAL SERVICES</a>
+          <ul>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/CustomerService.aspx" class="menuLinks">CUSTOMER SERVICE</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/HotelBrands.aspx" class="menuLinks">BRANDS WE SUPPORT</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/OurOffices.aspx" class="menuLinks">OUR OFFICES</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/SalesSupport.aspx" class="menuLinks">SALES AND MARKETING</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/HSIS.aspx" class="menuLinks">INTERNET, ELECTRICAL & RIGGING</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/SubmitRFP.aspx" class="menuLinks">SUBMIT AN RFP</a></li>
+            <li><a href="http://VAEcorp.com/Pages/InHouseAV/ContactUS.aspx" class="menuLinks">CONTACT US</a></li>
+            <li><a href="http://www.youtube.com/vaecorp" class="menuLinks">YOUTUBE.COM</a></li>
+            <li><a href="http://www.facebook.com/pages/Visual-Aids-Electronics-VAE/109141915778443" class="menuLinks">FOLLOW US ON FACEBOOK</a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="menuLinks">CONVENTION SERVICES</a>
+
+          <ul>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/HistoryCS.aspx" class="menuLinks">HISTORY</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/OurPeople.aspx" class="menuLinks">OUR PEOPLE</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/PrePlanning.aspx" class="menuLinks">PRE-PLANNING</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/ReadyRooms.aspx" class="menuLinks">SPEAKER READY ROOMS</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/Breakouts.aspx" class="menuLinks">CYBER CAFE'S, BREAKOUTS, EXHIBITS</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/ComputerRentals.aspx" class="menuLinks">COMPUTER RENTALS</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/AddTech.aspx" class="menuLinks">ADDITIONAL TECHNOLOGY</a></li>
+            <li><a href="http://VAEcorp.com/Pages/ConventionServices/SubmitRFP.aspx" class="menuLinks">SUBMIT AN RFP</a></li>
+          </ul>
+
+        </li>
+        <li>
+          <a href="http://VAEcorp.com/Pages/ConventionServices/CreativeServices.aspx" class="menuLinks">CREATIVE SERVICES</a>
+          <ul>
+            <li><a href="http://VAEcorp.com/Pages/CreativeServices/Overview.aspx" class="menuLinks">OVERVIEW</a></li>
+            <li><a href="http://VAEcorp.com/Pages/CreativeServices/ALV.aspx" class="menuLinks">AUDIO, LIGHTING, VIDEO</a></li>
+            <li><a href="http://VAEcorp.com/Pages/CreativeServices/FloorPlans.aspx" class="menuLinks">FLOOR PLANS AND RENDERINGS</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://VAEcorp.com/Pages/Galleries/Gallery.aspx" class="menuLinks">GALLERIES</a>
+        </li>
+        <li>
+          <a href="http://www.conferencesystems.com/" target="_blank" class="menuLinks">CSI</a>
+        </li>
+        <li>
+          <a href="http://VAEcorp.com/Pages/About/ContactMain.aspx" class="menuLinks">CONTACT US</a>
+        </li>
+        <li>
+          <%= link_to 'CAREERS', root_path, :class => 'menuLinks' %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="MainContentWrap">
+  <div id="MainContentDiv">
+    <%= yield %>
+    <div style="clear: both;"></div>
+  </div>
+</div>
+<div id="FooterWrap">
+  <div id="FooterContent">
+    <div class="footer_image">
+      <%= image_tag 'VAEfooterLogo.png', :class => 'VAEfooterLogo' %>
+    </div>
+    <div class="address_block">
+      <%= t(request.env['HTTP_HOST'].match(/vaecorp/) ? 'address.vae.html' : 'address.csi.html') %>
+      <p>
+        Corporate Office - <%= t('phones.main') %> | Fax - <%= t('phones.fax') %>
+      </p>
+      <p>
+        &copy; COPYRIGHT 2012-<%= Time.now.year %> - <%= t(request.env['HTTP_HOST'].match(/vaecorp/) ? 'companies.vae' : 'companies.csi') %>
+      </p>
+    </div>
+  </div>
 </div>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VAE Careers</title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
+  <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
+  <%= javascript_include_tag "application" %>
+  <%= favicon_link_tag '/assets/favicon.ico' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class='header_image'><%= image_tag('http://careers.vaecorp.com/images/interface_01.jpg') %></div>
+<h3 class="header_text">Careers</h3>
+<div class='notice'><%= raw notice %></div>
+<div class="alert"><%= raw alert %></div>
+<%= yield %>
+
+<div class="footer">
+  <%= link_to 'Current Openings', root_path %><br /><br />
+  <% if current_user or current_applicant %>
+      <%= link_to 'Sign Out', logout_path %>
+      <% if current_applicant %>
+          <%= link_to 'Update My Account', edit_registration_path(current_applicant) %>
+          <%= link_to 'Update My Profile', profile_path %>
+          <%= link_to 'View My Job Agents', job_agents_path %>
+      <% else %>
+          <br /><%= link_to 'Admin Section', submissions_path %>
+      <% end %>
+  <% else %>
+      <%= link_to 'Login', new_applicant_session_path %>
+  <% end %><br />
+</div>
+</body>
+</html>
