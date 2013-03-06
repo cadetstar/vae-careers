@@ -1,4 +1,4 @@
-<h1>New applicant - <%= @submission.opening.name %></h1>
+<div class="TextHeader">New applicant - <%= @submission.opening.name %></div>
 <p>Fields marked with an asterisk (*) are required.</p>
 
 <%= form_for @submission, :url => submit_application_path(:submission_id => @submission.id) do |f| %>
