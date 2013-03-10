@@ -95,6 +95,20 @@
         </li>
         <li>
           <%= link_to 'CAREERS', root_path, :class => 'menuLinks' %>
+          <ul>
+            <% if current_user or current_applicant %>
+                <li><%= link_to 'Sign Out', logout_path %></li>
+                <% if current_applicant %>
+                    <li><%= link_to 'Update My Account', edit_registration_path(current_applicant) %></li>
+                    <li><%= link_to 'Update My Profile', profile_path %></li>
+                    <li><%= link_to 'View My Job Agents', job_agents_path %></li>
+                <% else %>
+                    <li><%= link_to 'Admin Section', submissions_path %></li>
+                <% end %>
+            <% else %>
+                <li><%= link_to 'Login', new_applicant_session_path %></li>
+            <% end %>
+          </ul>
         </li>
       </ul>
     </div>
