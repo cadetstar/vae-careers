@@ -1,3 +1,331 @@
+
+.ui-tooltip, .qtip {
+    display: none;
+    font-size: 10.5px;
+    left: -28000px;
+    line-height: 12px;
+    max-width: 280px;
+    min-width: 50px;
+    position: absolute;
+    top: -28000px;
+}
+.ui-tooltip-fluid {
+    display: block;
+    float: left !important;
+    position: static !important;
+    visibility: hidden;
+}
+.ui-tooltip-content {
+    border: 1px solid #000001;
+    overflow: hidden;
+    padding: 5px 9px;
+    position: relative;
+    text-align: left;
+    word-wrap: break-word;
+}
+.ui-tooltip-titlebar {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #000001;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px 0;
+    font-weight: bold;
+    min-height: 14px;
+    overflow: hidden;
+    padding: 5px 35px 5px 10px;
+    position: relative;
+}
+.ui-tooltip-titlebar + .ui-tooltip-content {
+    border-top-width: 0 !important;
+}
+.ui-tooltip-titlebar .ui-state-default {
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    margin-top: -9px;
+    outline: medium none;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+}
+* html .ui-tooltip-titlebar .ui-state-default {
+    top: 16px;
+}
+.ui-tooltip-titlebar .ui-icon, .ui-tooltip-icon .ui-icon {
+    display: block;
+    text-indent: -1000em;
+}
+.ui-tooltip-icon, .ui-tooltip-icon .ui-icon {
+    border-radius: 3px 3px 3px 3px;
+}
+.ui-tooltip-icon .ui-icon {
+    background: none no-repeat scroll -100em -100em transparent;
+    color: inherit;
+    font: bold 10px/13px Tahoma,sans-serif;
+    height: 14px;
+    text-align: center;
+    text-indent: 0;
+    width: 18px;
+}
+.ui-tooltip-default .ui-tooltip-titlebar, .ui-tooltip-default .ui-tooltip-content {
+    background-color: #FFFFA3;
+    border-color: #F1D031;
+    color: #555555;
+}
+.ui-tooltip-default .ui-tooltip-titlebar {
+    background-color: #FFEF93;
+}
+.ui-tooltip-default .ui-tooltip-icon {
+    background: none repeat scroll 0 0 #F1F1F1;
+    border-color: #CCCCCC;
+    color: #777777;
+}
+.ui-tooltip-default .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #AAAAAA;
+    color: #111111;
+}
+.ui-tooltip .ui-tooltip-tip {
+    margin: 0 auto;
+    overflow: hidden;
+    z-index: 10;
+}
+.ui-tooltip .ui-tooltip-tip, .ui-tooltip .ui-tooltip-tip * {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 dashed transparent;
+    color: #123456;
+    font-size: 0.1px !important;
+    line-height: 0.1px !important;
+    position: absolute;
+}
+.ui-tooltip .ui-tooltip-tip canvas {
+    left: 0;
+    top: 0;
+}
+#qtip-overlay {
+    left: -10000em;
+    position: fixed;
+    top: -10000em;
+}
+#qtip-overlay.blurs {
+    cursor: pointer;
+}
+#qtip-overlay div {
+    background-color: black;
+    height: 100%;
+    left: 0;
+    opacity: 0.7;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.ui-tooltip-light .ui-tooltip-titlebar, .ui-tooltip-light .ui-tooltip-content {
+    border-color: #E2E2E2;
+    color: #454545;
+}
+.ui-tooltip-light .ui-tooltip-content {
+    background-color: white;
+}
+.ui-tooltip-light .ui-tooltip-titlebar {
+    background-color: #F1F1F1;
+}
+.ui-tooltip-dark .ui-tooltip-titlebar, .ui-tooltip-dark .ui-tooltip-content {
+    border-color: #303030;
+    color: #F3F3F3;
+}
+.ui-tooltip-dark .ui-tooltip-content {
+    background-color: #505050;
+}
+.ui-tooltip-dark .ui-tooltip-titlebar {
+    background-color: #404040;
+}
+.ui-tooltip-dark .ui-tooltip-icon {
+    border-color: #444444;
+}
+.ui-tooltip-dark .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #303030;
+}
+.ui-tooltip-cream .ui-tooltip-titlebar, .ui-tooltip-cream .ui-tooltip-content {
+    border-color: #F9E98E;
+    color: #A27D35;
+}
+.ui-tooltip-cream .ui-tooltip-content {
+    background-color: #FBF7AA;
+}
+.ui-tooltip-cream .ui-tooltip-titlebar {
+    background-color: #F0DE7D;
+}
+.ui-tooltip-cream .ui-state-default .ui-tooltip-icon {
+    background-position: -82px 0;
+}
+.ui-tooltip-red .ui-tooltip-titlebar, .ui-tooltip-red .ui-tooltip-content {
+    border-color: #D95252;
+    color: #912323;
+}
+.ui-tooltip-red .ui-tooltip-content {
+    background-color: #F78B83;
+}
+.ui-tooltip-red .ui-tooltip-titlebar {
+    background-color: #F06D65;
+}
+.ui-tooltip-red .ui-state-default .ui-tooltip-icon {
+    background-position: -102px 0;
+}
+.ui-tooltip-red .ui-tooltip-icon {
+    border-color: #D95252;
+}
+.ui-tooltip-red .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #D95252;
+}
+.ui-tooltip-green .ui-tooltip-titlebar, .ui-tooltip-green .ui-tooltip-content {
+    border-color: #90D93F;
+    color: #3F6219;
+}
+.ui-tooltip-green .ui-tooltip-content {
+    background-color: #CAED9E;
+}
+.ui-tooltip-green .ui-tooltip-titlebar {
+    background-color: #B0DE78;
+}
+.ui-tooltip-green .ui-state-default .ui-tooltip-icon {
+    background-position: -42px 0;
+}
+.ui-tooltip-blue .ui-tooltip-titlebar, .ui-tooltip-blue .ui-tooltip-content {
+    border-color: #ADD9ED;
+    color: #5E99BD;
+}
+.ui-tooltip-blue .ui-tooltip-content {
+    background-color: #E5F6FE;
+}
+.ui-tooltip-blue .ui-tooltip-titlebar {
+    background-color: #D0E9F5;
+}
+.ui-tooltip-blue .ui-state-default .ui-tooltip-icon {
+    background-position: -2px 0;
+}
+.ui-tooltip-shadow {
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+.ui-tooltip-shadow .ui-tooltip-titlebar, .ui-tooltip-shadow .ui-tooltip-content {
+}
+.ui-tooltip-rounded, .ui-tooltip-rounded .ui-tooltip-content, .ui-tooltip-tipsy, .ui-tooltip-tipsy .ui-tooltip-content, .ui-tooltip-youtube, .ui-tooltip-youtube .ui-tooltip-content {
+    border-radius: 4px 4px 4px 4px;
+}
+.ui-tooltip-rounded .ui-tooltip-titlebar, .ui-tooltip-tipsy .ui-tooltip-titlebar, .ui-tooltip-youtube .ui-tooltip-titlebar {
+    border-radius: 5px 5px 0 0;
+}
+.ui-tooltip-rounded .ui-tooltip-titlebar + .ui-tooltip-content, .ui-tooltip-tipsy .ui-tooltip-titlebar + .ui-tooltip-content, .ui-tooltip-youtube .ui-tooltip-titlebar + .ui-tooltip-content {
+    border-radius: 0 0 5px 5px;
+}
+.ui-tooltip-youtube {
+    box-shadow: 0 0 3px #333333;
+}
+.ui-tooltip-youtube .ui-tooltip-titlebar, .ui-tooltip-youtube .ui-tooltip-content {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.85);
+    border-color: #CCCCCC;
+    color: white;
+}
+.ui-tooltip-youtube .ui-tooltip-icon {
+    border-color: #222222;
+}
+.ui-tooltip-youtube .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #303030;
+}
+.ui-tooltip-jtools {
+    background: -moz-linear-gradient(center top , #717171, #232323) repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    border: 2px solid #F1F1F1;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 12px #333333;
+}
+.ui-tooltip-jtools .ui-tooltip-titlebar {
+}
+.ui-tooltip-jtools .ui-tooltip-content {
+}
+.ui-tooltip-jtools .ui-tooltip-titlebar, .ui-tooltip-jtools .ui-tooltip-content {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 dashed transparent;
+    color: white;
+}
+.ui-tooltip-jtools .ui-tooltip-icon {
+    border-color: #555555;
+}
+.ui-tooltip-jtools .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #333333;
+}
+.ui-tooltip-cluetip {
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
+}
+.ui-tooltip-cluetip .ui-tooltip-titlebar {
+    background-color: #87876A;
+    border: 0 dashed transparent;
+    color: white;
+}
+.ui-tooltip-cluetip .ui-tooltip-content {
+    background-color: #D9D9C2;
+    border: 0 dashed transparent;
+    color: #111111;
+}
+.ui-tooltip-cluetip .ui-tooltip-icon {
+    border-color: #808064;
+}
+.ui-tooltip-cluetip .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #696952;
+    color: #696952;
+}
+.ui-tooltip-tipsy {
+    border: 0 none;
+}
+.ui-tooltip-tipsy .ui-tooltip-titlebar, .ui-tooltip-tipsy .ui-tooltip-content {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.87);
+    border: 0 none transparent;
+    color: white;
+    font-family: 'Lucida Grande',sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 16px;
+    text-shadow: 0 1px black;
+}
+.ui-tooltip-tipsy .ui-tooltip-titlebar {
+}
+.ui-tooltip-tipsy .ui-tooltip-content {
+}
+.ui-tooltip-tipsy .ui-tooltip-icon {
+    border-color: #222222;
+    text-shadow: none;
+}
+.ui-tooltip-tipsy .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #303030;
+}
+.ui-tooltip-tipped .ui-tooltip-titlebar, .ui-tooltip-tipped .ui-tooltip-content {
+    border: 3px solid #959FA9;
+    filter: none;
+}
+.ui-tooltip-tipped .ui-tooltip-titlebar {
+    background: -moz-linear-gradient(center top , #3A79B8, #2E629D) repeat scroll 0 0 #3A79B8;
+    border-bottom-width: 0;
+    border-radius: 3px 3px 0 0;
+    color: white;
+    font-family: serif;
+    font-weight: normal;
+}
+.ui-tooltip-tipped .ui-tooltip-content {
+    background-color: #F9F9F9;
+    border-radius: 0 0 3px 3px;
+    color: #454545;
+}
+.ui-tooltip-tipped .ui-tooltip-icon {
+    background: none repeat scroll 0 0 #285589;
+    border: 2px solid #285589;
+}
+.ui-tooltip-tipped .ui-tooltip-icon .ui-icon {
+    background-color: #FBFBFB;
+    color: #555555;
+}
+.ui-tooltip:not(.ie9haxors) div.ui-tooltip-content, .ui-tooltip:not(.ie9haxors) div.ui-tooltip-titlebar {
+    filter: none;
+}
 body {
     background-color: #F8F8F8;
     color: #4C4C4C;
