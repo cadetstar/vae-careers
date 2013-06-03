@@ -4,6 +4,11 @@ class OpeningsController < ApplicationController
 
   layout :choose_layout
 
+  def index
+    super
+    @additional_link = view_context.link_to('All Demographics', all_demographics_path)
+  end
+
   def set_question_groups
     (params[:items] || []).each_with_index do |qg_id,i|
       if qg = QuestionGroup.find_by_id(qg_id)
@@ -98,15 +103,21 @@ class OpeningsController < ApplicationController
             t = pdf.table(data, :column_widths => [40, 180, 120, 100, 100], :cell_style => {:borders => [], :overflow => :shrink_to_fit})
             pdf.font_size 8
             pdf.text actual_description
-            pdf.move_down 20
+            pdf.move_down 50
           end
         end
       end
     end
 
+    pdf.text_box t('admins.primary.name'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 30], :width => 100
+    pdf.text_box t('admins.primary.email'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 20], :width => 100
+    pdf.text_box t('admins.primary.fax'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 10], :width => 100
 
     pdf.render_file File.join(Rails.root, 'tmp', 'opp.pdf')
     send_file File.join(Rails.root, 'tmp', 'opp.pdf'), :filename => "Open Positions Posting.pdf"
+  end
+
+  def view_all_demographics
   end
 
   def view_demographics

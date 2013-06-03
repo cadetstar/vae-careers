@@ -25,14 +25,14 @@
 <%= paginate @resources %>
 <table class='resource_index'>
   <tr>
-    <th>First Name</th>
-    <th>Last Name</th>
+    <th data-sortfield='first_name'>First Name</th>
+    <th data-sortfield='last_name'>Last Name</th>
     <th>Application on File</th>
-    <th>Email</th>
-    <th>City, State</th>
-    <th>Openings</th>
-    <th>Date Applied</th>
-    <th>Priority</th>
+    <th data-sortfield='email'>Email</th>
+    <th data-sortfield='state,city'>City, State</th>
+    <th data-sortfield='positions.name'>Openings</th>
+    <th data-sortfield='created_at'>Date Applied</th>
+    <th data-sortfield='recruiter_recommendation'>Priority</th>
     <th>Comments</th>
   </tr>
   <% @resources.each do |r| %>
@@ -43,13 +43,9 @@
         <td><%= r.email %></td>
         <td><%= r.city_state %></td>
         <td><%= r.opening %></td>
-        <td><%= r.created_at.to_s(:with_zone) %></td>
+        <td><%= r.created_at.to_s(:just_date) %></td>
         <td>
-          <div><% if current_user.has_role?('administrator') %>
-                <%= select_tag "#{r.id}_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, r.recruiter_recommendation) %>
-            <% else %>
-                <%= r.recruiter_recommendation %>
-            <% end %></div>
+          <div><%= r.recruiter_recommendation %></div>
           <%= raw r.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
           <div>Applicant Tags:</div><%= raw r.applicant.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
         </td>
@@ -62,14 +58,10 @@
   <% end %>
 </table>
 <%= paginate @resources %>
-<script type='text/javascript'>
+<script type="text/javascript">
     $(document).ready(function() {
-        $('table select').change(function(e) {
-            console.info($(e.target));
-            $.ajax({
-                url: '/submission/' + $(e.target).attr('id').replace('_', '/'),
-                data: 'recommendation=' + $(e.target).val()
-            })
-        });
-    })
+        $('.resource_index th[data-sortfield]').click(function(e) {
+            window.location.href = '<%= submissions_path %>?sort_order=' + $(e.target).closest('[data-sortfield]').attr('data-sortfield');
+        })
+    });
 </script>

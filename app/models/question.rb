@@ -11,7 +11,7 @@ class Question < ActiveRecord::Base
   end
 
   def choice_options
-    choices.gsub(/\r/, '').gsub(/\n/, '<br />')
+    choices.to_s.gsub(/\r/, '').gsub(/\n/, '<br />')
   end
 
   def self.indexed_attributes

@@ -16,6 +16,7 @@ class NewHireRequestsController < ApplicationController
 
     @new_hire_requests[:awaiting] = []
     @new_hire_requests[:posted] = []
+    @new_hire_requests[:filled] = []
 
     if @current_user.departments.include?(Department.find_by_code('XHR'))
       @new_hire_requests[:ready] = RemoteUser.find_by_email('dmartin@vaecorp.com').new_hire_requests
@@ -29,9 +30,13 @@ class NewHireRequestsController < ApplicationController
       @show_hr = true
     else
       @new_hire_requests[:awaiting] = @current_user.subordinate_requests
-      @new_hire_requests[:awaiting] -= RemoteUser.find_by_email('dmartin@vaecorp.com').new_hire_requests
+      if (dmartin = RemoteUser.find_by_email('dmartin@vaecorp.com'))
+        @new_hire_requests[:awaiting] -= dmartin.new_hire_requests
+      end
       @new_hire_requests[:posted] = @new_hire_requests[:approved].select{|nhr| nhr.opening}
     end
+    @new_hire_requests[:filled] = @new_hire_requests[:posted].select{|nhr| !!nhr.filled_time}
+    @new_hire_requests[:posted] = @new_hire_requests[:posted].select{|nhr| !nhr.filled_time}
 
     if @current_user.new_hire_expiration.to_i > 0
       @new_hire_requests.each do |k|

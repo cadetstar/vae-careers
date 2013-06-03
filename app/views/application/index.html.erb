@@ -5,6 +5,9 @@
       <%= link_to "New #{controller_name.singularize.titleize}", {:action => :new} %>
     </div>
 <% end %>
+<% if @additional_link %>
+    <%= raw @additional_link %>
+<% end %>
 <% attributes_to_display = @klass.respond_to?('indexed_attributes') ? @klass.indexed_attributes : @klass.attribute_names.reject{|an| %w(id created_at updated_at).include? an} %>
 <table class='resource_index'>
   <tr>

@@ -49,7 +49,7 @@ module ApplicationHelper
       when 'Yes/No'
         raw "#{g.radio_button :answer, true} Yes #{g.radio_button :answer, false} No"
       when 'Multiple Choice'
-        g.select :answer, sa.question.choices.to_s.gsub(/(\r|\\r)/, '').split(/\\n/)
+        g.select :answer, sa.question.choices.to_s.gsub(/(\r|\\r)/, '').split(/\n/)
       when 'Small Text Box'
         g.text_field :answer
       when 'Medium Text Box'

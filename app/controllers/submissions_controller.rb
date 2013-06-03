@@ -101,20 +101,24 @@ class SubmissionsController < ApplicationController
     end
 
     params[:page] ||= 1
-    @resources = Submission.joins(:applicant).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types]).where({:inactive => [nil, false]}).where(:completed => true).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ?", "%#{session[:submissions][:name].downcase}%"])
+    @resources = Submission.joins(:applicant, [:opening => :position]).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types]).where({:inactive => [nil, false]}).where(:completed => true).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ?", "%#{session[:submissions][:name].downcase}%"])
     if session[:submissions][:opening_id]
       @resources = @resources.where(:opening_id => session[:submissions][:opening_id])
     end
 
-    @resources = @resources.order("recruiter_recommendation, completed_at").page(params[:page])
+    session[:submissions][:sort_order] ||= 'recruiter_recommendation, completed_at'
+    if params[:sort_order]
+      session[:submissions][:sort_order] = params[:sort_order]
+    end
+    @resources = @resources.order(session[:submissions][:sort_order]).page(params[:page])
   end
 
   def update_recommendation
     if (@submission = Submission.find_by_id(params[:id]))
-      @submission.recruiter_recommendation = params[:recommendation]
+      @submission.recruiter_recommendation = params[:recruiter_recommendation]
+      @submission.recruiter_comment = params[:recruiter_comment]
       @submission.save
     end
-    render :nothing => true
   end
 
   def notify_others

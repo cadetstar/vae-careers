@@ -18,7 +18,7 @@
 
     <%
        valid_users = if current_user.has_role?('administrator')
-                       RemoteUser.includes(:departments).all.sort_by{|ru| ru.departments.include?(@resource.department)}
+                       RemoteUser.includes(:departments).all.sort{|ru1,ru2| (ru1.departments.include?(@resource.department) <=> ru2.departments.include?(@resource.department)).nonzero? || (ru1.last_name.to_s <=> ru2.last_name.to_s)}
                      else
                        current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department)}
                      end
@@ -93,6 +93,20 @@
 <% if @current_user.has_role?('administrator') %>
     <%= render :partial => 'tags/stub' %>
 <% end %>
+<div class='recruiter_recommendation_wrapper'>
+  <% if current_user.has_role?('administrator') %>
+      <%= form_tag update_recommendation_path(:id => @resource.id), :remote => true %>
+          Recommendation: <%= select_tag "recruiter_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, @resource.recruiter_recommendation) %>
+          <div class='recommendation_popup'>
+              Comment:<br />
+              <%= text_area_tag 'recruiter_comment', @resource.recruiter_comment %><br />
+              <%= submit_tag 'Update Recommendation' %>
+          </div>
+      </form>
+  <% else %>
+      Recruiter's Recommendation: <%= @resource.recruiter_recommendation %> <%= @resource.recruiter_comment.blank? ? '': "(#{@resource.recruiter_comment})" %>
+  <% end %>
+</div>
 <div class='submission_navigation'>
   <%= link_to 'Back', submissions_path %>
 </div>
@@ -100,8 +114,12 @@
     $(document).ready(function() {
     $('.user_show, .user_hide').click(function(e) {
     $('.user_display, .user_edit').toggle();
-    e.preventDefault();
-    return false;
+        e.preventDefault();
+        return false;
+    });
+    $('.recruiter_recommendation_wrapper select').change(function() {
+        $('.recommendation_popup').show();
     });
     })
 <% end %>
+

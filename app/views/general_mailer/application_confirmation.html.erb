@@ -6,7 +6,8 @@
         <td><%= @submission.try(f[1]) %></td>
       </tr>
   <% end %>
-  <% @resource.submission_answers.each do |sa| %>
+  <% last = -1 %>
+  <% @submission.submission_answers.each do |sa| %>
     <% if sa.group_order != last %>
       <% last = sa.group_order %>
       <tr>

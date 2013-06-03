@@ -8,6 +8,14 @@
           <%= text_field_tag 'name', session[:applicants][:name] %>
         </div>
       </div>
+      <div class='filtering_row'>
+        <div class='filter_name'>
+          Select Tags:
+        </div>
+        <div class='filter_inputs'>
+          <%= select_tag 'tags', options_for_select([['None', 0]] + TagType.all.collect{|tt| [tt.name, tt.id]}, session[:applicants][:tags]), :multiple => true, :size => 5 %>
+        </div>
+      </div>
       <div class="filtering_row">
         <%= submit_tag 'Filter' %>
       </div>
@@ -59,21 +67,8 @@
     var lastClicked = '';
     var maxNum = <%= @resources.size - 1 %>;
     $(document).ready(function() {
-        $('.resource_index th').click(function(e) {
-            var sortKey = $(e.target).attr('data-type');
-            if (lastClicked === sortKey) {
-                for (var j = maxNum; j >= 0; j--) {
-                    $('.resource_index').append($('.resource_index tr[data-' + sortKey + '="' + j + '"]'));
-                }
-                lastClicked = '';
-            } else {
-                for (var j = 0; j <= maxNum; j++) {
-                    $('.resource_index').append($('.resource_index tr[data-' + sortKey + '="' + j + '"]'));
-                }
-                lastClicked = sortKey;
-            }
-            $('.resource_index tr').removeClass('even').addClass('odd');
-            $('.resource_index tr').filter(':even').not(':first').removeClass('odd').addClass('even');
+        $('.resource_index th[data-type]').click(function(e) {
+            window.location.href = '<%= applicants_path %>?sort_order=' + $(e.target).closest('[data-type]').attr('data-type');
         })
     });
 </script>

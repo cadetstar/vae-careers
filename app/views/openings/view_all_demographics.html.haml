@@ -1,0 +1,15 @@
+%div= link_to 'Back', {:action => :index}
+%table.resource_index
+  %tr
+    %th Opening
+    %th Gender
+    %th Race
+    %th Veteran Status
+    %th Application Date
+  - Demographic.includes([:opening => [:position, :department]]).all.each do |d|
+    %tr{:class => cycle('odd', 'even')}
+      %td= d.opening
+      %td= d.gender
+      %td= d.race
+      %td= d.veteran
+      %td= d.created_at.to_s(:just_date)

@@ -1,7 +1,7 @@
 <div>
   <%= link_to 'New Request', new_new_hire_request_path %>
 </div>
-<% (@show_hr ? [:direct, :approved, :awaiting, :eventual, :ready, :posted] : [:direct, :approved, :awaiting, :posted]).each do |k| %>
+<% (@show_hr ? [:direct, :approved, :awaiting, :eventual, :ready, :posted, :filled] : [:direct, :approved, :awaiting, :posted, :filled]).each do |k| %>
     <table class="new_hire_requests">
       <tr>
         <th colspan="7"><%= k.to_s.capitalize %> Requests</th>

@@ -16,6 +16,7 @@ VaeCareers::Application.routes.draw do
   match 'openings/:id/view', :to => 'openings#view', :as => 'view_opening'
   match 'showpublic/:id', :to => redirect('/openings/%{id}/view') # Legacy route
 
+  match 'openings/all/demographics', :to => 'openings#view_all_demographics', :as => 'all_demographics'
   match 'openings/:opening_id/apply', :to => 'submissions#begin_application', :as => 'apply'
   match 'openings/:id/demographics', :to => 'openings#view_demographics', :as => 'demographics'
   match 'openings/:submission_id/submit', :to => 'submissions#complete_application', :as => 'submit_application'
@@ -29,7 +30,7 @@ VaeCareers::Application.routes.draw do
 
   match 'submission/:id/setup', :to => 'submissions#setup', :as => 'submission_setup'
   match 'submission/:id/files/:type', :to => 'submissions#generate_or_retrieve', :as => 'paperwork'
-  match 'submission/:id/recommendation', :to => 'submissions#update_recommendation'
+  match 'submission/:id/recommendation', :to => 'submissions#update_recommendation', :as => 'update_recommendation'
   match 'submission/:id/status', :to => 'submissions#change_status', :as => 'change_status'
   match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
   match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'

@@ -585,7 +585,7 @@ table.resource_index .inactive {
     float: right;
     width: auto;
     height: auto;
-    margin: 20px -21px 20px 0px;
+    margin: 50px 50px 50px 0px;
 }
 .front_page_image img {
     width: 200px;
@@ -1065,4 +1065,22 @@ hr {
     line-height: 14px;
     margin: 5px 0;
     width: 100%;
+}
+
+#nav li.finalRight ul {
+  width: 108px;
+  left: -20px;
+}
+
+#nav li.finalRight ul li {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  text-align: center;
+  margin-left: 0;
+}
+
+#nav li.finalRight ul li a {
+  margin: 0;
+  padding: 0;
 }

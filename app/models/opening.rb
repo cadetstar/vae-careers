@@ -36,7 +36,7 @@ class Opening < ActiveRecord::Base
   end
 
   def to_s
-    "#{position.to_s} - #{department.try(:city_state)}"
+    "#{position.to_s} - #{department.try(:city_state)} (#{position.try(:time_type_abbreviation)})"
   end
 
   def status

@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>VAE Careers</title>
-  <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag    "internal" %>
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" %>
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" %>
   <%= javascript_include_tag "application" %>
@@ -21,7 +21,7 @@
   </div>
   <% if current_user.has_role?('administrator') %>
       <div class="menu_links">
-        <%= link_to 'Applicants', applicants_path %>
+        <%= link_to 'Profiles', applicants_path %>
         <%= link_to raw('Internal&nbsp;Users'), remote_users_path %>
         <%= link_to raw('Position&nbsp;Types'), position_types_path %>
         <%= link_to 'Positions', positions_path %>

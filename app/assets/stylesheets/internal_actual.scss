@@ -4,7 +4,6 @@ $inactive: #d4a3aa;
 
 body {
   background-color: #f8f8f8;
-  font-size: .80em;
   font-family: Tahoma;
   margin: 0px;
   padding: 0px;
@@ -12,7 +11,8 @@ body {
 }
 body.internal {
   background-color: white;
-  font-size: 1em;
+  margin: 2px;
+  font-size: 14px;
 }
 
 table {
@@ -273,6 +273,15 @@ table.resource_index {
   }
 }
 
+.tag_left {
+  float: left;
+  width: 48%;
+}
+.tag_right {
+  float: left;
+  width: 45px;
+  margin-left: 10px;
+}
 .current_tags {
   min-height: 100px;
   width:48%;
@@ -294,6 +303,11 @@ table.resource_index {
 
 .tag_editing {
   float:left;
+  width: 100%;
+}
+
+.tag_header {
+  float: left;
   width: 100%;
 }
 
@@ -809,4 +823,18 @@ hr {
   font-weight: 600;
   line-height: 25px;
   margin-bottom: 10px;
+}
+
+.recommendation_popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left:-150px;
+  margin-top: -150px;
+  width: 300px;
+  height: 300px;
+  display: none;
+  border: 2px solid black;
+  background-color: white;
+  text-align: center;
 }

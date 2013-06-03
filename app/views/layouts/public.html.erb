@@ -93,7 +93,7 @@
         <li>
           <a href="http://VAEcorp.com/Pages/About/ContactMain.aspx" class="menuLinks">CONTACT US</a>
         </li>
-        <li>
+        <li class="finalRight">
           <%= link_to 'CAREERS', root_path, :class => 'menuLinks' %>
           <ul>
             <% if current_user or current_applicant %>
@@ -116,6 +116,8 @@
 </div>
 <div id="MainContentWrap">
   <div id="MainContentDiv">
+    <div class='notice'><%= raw notice %></div>
+    <div class="alert"><%= raw alert %></div>
     <%= yield %>
     <div style="clear: both;"></div>
   </div>

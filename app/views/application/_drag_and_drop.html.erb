@@ -49,22 +49,26 @@
 <div class='float_clear'></div>
 <script type="text/javascript">
     $(document).ready(function() {
+        $('.linked_list<%= @unique_id %> div').dblclick(function(e) {
+            e.preventDefault();
+            $('.linked_list<%= @unique_id %>').not($(e.target).closest('.linked_list<%= @unique_id %>')).append(e.target);
+            sendInfoToServer<%= @unique_id %>();
+        });
         $('.linked_list<%= @unique_id %>').sortable({
             connectWith: '.linked_list<%= @unique_id %>',
             items: '.question_row',
             stop: function(event, ui) {
-                console.info("Sort firing.")
                 if (ui.item.qtip('api')) {
                     ui.item.qtip("hide");
                 }
-                console.info($(this).attr('class'));
-                console.info($('.storage<%= @unique_id %>').sortable('serialize'));
-
-                $.ajax({
-                    url: "<%= submit_path %>",
-                    data: $('.storage<%= @unique_id %>').sortable('serialize')
-                });
+                sendInfoToServer<%= @unique_id %>();
             }
         }).disableSelection();
+        sendInfoToServer<%= @unique_id %> = function() {
+            $.ajax({
+                url: "<%= submit_path %>",
+                data: $('.storage<%= @unique_id %>').sortable('serialize')
+            });
+        };
     });
 </script>
