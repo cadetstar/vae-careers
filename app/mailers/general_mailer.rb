@@ -21,7 +21,12 @@ class GeneralMailer < ActionMailer::Base
     @message = message
 
     if url
-      the_url = link_to eval(url, :only_path => false)
+      if url =~ /\)$/
+        url = url[0..-2] + ', :only_path => false)'
+      else
+        url += '(:only_path => false)'
+      end
+      the_url = link_to eval(url)
       @message.gsub!('%URL%', the_url)
     end
 

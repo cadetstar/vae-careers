@@ -108,4 +108,8 @@ class NewHireRequest < ActiveRecord::Base
         GeneralMailer.central_mail(self.creator, message, "New Hire Request has been rejected").deliver
     end
   end
+
+  def position_description
+    position.try(:description)
+  end
 end

@@ -29,6 +29,12 @@ module Vae
       'Other' => 'Other (please explain below)'
   }
 
+  POSTING_OPTIONS = [
+      "Do Not Post - Internal Candidate has been identified to fill the position.",
+      "Post on Careers Site Only - External Candidate has been identified; no advertising necessary.",
+      "Post & Advertise"
+  ]
+
   RECRUITER_RECOMMENDATION = %w(Please\ Choose 1\ -\ Yes 2\ -\ Maybe 3\ -\ No)
 
   FORM_TOKENS = {

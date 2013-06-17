@@ -1,13 +1,15 @@
 $(document).ready(function() {
     $('.qtip_target').qtip({
         content: {
-            text: function(api) {
-                return $(this).attr('data-qtip');
-            }
+            attr: 'data-qtip'
+//            text: function(api) {
+//                alert('firing');
+//                return $(this).attr('data-qtip');
+//            }
         },
         position: {
-            my: 'bottom left',
-            at: 'top left'
+            my: 'top left',
+            at: 'bottom left'
         },
         show: {
             delay: 500

@@ -52,6 +52,9 @@
         $('.linked_list<%= @unique_id %> div').dblclick(function(e) {
             e.preventDefault();
             $('.linked_list<%= @unique_id %>').not($(e.target).closest('.linked_list<%= @unique_id %>')).append(e.target);
+            <% unless defined?(no_min_height) %>
+            checkHeightOfItems('.linked_list<%= @unique_id %>');
+            <% end %>
             sendInfoToServer<%= @unique_id %>();
         });
         $('.linked_list<%= @unique_id %>').sortable({
@@ -61,6 +64,9 @@
                 if (ui.item.qtip('api')) {
                     ui.item.qtip("hide");
                 }
+                <% unless defined?(no_min_height) %>
+                checkHeightOfItems('.linked_list<%= @unique_id %>');
+                <% end %>
                 sendInfoToServer<%= @unique_id %>();
             }
         }).disableSelection();
@@ -70,5 +76,8 @@
                 data: $('.storage<%= @unique_id %>').sortable('serialize')
             });
         };
+        <% unless defined?(no_min_height) %>
+        checkHeightOfItems('.linked_list<%= @unique_id %>');
+        <% end %>
     });
 </script>

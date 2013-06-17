@@ -45,13 +45,12 @@
         <td><%= r.opening %></td>
         <td><%= r.created_at.to_s(:just_date) %></td>
         <td>
-          <div><%= r.recruiter_recommendation %></div>
+          <div data-qtip="<%= r.recruiter_comment %>" class="qtip_target"><%= r.recruiter_recommendation || 'No recommendation' %></div>
           <%= raw r.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
-          <div>Applicant Tags:</div><%= raw r.applicant.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>
         </td>
         <td>
           <% if r.comments.size > 0 %>
-              <%= link_to r.comments.order(:created_at).last.created_at.to_s(:with_zone), submission_path(:id => r.id, :anchor => "comments") %>
+              <%= link_to r.comments.order(:created_at).last.created_at.to_s(:just_date), submission_path(:id => r.id, :anchor => "comments") %>
           <% end %>
         </td>
       </tr>

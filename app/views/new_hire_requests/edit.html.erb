@@ -7,6 +7,14 @@
       <%= f.label :position %><br />
       <%= f.select :position_id, Position.list_for_select %>
     </div>
+    <div id="position_description">
+      <strong>Description:</strong>
+      <% Position.all.each do |r| %>
+          <div class="position" data-id="<%= r.id %>" style="display: none;">
+            <%= r.description %>
+          </div>
+      <% end %>
+    </div>
     <div>
       <%= f.label :department %><br />
       <%= f.select :department_id, Department.list_for_select(@current_user) %>
@@ -32,7 +40,15 @@
       <%= f.text_area :reason_for_request %>
     </div>
     <div>
-      <%= f.label :criteria, "Additional Critera" %><br />
+      <%= f.label :driver_check, 'Does this position REQUIRE driving privileges as a condition of employment?' %>
+      <%= f.check_box :driver_check %>
+    </div>
+    <div>
+      <%= f.label :posting_options, 'Options for Posting:' %>
+      <%= f.select :posting_options, Vae::POSTING_OPTIONS %>
+    </div>
+    <div>
+      <%= f.label :criteria, "Additional Criteria" %><br />
       <%= f.text_area :criteria %>
     </div>
     <div>
@@ -46,3 +62,13 @@
       <%= f.submit "Update" %>
     </div>
 <% end %>
+<script type="text/javascript">
+  function updateDescription() {
+      $('#position_description div').hide();
+      $('#position_description div[data-id="' + $('#new_hire_request_position_id').val() + '"]').show();
+  }
+    $(document).ready(function() {
+        $('#new_hire_request_position_id').change(updateDescription);
+        updateDescription();
+    });
+</script>

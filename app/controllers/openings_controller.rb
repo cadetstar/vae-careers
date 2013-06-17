@@ -144,7 +144,7 @@ class OpeningsController < ApplicationController
       flash[:notice] = "Emails sent to #{succeeded.join(', ')}"
     end
     unless failed.empty?
-      flash[:alert] = "EmaIls failed to send to #{failed.join(', ')}"
+      flash[:alert] = "Emails failed to send to #{failed.join(', ')}"
     end
     redirect_to root_path
   end

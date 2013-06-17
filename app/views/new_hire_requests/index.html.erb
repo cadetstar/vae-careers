@@ -20,7 +20,7 @@
             <td><%= nhr.creator %></td>
             <td><%= nhr.department %></td>
             <td><%= nhr.position %></td>
-            <td><%= nhr.created_at %></td>
+            <td><%= nhr.created_at.to_s(:just_date) %></td>
             <td><%= nhr.status %></td>
             <td><%= raw nhr.remote_users.collect{|ru| ru.to_s}.join("<br />") %></td>
             <td>
@@ -39,7 +39,7 @@
               <% if nhr.remote_users.include? @current_user %>
                   <%= link_to 'Remove Approval', change_nhr_status_path(:status => 'disapprove', :id => nhr.id), :class => 'prompt' %>
               <% else %>
-                  <%= link_to 'Approve', change_nhr_status_path(:status => 'approve', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Hold', change_nhr_status_path(:status => 'hold', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Reject', change_nhr_status_path(:status => 'reject', :id => nhr.id), :class => 'prompt' %>
+                  <%= link_to 'Approve', change_nhr_status_path(:status => 'approve', :id => nhr.id) %> &middot; <%= link_to 'Hold', change_nhr_status_path(:status => 'hold', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Reject', change_nhr_status_path(:status => 'reject', :id => nhr.id), :class => 'prompt' %>
               <% end %><br />
               <%= link_to 'Show', nhr %>
             </td>

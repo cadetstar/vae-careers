@@ -1,7 +1,7 @@
 class NewHireRequestsController < ApplicationController
   before_filter :is_current_user?
   before_filter :is_administrator?, :only => [:destroy]
-  before_filter :get_resource, :only => [:change_status, :edit, :update, :destroy]
+  before_filter :get_resource, :only => [:change_status, :edit, :update, :destroy, :show]
 
   def new
     @resource = controller_name.classify.constantize.create(:creator => @current_user)

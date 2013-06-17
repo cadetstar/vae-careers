@@ -1,5 +1,5 @@
 <div class="TextHeader">New applicant - <%= @submission.opening.name %></div>
-<p>Fields marked with an asterisk (*) are required.</p>
+<p><%= t('required_question') %></p>
 
 <%= form_for @submission, :url => submit_application_path(:submission_id => @submission.id) do |f| %>
 
@@ -11,7 +11,7 @@
           </tr>
       <% end %>
       <tr>
-        <td class="submission_bio_prompt">How did you find out about this position?</td>
+        <td class="submission_bio_prompt"><%= t('sourcing_question') %></td>
         <td class="submission_answer">
           <%= select_tag :fake_where_sourced, options_for_select(Vae::SOURCES, @submission.where_sourced), :prompt => 'Please select a source.' %>
           <span id="hidden_where_sourced"><%= f.text_field :where_sourced %></span>
@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <td colspan="2" class="fullwidth">
-          Include resumes and other supporting documents here:
+          <%= t('resume_include') %>
         </td>
       </tr>
       <tr>
@@ -47,7 +47,7 @@
       </tr>
       <tr>
         <td colspan="2" class="fullwidth">
-          <span style="color:red">We cannot consider any resume that contains a photograph.</span>
+          <span style="color:red"><%= t('no_photos') %></span>
         </td>
       </tr>
       <tr>
@@ -67,7 +67,7 @@
       </tr>
       <tr>
         <td colspan="2" class="fullwidth">
-          Note: The only digital formats we will accept are Adobe Acrobat format (.pdf) or a MS Word Document (.doc and .docx)
+          <%= t('digital_format_note') %>
         </td>
       </tr>
       <tr>
@@ -75,7 +75,7 @@
       </tr>
       <tr>
         <td colspan="2" class="fullwidth">
-          If you resume is in another format, you may fax it to:
+          <%= t('fax_resume_note') %>
           <%= t('admins.primary.fax') %><br />
           Attention: <%= t('admins.primary.name') %>
         </td>
@@ -85,7 +85,7 @@
       </tr>
       <tr>
         <td colspan="2" class="fullwidth">
-          <strong>INVITATION TO APPLICANT FOR SELF-IDENTIFICATION</strong>
+          <strong><%= t('self_identify_header') %></strong>
         </td>
       </tr>
       <tr>
@@ -93,13 +93,10 @@
       </tr>
       <tr>
         <td colspan="2">
-          Visual Aids Electronics Corp is subject to Executive Order 11246 and its subsequent amendments. It requires federal government contractors to ensure that applicants are selected for employment and are treated during employment without regard to their race, color, religion, sex (including pregnancy), or national origin.<br /><br />
-
-          In addition, VAE is also subject to the Vietnam Era Veterans’ Readjustment Assistance Act of 1974 and its subsequent amendments (Jobs for Veterans Act of 2000). It requires federal government contractors to take affirmative action to employ covered veterans and advance their employment.<br /><br />
-
-          We are therefore requesting information about the race, sex and veteran status of our applicants in order to comply with government reporting requirements and in order to ensure equal opportunity employment.<br /><br />
-
-          Submission of this information is voluntary and refusal to provide it will not subject you to any adverse treatment. The information provided will only be used in ways that are consistent with the requirements of the Vietnam Era Veterans’ Readjustment Assistance Act of 1974, and Executive Order 11246 and their subsequent amendments. <span style="font-style: italic;font-weight: bold;">This information will be maintaned separate from your application.</span> Thank you for your cooperation.
+          <%= t('self_identify_para_1') %><br /><br />
+          <%= t('self_identify_para_2') %><br /><br />
+          <%= t('self_identify_para_3') %><br /><br />
+          <%= raw t('self_identify_para_4') %>
         </td>
       </tr>
       <tr>
@@ -121,12 +118,12 @@
       <% end %>
       <tr>
         <td colspan="2">
-          I certify that the information I have provided is true and correct without any consequential omissions of any kind whatsoever. I understand that if I am employed, any false, misleading or otherwise incorrect statements made as part of this on-line application and subsequent interviews may be grounds for my immediate discharge. I hereby authorize VAE to contact any company or individual it deems appropriate to investigate all aspects of my history including: credit reports, criminal history or arrest records covering the last 7 years, worker's compensation histories, motor vehicle records, unemployment records, military records, transcripts, attendance records at colleges and scholastic institutions, employment background including information contained in my personnel file i.e. salary history, condemnations, performance reviews, and drug and alcohol testing results, verification of licenses, certifications and association memberships. I give my full and complete consent to their revealing any and all information they wish as a result of this investigation. I understand that any or all of these investigations or inquiries can be performed prior to and periodically throughout the duration of my employment. Lastly, I hereby waive my right to bring any cause of action for defamation or related liabilities against VAE, or any of its vendors, agents or investigators, all former employers, reporting agencies and all those supplying references, disclosures or admissions. I also understand that VAE/CSI does not guarantee the privacy of information transmitted over the internet.
+          <%= t('certify_note') %>
         </td>
       </tr>
       <tr>
         <td colspan="2"<%= raw (@retrying and !@submission.affidavit) ? ' class="needed"' : '' %>>
-          <%= f.check_box :affidavit %>* I hereby agree to the affidavit and privacy notice above.
+          <%= f.check_box :affidavit %>* <%= t('affidavit') %>
         </td>
       </tr>
       <tr>

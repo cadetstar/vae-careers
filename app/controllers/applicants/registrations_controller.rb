@@ -1,6 +1,6 @@
 class Applicants::RegistrationsController < Devise::RegistrationsController
   before_filter :authenticate_applicant!, :only => [:edit, :update, :profile, :profile_update]
-  before_filter :is_administrator?, :only => [:index, :view]
+  before_filter :is_administrator?, :only => [:index, :view, :send_email_to_filtered_users]
   skip_before_filter :get_resource
   layout :choose_layout
 
@@ -41,21 +41,44 @@ class Applicants::RegistrationsController < Devise::RegistrationsController
     if params[:sort_order]
       session[:applicants][:sort_order] = params[:sort_order]
     end
-    @resources = Applicant.joins("left join tags on (applicants.id = tags.owner_id and tags.owner_type = 'Applicant')").order(session[:applicants][:sort_order]).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ? or LOWER(email) like ?", "%#{session[:applicants][:name].downcase}%", "%#{session[:applicants][:name].downcase}%"])
-    if !session[:applicants][:tags].empty?
-      @resources = @resources.where(['tags.tag_type_id in (?)', session[:applicants][:tags]])
-    end
+
+    get_applicants_with_filters
 
     @resources = @resources.page(params[:page])
     @klass = Applicant
     @suppress_new = true
   end
 
+  def get_applicants_with_filters
+    @resources = Applicant.joins("left join tags on (applicants.id = tags.owner_id and tags.owner_type = 'Applicant')").order(session[:applicants][:sort_order]).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ? or LOWER(email) like ?", "%#{session[:applicants][:name].downcase}%", "%#{session[:applicants][:name].downcase}%"])
+    if !session[:applicants][:tags].empty?
+      @resources = @resources.where(['tags.tag_type_id in (?)', session[:applicants][:tags]])
+    end
+  end
+
   def view
     unless (@resource = Applicant.find_by_id(params[:id]))
       flash[:alert] = "I could not find an applicant with that ID."
-      redirect_to :action => :index
+      redirect_to applicants_path
     end
+  end
+
+  def send_email_to_filtered_users
+    get_applicants_with_filters
+    succeeded = []
+    failed = []
+
+    @resources.each do |r|
+      begin
+        GeneralMailer.notify_email(r.email, params[:subject], params[:message]).deliver
+        succeeded << r.email
+      rescue
+        failed << r.email
+      end
+    end
+    flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
+    flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
+    redirect_to applicants_path
   end
 
   private

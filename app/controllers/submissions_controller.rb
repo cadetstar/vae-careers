@@ -52,7 +52,14 @@ class SubmissionsController < ApplicationController
   end
 
   def retrieve_file
+    if (file = ApplicantFile.find_by_id(params[:id]))
+      #f = File.open(Rails.root.to_s + file.applicant_file_store.to_s)
 
+      send_file Rails.root.to_s + file.applicant_file_store.to_s, :disposition => 'attachment', :filename => file[:applicant_file_store]
+    else
+      flash[:alert] = 'File not found.'
+      redirect_to :back
+    end
   end
 
   def generate_or_retrieve

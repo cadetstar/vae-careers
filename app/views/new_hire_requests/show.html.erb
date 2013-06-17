@@ -1,0 +1,34 @@
+<div class='resource_navigation'>
+  <%= link_to 'Back', :action => :index %>
+</div>
+<div class="resource_name">New Hire Request</div>
+<% {
+           :position => 'Position',
+           :position_description => 'Position Description',
+           :department => 'Department',
+           :replacement => "Is this position replacing a current or former employee?",
+           :incumbent => "If this position is replacing a current or former employee, who is that employee?",
+           :proposed_wage => 'Proposed Wage',
+           :budgeted_wage => 'Budgeted Wage',
+           :reason_for_request => 'Reason For Request',
+           :driver_check => 'Does this position REQUIRE driving privileges as a condition of employment?',
+           :posting_options => 'Options for Posting',
+           :criteria => 'Additional Criteria'}.each do |k,v|
+%>
+    <div>
+      <strong><%= v %></strong> <%= @resource.send(k) %>
+    </div>
+<% end %>
+<div>
+  <strong>Needed Skills:</strong><br />
+  <% @resource.new_hire_skills.each do |nhs| %>
+      <%= nhs.name %><br />
+  <% end %>
+</div>
+
+<div>
+  <strong>Approvals</strong><br />
+  <% @resource.new_hire_approvals.each do |nha| %>
+    Approved by <%= nha.remote_user %> on <%= nha.created_at.to_s(:just_date) %>
+  <% end %>
+</div>

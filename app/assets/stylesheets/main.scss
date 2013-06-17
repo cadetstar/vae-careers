@@ -1069,8 +1069,12 @@ hr {
 
 #nav li.finalRight ul {
   width: 108px;
+}
+
+#nav li.finalRight:hover ul {
   left: -20px;
 }
+
 
 #nav li.finalRight ul li {
   width: 100%;
@@ -1084,3 +1088,4 @@ hr {
   margin: 0;
   padding: 0;
 }
+

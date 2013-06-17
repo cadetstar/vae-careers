@@ -18,6 +18,22 @@
     </div>
 <% end %>
 <% if current_user.has_role?('administrator') %>
+    <% if @resource.submissions.count > 0 %>
+    <div>
+      <h3>Bulk Submission Permission Modification</h3>
+    </div>
+    <div>
+      <%= link_to "Remove all Submissions (#{@resource.submissions.count})", bulk_submissions_modify_path(:type => 'remove', :id => @resource.id) %>
+    </div>
+    <hr />
+    <div>
+      Copy Submissions to Another User:<br />
+      <%= form_tag bulk_submissions_modify_path(:type => 'copy', :id => @resource.id) %>
+        <%= select_tag :new_user_id, options_for_select(RemoteUser.order('last_name, first_name').all.collect{|ru| [ru.to_s, ru.id]}) %>
+        <%= submit_tag 'Copy' %>
+      </form>
+    </div>
+    <% end %>
     <div class='resource_navigation'>
       <%= link_to 'Back', {:action => :index} %>
     </div>

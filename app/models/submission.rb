@@ -183,7 +183,7 @@ class Submission < ActiveRecord::Base
     end
 
     if (state = self.applicant.try(:state))
-      DynamicFile.where(:state => state).each do |df|
+      DynamicFile.where("#{type}_state".to_sym => state).each do |df|
         if df.current_version.can_be_compiled
           compilable_templates << df.current_version
         else

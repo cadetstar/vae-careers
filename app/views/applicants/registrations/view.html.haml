@@ -4,7 +4,11 @@
   .profile_row
     %strong= "#{f.humanize}:"
     = @resource.send(f.to_sym)
-
+%br
+.profile_row
+  %strong Applicant Files
+- @resource.applicant_files.each do |af|
+  = link_to(af[:applicant_file_store], retrieve_application_file_path(:id => af.id))
 %hr
 
 = render :partial => 'comments/stub'

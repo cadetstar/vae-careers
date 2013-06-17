@@ -7,7 +7,7 @@ class Position < ActiveRecord::Base
   end
 
   def to_s
-    name
+    "#{name} - #{time_type}"
   end
 
   def time_type_abbreviation

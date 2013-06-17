@@ -5,6 +5,9 @@ class RemoteUser < ActiveRecord::Base
   has_many :remote_user_departments
   has_many :departments, :through => :remote_user_departments
 
+  has_many :submission_users, :dependent => :destroy
+  has_many :submissions, :through => :submission_users
+
   has_many :managed_departments, :class_name => "Department", :foreign_key => :manager_id
   has_many :supervised_departments, :class_name => "Department", :foreign_key => :supervisor_id
 

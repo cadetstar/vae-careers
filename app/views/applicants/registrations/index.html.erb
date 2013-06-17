@@ -21,6 +21,19 @@
       </div>
     </div>
 <% end %>
+<div class="show_emails">
+  <%= link_to 'Send Email to Filtered Applicants', '#' %>
+</div>
+<div class="hide_emails" style="display: none">
+  <%= link_to 'Hide Email Block', '#' %>
+  <div>
+    <%= form_tag send_email_to_filtered_users_path %>
+        Subject: <%= text_field_tag :subject, '', :style => 'width: 500px' %><br />
+        Message: <%= text_area_tag :message %><br />
+        <%= submit_tag 'Send Email' %>
+    </form>
+  </div>
+</div>
 <%= paginate @resources %>
 <hr />
 <% @klass ||= controller_name.singularize.constantize %>
@@ -69,6 +82,11 @@
     $(document).ready(function() {
         $('.resource_index th[data-type]').click(function(e) {
             window.location.href = '<%= applicants_path %>?sort_order=' + $(e.target).closest('[data-type]').attr('data-type');
-        })
+        });
+
+        $('.show_emails a, .hide_emails a').click(function(e) {
+            e.preventDefault();
+            $('.show_emails, .hide_emails').toggle();
+        });
     });
 </script>

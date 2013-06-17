@@ -100,8 +100,23 @@ class Applicant < ActiveRecord::Base
     [address_1, address_2, csz].compact.join(', ')
   end
 
+  def current_sign_in
+    if current_sign_in_at
+      current_sign_in_at.to_s(:just_date)
+    else
+      ''
+    end
+  end
+
+  def last_sign_in
+    if last_sign_in_at
+      last_sign_in_at.to_s(:just_date)
+    else
+      ''
+    end
+  end
   def self.indexed_attributes
-    %w(email first_name last_name preferred_name city state zip country tags current_sign_in_at last_sign_in_at sign_in_count)
+    %w(email first_name last_name preferred_name city state zip country tags current_sign_in last_sign_in sign_in_count)
   end
 
   private

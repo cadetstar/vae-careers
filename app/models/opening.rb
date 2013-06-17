@@ -39,6 +39,15 @@ class Opening < ActiveRecord::Base
     "#{position.to_s} - #{department.try(:city_state)} (#{position.try(:time_type_abbreviation)})"
   end
 
+  def destroy
+    if self.submissions.size > 0
+      "You cannot destroy an opening that has submissions attached to it. (#{self.submissions.size} attached)"
+    else
+      super
+      "Opening #{self.id}/#{self.name} destroyed."
+    end
+  end
+
   def status
     if active
       "Active"

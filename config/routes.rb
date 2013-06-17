@@ -5,6 +5,7 @@ VaeCareers::Application.routes.draw do
     match 'applicants/profile/update', :to => 'applicants/registrations#profile_update', :as => 'profile_update'
     match 'applicants', :to => 'applicants/registrations#index', :as => 'applicants', :method => :get
     match 'applicant/:id/view', :to => 'applicants/registrations#view', :as => 'applicant_view'
+    match 'applicants/send_filter', :to => 'applicants/registrations#send_email_to_filtered_users', :as => 'send_email_to_filtered_users'
   end
 
   match 'question_groups/question_orders/:id', :to => 'question_groups#set_question_groups', :as => 'set_question_groups'
@@ -46,6 +47,8 @@ VaeCareers::Application.routes.draw do
   match 'reports/:id/execute', :to => 'reports#execute_report', :as => 'execute_report'
   match 'reports/:id/results', :to => 'reports#view_report', :as => 'view_results'
   match 'reports/:id/purge', :to => 'reports#purge', :as => 'purge'
+
+  match 'remote_users/:id/bulk/:type', :to => 'remote_users#bulk_submissions_modify', :as => 'bulk_submissions_modify'
 
   resources :position_types
   resources :positions
