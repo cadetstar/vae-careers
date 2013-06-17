@@ -143,7 +143,7 @@ class ApplicationController < ActionController::Base
                                 params,
                                 request.env,
                                 current_user || current_applicant,
-                                request.env['HTTP_HOST'].match(/careers2\.vaecorp\.com/)
+                                request.env['HTTP_HOST'].to_s.match(/careers2\.vaecorp\.com/)
     ).deliver
 
     #redirect_to '/500.html'
