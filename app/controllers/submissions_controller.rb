@@ -108,7 +108,7 @@ class SubmissionsController < ApplicationController
     end
 
     params[:page] ||= 1
-    @resources = Submission.joins(:applicant, [:opening => :position]).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types]).where({:inactive => [nil, false]}).where(:completed => true).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ?", "%#{session[:submissions][:name].downcase}%"])
+    @resources = Submission.joins(:applicant, [:opening => :position]).where({:inactive => [nil, false]}).where(:completed => true).where(["LOWER(first_name) || ' ' || LOWER(last_name) like ?", "%#{session[:submissions][:name].downcase}%"])
     if session[:submissions][:opening_id]
       @resources = @resources.where(:opening_id => session[:submissions][:opening_id])
     end
@@ -117,7 +117,7 @@ class SubmissionsController < ApplicationController
     if params[:sort_order]
       session[:submissions][:sort_order] = params[:sort_order]
     end
-    @resources = @resources.order(session[:submissions][:sort_order]).page(params[:page])
+    @resources = @resources.order(session[:submissions][:sort_order]).page(params[:page]).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types])
   end
 
   def update_recommendation
