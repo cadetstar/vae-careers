@@ -71,13 +71,8 @@
                 $('#main_text').show();
                 break;
             case 'country' :
-                if (link.attr('data-value') === 'United States') {
-                    current.states = [<%= Vae::STATES['states'].collect{|k,v| "'#{v}'"}.join(',') %>];
-                    statedesc = "United States";
-                } else {
-                    current.states = [<%= Vae::STATES['provinces'].collect{|k,v| "'#{v}'"}.join(',') %>];
-                    statedesc = "Canada";
-                }
+                current.states = [<%= Vae::STATES['states'].collect{|k,v| "'#{v}'"}.join(',') %>];
+                statedesc = "United States";
                 break;
             default:
                 current[link.attr('data-type')] = [];
