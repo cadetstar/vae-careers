@@ -9,6 +9,12 @@ module Vae
 
   STATES = YAML::load_file(File.join(Rails.root, 'lib', 'states.yaml'))
 
+  SUBMISSIONS = {
+      'genders' => %w(Male Female),
+      'races' => %w(White Black\ or\ African\ American Hispanic\ or\ Latino Asian American\ Indian\ or\ Alaska\ Native Two\ or\ More\ Races),
+      'veteran' => %w(Yes No)
+  }
+
   SOURCES = {
       'CareerBuilder' => 'CareerBuilder',
       'Monster' => 'Monster',

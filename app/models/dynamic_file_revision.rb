@@ -45,7 +45,9 @@ class DynamicFileRevision < ActiveRecord::Base
   def parse_data_field(text, applicant)
     return "(BLANK)" if text.blank? and applicant.nil?
     Vae::FORM_TOKENS.each do |k,v|
-      text.gsub!(k, applicant.nil? ? v[:name] : applicant.send(v[:data]))
+      if text
+        text.gsub!(k, applicant.nil? ? v[:name] : applicant.send(v[:data]))
+      end
     end
     text
   end

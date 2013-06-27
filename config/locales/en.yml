@@ -20,10 +20,14 @@ en:
       name: Heather Hackworth
       email: hhackworth@vaecorp.com
       title:  Director of Human Resources
+    corp:
+      name: Brandee Smith
+      email: blsmith@vaecorp.com
+      title: Administrative Assistant
   address:
     vae:
-      html: <p>Visual Aids Electronics<br />12910 Cloverleaf Center Drive<br />Suite 100<br />Germantown, MD 20874</p>
-      plain: Visual Aids Electronics\n12910 Cloverleaf Center Drive\nSuite 100\nGermantown, MD 20874
+      html: <p>Visual Aids Electronics<br />12900 Cloverleaf Center Drive<br />Suite C<br />Germantown, MD 20874</p>
+      plain: Visual Aids Electronics\n12900 Cloverleaf Center Drive\nSuite C\nGermantown, MD 20874
     csi:
       html: <p>Conference Systems, Inc.<br />20405 Seneca Meadows Parkway<br />Germantown, MD 20876</p>
       plain: Conference Systems, Inc.\n20405 Seneca Meadows Parkway\nGermantown, MD 20876
@@ -37,8 +41,9 @@ en:
     offer: Have you made an offer of employment to the candidate?  You must make an offer of employment to the candidate before he/she can be asked to complete the Background Check Release Form.
     references: Does information stating that references have been checked appear in the comments?  References must be checked prior to processing and feedback must appear in the comments.
   hello: "Hello world"
+  link_to_facebook: '<a href="/http://www.facebook.com/pages/Visual-Aids-Electronics-VAE/109141915778443">Follow us on Facebook</a>'
   opening_email:
-    text: <p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p>
+    text: <p>%ICON%</p><p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p><p>Go here to apply: %LINK_TO_APPLY%<p><p>%FACEBOOK_TEXT%</p>
     subject: "[VAE Careers] %FROM% shared a posting with you!"
   confirmation_email:
     text: <p>Thank you for your application.  We will review it promptly.  Below is a summary of your submission.</p>
@@ -67,3 +72,8 @@ en:
   self_identify_para_4: "Submission of this information is voluntary and refusal to provide it will not subject you to any adverse treatment. The information provided will only be used in ways that are consistent with the requirements of the Vietnam Era Veterans’ Readjustment Assistance Act of 1974, and Executive Order 11246 and their subsequent amendments. <span style='font-style: italic;font-weight: bold;'>This information will be maintained separate from your application.</span> Thank you for your cooperation."
   certify_note: "I certify that the information I have provided is true and correct without any consequential omissions of any kind whatsoever. I understand that if I am employed, any false, misleading or otherwise incorrect statements made as part of this on-line application and subsequent interviews may be grounds for my immediate discharge. I hereby authorize VAE to contact any company or individual it deems appropriate to investigate all aspects of my history including: credit reports, criminal history or arrest records covering the last 7 years, worker's compensation histories, motor vehicle records, unemployment records, military records, transcripts, attendance records at colleges and scholastic institutions, employment background including information contained in my personnel file i.e. salary history, condemnations, performance reviews, and drug and alcohol testing results, verification of licenses, certifications and association memberships. I give my full and complete consent to their revealing any and all information they wish as a result of this investigation. I understand that any or all of these investigations or inquiries can be performed prior to and periodically throughout the duration of my employment. Lastly, I hereby waive my right to bring any cause of action for defamation or related liabilities against VAE, or any of its vendors, agents or investigators, all former employers, reporting agencies and all those supplying references, disclosures or admissions. I also understand that VAE/CSI does not guarantee the privacy of information transmitted over the internet."
   affidavit: I hereby agree to the affidavit and privacy notice above.
+  opp_top_note: VAE requires a background check (criminal history, social security number and motor vehicles records) once an offer of employment is made and starting date is contingent upon favorable results.
+  submission:
+    veteran_label: Are you a U.S. Veteran?
+    gender_label: Gender
+    race_label: Race

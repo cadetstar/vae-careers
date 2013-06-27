@@ -43,7 +43,7 @@ class GeneralMailer < ActionMailer::Base
   def application_confirmation(submission)
     @submission = submission
 
-    mail(:to => submission.applicant.email, :subject => I18n.t('confirmatioN_email.subject'))
+    mail(:to => submission.applicant.email, :subject => I18n.t('confirmation_email.subject'))
   end
 
   def recruiter_application(submission, remote_user)

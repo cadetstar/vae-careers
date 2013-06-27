@@ -22,6 +22,7 @@ class SubmissionsController < ApplicationController
       redirect_to root_path
       return
     end
+    @submission.copy_and_check_questions
     if flash[:alert]
       @retrying = true
     end
@@ -113,7 +114,7 @@ class SubmissionsController < ApplicationController
       @resources = @resources.where(:opening_id => session[:submissions][:opening_id])
     end
 
-    session[:submissions][:sort_order] ||= 'recruiter_recommendation, completed_at'
+    session[:submissions][:sort_order] ||= 'created_at desc, recruiter_recommendation, completed_at'
     if params[:sort_order]
       session[:submissions][:sort_order] = params[:sort_order]
     end
@@ -123,6 +124,9 @@ class SubmissionsController < ApplicationController
   def update_recommendation
     if (@submission = Submission.find_by_id(params[:id]))
       @submission.recruiter_recommendation = params[:recruiter_recommendation]
+      if params[:recruiter_comment] != @submission.recruiter_comment
+        @submission.create_comment(:body => s.recruiter_comment, :creator => current_user)
+      end
       @submission.recruiter_comment = params[:recruiter_comment]
       @submission.save
     end
@@ -141,6 +145,12 @@ class SubmissionsController < ApplicationController
     end
     flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
     flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
+  end
+
+  def setup
+    GeneralMailer.notify_email(t('admins.corp.email'), 'New Applicant Hired', params[:message])
+    flash[:notice] = "Email sent to #{t('admins.corp.name')}"
+    redirect_to :back
   end
 
   private
