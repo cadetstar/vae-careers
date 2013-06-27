@@ -43,7 +43,7 @@ en:
   hello: "Hello world"
   link_to_facebook: '<a href="/http://www.facebook.com/pages/Visual-Aids-Electronics-VAE/109141915778443">Follow us on Facebook</a>'
   opening_email:
-    text: <p>%ICON%</p><p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p><p>Go here to apply: %LINK_TO_APPLY%<p><p>%FACEBOOK_TEXT%</p>
+    text: '<p>%ICON%</p><p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p><p>Go here to apply: %LINK_TO_APPLY%<p><p>%FACEBOOK_TEXT%</p>'
     subject: "[VAE Careers] %FROM% shared a posting with you!"
   confirmation_email:
     text: <p>Thank you for your application.  We will review it promptly.  Below is a summary of your submission.</p>
