@@ -76,14 +76,16 @@ class Submission < ActiveRecord::Base
           assembly = {:question_id => q.id, :question_text => q.prompt, :question_type => q.question_type, :group_order => i + 1, :question_order => j + 1}
           if (csa = self.submission_answers.find_by_group_order_and_question_order(i + 1, j + 1))
             csa.update_attributes(assembly)
-            current_answers -= csa
+            current_answers -= [csa]
           else
             self.submission_answers.create(assembly)
           end
         end
       end
     end
-    current_answers.destroy_all
+    current_answers.each do |ca|
+      ca.destroy
+    end
     true
   end
 
