@@ -27,7 +27,7 @@ class Submission < ActiveRecord::Base
            :home_or_cell, :combined_address, :full_address, :csz, :to => :applicant
 
   before_save  :bounce_new_record
-  after_create :copy_questions
+  after_create :copy_and_check_questions
   after_save   :check_for_completion
 
   after_update do |s|
@@ -68,14 +68,22 @@ class Submission < ActiveRecord::Base
     true
   end
 
-  def copy_questions
+  def copy_and_check_questions
+    current_answers = self.submission_answers
     if self.opening
       self.opening.question_groups.each_with_index do |qg, i|
         qg.questions.each_with_index do |q, j|
-          self.submission_answers.create(:question_id => q.id, :question_text => q.prompt, :question_type => q.question_type, :group_order => i + 1, :question_order => j + 1)
+          assembly = {:question_id => q.id, :question_text => q.prompt, :question_type => q.question_type, :group_order => i + 1, :question_order => j + 1}
+          if (csa = self.submission_answers.find_by_group_order_and_question_order(i + 1, j + 1))
+            csa.update_attributes(assembly)
+            current_answers -= csa
+          else
+            self.submission_answers.create(assembly)
+          end
         end
       end
     end
+    current_answers.destroy_all
     true
   end
 

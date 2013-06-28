@@ -133,7 +133,7 @@
         Corporate Office - <%= t('phones.main') %> | Fax - <%= t('phones.fax') %>
       </p>
       <p>
-        &copy; COPYRIGHT 2012-<%= Time.now.year %> - <%= t(request.env['HTTP_HOST'].match(/vaecorp/) ? 'companies.vae' : 'companies.csi') %>
+        &copy; COPYRIGHT 2012-<%= Time.now.year %> - <%= t(request.env['HTTP_HOST'].to_s.match(/vaecorp/) ? 'companies.vae' : 'companies.csi') %>
       </p>
     </div>
   </div>

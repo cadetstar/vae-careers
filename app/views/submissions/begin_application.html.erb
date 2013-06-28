@@ -53,6 +53,16 @@
       <tr>
         <td colspan="2" class="spacer"> &nbsp; </td>
       </tr>
+      <% if @submission.applicant_files.size > 0 %>
+        <tr>
+          <td colspan="2" class="fullwidth">
+            <strong>Resumes/Documents already uploaded for this application:</strong>
+            <% @submission.applicant_files.each do |af| %>
+                <br /><%= af[:applicant_file_store] %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
       <tr>
         <td colspan="2" class="fullwidth">
           <% 2.times do %>
@@ -104,16 +114,16 @@
       </tr>
       <%= f.fields_for :demographic, @submission.demographic || @submission.create_demographic do |g| %>
           <tr>
-            <td class="submission_prompt">Gender</td>
-            <td class="submission_answer"><%= g.select :gender, %w(Female Male), :include_blank => true %></td>
+            <td class="submission_prompt"><%= t('submission.gender_label') %></td>
+            <td class="submission_answer"><%= g.select :gender, Vae::SUBMISSIONS['genders'], :include_blank => true %></td>
           </tr>
           <tr>
-            <td class="submission_prompt">Race</td>
-            <td class="submission_answer"><%= g.select :race, %w(White Black\ or\ African\ American Hispanic\ or\ Latino Asian American\ Indian\ or\ Alaska\ Native Two\ or\ More\ Races), :include_blank => true %></td>
+            <td class="submission_prompt"><%= t('submission.race_label') %></td>
+            <td class="submission_answer"><%= g.select :race, Vae::SUBMISSIONS['races'], :include_blank => true %></td>
           </tr>
           <tr>
-            <td class="submission_prompt">Veteran Status</td>
-            <td class="submission_answer"><%= g.select :veteran, %w(Yes No), :include_blank => true %></td>
+            <td class="submission_prompt"><%= t('submission.veteran_label') %></td>
+            <td class="submission_answer"><%= g.select :veteran, Vae::SUBMISSIONS['veteran'], :include_blank => true %></td>
           </tr>
       <% end %>
       <tr>

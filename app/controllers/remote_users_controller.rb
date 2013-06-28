@@ -7,6 +7,7 @@ class RemoteUsersController < ApplicationController
   def index
     @resources = RemoteUser.unscoped.includes(:departments, :managed_departments, :supervised_departments).order('inactive, last_name, first_name')
     @suppress_delete = true
+    @suppress_new = true
   end
 
   def edit

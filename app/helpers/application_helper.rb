@@ -82,6 +82,9 @@ module ApplicationHelper
     text.gsub!('%OPENING%', opening.to_s)
     text.gsub!('%OPENING_DESCRIPTION%', opening.description.to_s)
     text.gsub!('%HIGH_PRIORITY%', opening.high_priority_description.to_s)
+    text.gsub!('%LINK_TO_APPLY%', link_to(apply_path(:opening_id => opening.id, :only_path => false)))
+    text.gsub!('%ICON%', image_tag('/vae_logo_new_smaller.jpg'))
+    text.gsub!('%FACEBOOK_TEXT%', t('link_to_facebook'))
     text
   end
 end

@@ -25,14 +25,14 @@
 <%= paginate @resources %>
 <table class='resource_index'>
   <tr>
-    <th data-sortfield='first_name'>First Name</th>
-    <th data-sortfield='last_name'>Last Name</th>
+    <th data-sortfield='first_name<%= session[:submissions][:sort_order] == 'first_name' ? ' desc' : '' %>'>First Name</th>
+    <th data-sortfield='last_name<%= session[:submissions][:sort_order] == 'last_name' ? ' desc' : '' %>'>Last Name</th>
     <th>Application on File</th>
-    <th data-sortfield='email'>Email</th>
-    <th data-sortfield='state,city'>City, State</th>
-    <th data-sortfield='positions.name'>Openings</th>
-    <th data-sortfield='created_at'>Date Applied</th>
-    <th data-sortfield='recruiter_recommendation'>Priority</th>
+    <th data-sortfield='email<%= session[:submissions][:sort_order] == 'email' ? ' desc' : '' %>'>Email</th>
+    <th data-sortfield='<%= session[:submissions][:sort_order] == 'state,city' ? 'state desc, city desc' : 'state,city' %>'>City, State</th>
+    <th data-sortfield='positions.name<%= session[:submissions][:sort_order] == 'positions.name' ? ' desc' : '' %>'>Openings</th>
+    <th data-sortfield='created_at<%= session[:submissions][:sort_order] == 'created_at' ? ' desc' : '' %>'>Date Applied</th>
+    <th data-sortfield='recruiter_recommendation<%= session[:submissions][:sort_order] == 'recruiter_recommendation' ? ' desc' : '' %>'>Priority</th>
     <th>Comments</th>
   </tr>
   <% @resources.each do |r| %>
