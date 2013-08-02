@@ -67,7 +67,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $.get('/openings/description/<%= Position.first.try(:id) %>', function(data, textStatus, jqXHR) {
+        $.get('/openings/description/<%= (@resource.try(:position) || Position.first).try(:id) %>', function(data, textStatus, jqXHR) {
             $('#opening_description').val(data);
         });
         $('#opening_position_id').change(function() {
