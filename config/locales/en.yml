@@ -5,9 +5,10 @@ en:
   admins:
     primary:
       name: Rachel Yellin
+      public: Rachel Y
       email: ryellin@vaecorp.com
       title: 'Human Resources Recruiter'
-      fax: 240-306-2669
+      fax: 240-306-2931
     it:
       name: Andy Kirk
       email:  akirk@vaecorp.com
@@ -46,18 +47,18 @@ en:
     text: '<p>%ICON%</p><p>%FROM% thought you should see this opening for %OPENING%</p><p>%OPENING_DESCRIPTION%</p><p style="color:red">%HIGH_PRIORITY%</p><p>Go here to apply: %LINK_TO_APPLY%<p><p>%FACEBOOK_TEXT%</p>'
     subject: "[VAE Careers] %FROM% shared a posting with you!"
   confirmation_email:
-    text: <p>Thank you for your application.  We will review it promptly.  Below is a summary of your submission.</p>
+    text: <p>Thank you for applying to the %POSITION% at Visual Aids Electronics.  At this point, the Recruiter will review your application and any attachments and determine if you meet the minimum qualifications.  Then the hiring manager in the field will have the same opportunity.  The appropriate hiring manager will be making contact with those applicants to which he/she has the most interest based on qualifications.  If you are not contacted, you may not be the right fit for this position, but your application will remain in our database for up to two years.  Each time a position is filled, all applicants not hired for that position will be notified via e-mail with our gratitude for their interest in employment with VAE.</p>%SOCIAL_MEDIA%<hr />
     subject: "[VAE Careers] Thank you for applying to Visual Aids Electronics"
   notify_others:
-    text: <p>Thank you for your application, but the position of %POSITION% has been filled.  We will keep your application on file and look forward to hiring you soon.</p>
+    text: <p>Thank you for your application, but the position of %POSITION% has been filled.  We will keep your application on file for two years and look forward to hiring you soon.</p>%SOCIAL_MEDIA%
     subject: "[VAE Careers] Thank you for your application."
   job_agent:
     subject: "[VAE Careers] There are new positions matching one of your job agents!"
     text: "There are new positions that match your job agent (keywords: %KEYWORDS%):"
   welcome_email:
     subject: "[VAE Careers] Welcome to VAE Careers!"
-    text: Thank you for signing up for the Visual Aids Electronics website.
-  main_page: We invite you to explore the career opportunities Visual Aids Electronics is currently offering. If interested in a position, please click on the job title to see a full description and to submit your application online.<br /><br />VAE is a place full of energy and forward momentum, and we welcome new employees who share our pioneering spirit. As our business continues to expand, we are looking for highly motivated individuals with fresh ideas, creative minds, and a first-rate work ethic. When assessing candidates for open positions we are admittedly selective, striving to hire the highest caliber of talent in the industry. Our employees are trained on, and held accountable for a specific set of written standards. These standards outline the company's expectations for customer service, professionalism, sales, and quality of equipment. VAE is committed to providing a comprehensive compensation and benefits package including a competitive wage, possible incentive pay, health, dental, vision, life, ad&d, and long-term disability insurance, paid leave, tuition assistance, and a retirement plan. We start our new employees out on a training path to success equipping them with all of the tools and training they will need to become a contributing member of our team of professionals. Knowing that we are only as strong as our staff, we stay focused on initiatives to keep positive employee morale through programs rewarding service and achievement as well as celebrating our individual uniqueness and diversity. We are also highly supportive of our employees. Through a program called Staging Your Future, we assess your occupational needs and provide the necessary education, training, and experience to help you pursue your career goals. We work hard to create a professional environment where you will want stay with the company as a lifelong employee. VAE will help you build a career, not "just a job."<br /><br />Background and reference checks serve as an important part of the selection process and are completed for each newly hired employee prior to starting work. A criminal history check, a social security number verification, and a motor vehicles record review will be performed on all new hires. Any information - including convictions - that is revealed as a result of the background check will not be used as a basis for denying employment unless it is determined to be relevant to the job for which you are applying. Applicants are asked to engage in truthful reporting. Dishonesty is cause for immediate disqualification/termination.<br /><br />Thank you for your interest in VAE! If hired, we may pay for your referrals of quality candidates -- ask how!<br /><br />VAE is an Equal Opportunity Employer, welcoming all applications.
+    text: Thank you for signing up for the Visual Aids Electronics Careers website.  By creating a profile, you now have the opportunity to update your contact information, revise or add credentials, and set up a Job Agent by selecting keywords.  When a new VAE position is posted on our Careers website that contains any of the keywords you identified, you will automatically receive an e-mail notification about the opening <strong>before</strong> any advertisements are placed.<br /><br />Access your profile today by visiting VAE Careers at %HOME% and click on the Careers link on the upper right of the home page.  Also, we hope you join us through our social media platforms:<br /><br />%SOCIAL_MEDIA%
+  main_page: <strong>We invite you to explore the career opportunities Visual Aids Electronics is currently offering. If interested in a position, please click on the job title to see a full description and to submit your application online or follow the instructions to share the opening with another via e-mail.  Regardless, you must set up a PROFILE for access.  Creating a profile allows you to keep your contact information and credentials current.  Additionally, you can set up JOB AGENTS using keywords so VAE will automatically notify you via e-mail when a position to which you have expressed interest is posted.</strong><br /><br />VAE is a place full of energy and forward momentum, and we welcome new employees who share our pioneering spirit. As our business continues to expand, we are looking for highly motivated individuals with fresh ideas, creative minds, and a first-rate work ethic. When assessing candidates for open positions we are admittedly selective, striving to hire the highest caliber of talent in the industry. Our employees are trained on, and held accountable for a specific set of written standards. These standards outline the company's expectations for customer service, professionalism, sales, and quality of equipment. VAE is committed to providing a comprehensive compensation and benefits package including a competitive wage, possible incentive pay, health, dental, vision, life, ad&d, and long-term disability insurance, paid leave, tuition assistance, and a retirement plan. We start our new employees out on a training path to success equipping them with all of the tools and training they will need to become a contributing member of our team of professionals. Knowing that we are only as strong as our staff, we stay focused on initiatives to keep positive employee morale through programs rewarding service and achievement as well as celebrating our individual uniqueness and diversity. We are also highly supportive of our employees. Through a program called Staging Your Future, we assess your occupational needs and provide the necessary education, training, and experience to help you pursue your career goals. We work hard to create a professional environment where you will want stay with the company as a lifelong employee. VAE will help you build a career, not "just a job."<br /><br />Background and reference checks serve as an important part of the selection process and are completed for each newly hired employee prior to starting work. A criminal history check, a social security number verification, and a motor vehicles record review will be performed on all new hires. Any information - including convictions - that is revealed as a result of the background check will not be used as a basis for denying employment unless it is determined to be relevant to the job for which you are applying. Applicants are asked to engage in truthful reporting. Dishonesty is cause for immediate disqualification/termination.<br /><br />Thank you for your interest in VAE! If hired, we may pay for your referrals of quality candidates -- ask how!<br /><br />VAE is an Equal Opportunity Employer, welcoming all applications.
   applicant_login_prompt: Log In to our Career System.
   resume_include: "Include resumes and other supporting documents here:"
   no_photos: We cannot consider any resume that contains a photograph.
@@ -77,3 +78,14 @@ en:
     veteran_label: Are you a U.S. Veteran?
     gender_label: Gender
     race_label: Race
+  social:
+    facebook: Facebook.com/VisualAidsElectronics
+    twitter: Twitter.com/VAECorp
+    youtube: Youtube.com/VAECorporation
+    youtube_csi: Youtube.com/ConferenceSystems
+  social_text:
+    facebook: '- please help our efforts to grow our social media presence by "liking us" on Facebook (Or search for Visual Aids Electronics in the search bar)'
+    twitter: '- please help our efforts to grow our social media presence by "following us" on twitter'
+    youtube:
+    youtube_csi:
+    instagram: VAECorp (App available on iPhone, Android, Windows Phone)

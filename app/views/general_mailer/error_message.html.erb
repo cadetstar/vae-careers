@@ -24,7 +24,11 @@
 <h2>Params</h2><br>
 <ul>
   <% @params.each do |key, val| -%>
-      <li><b><%= key %>:</b> <i><%= val.to_yaml %></i><br></li>
+      <% begin -%>
+          <li><b><%= key %>:</b> <i><%= val.to_yaml %></i><br></li>
+      <% rescue -%>
+          <li>FAILED KEY</li>
+      <% end -%>
   <% end -%>
 </ul>
 <br>

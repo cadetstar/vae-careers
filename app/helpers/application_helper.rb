@@ -76,6 +76,21 @@ module ApplicationHelper
     assembler
   end
 
+  def parse_email_text(text, position = nil)
+    text.gsub!('%HOME%', link_to('http://www.vaecorp.com'))
+    text.gsub!('%CAREERS_HOME%', link_to(root_path))
+    text.gsub!('%SOCIAL_MEDIA%', '<br />%TWITTER%<br />%FACEBOOK%<br />%YOUTUBE%<br />%INSTAGRAM%')
+    text.gsub!('%TWITTER%', "#{image_tag('twitter.GIF')} #{link_to(t('social.twitter'))} #{t('social_text.twitter')}")
+    text.gsub!('%FACEBOOK%', "#{image_tag('facebook.GIF')} #{link_to(t('social.facebook'))} #{t('social_text.facebook')}")
+    text.gsub!('%YOUTUBE%', "#{image_tag('youtube.png')} #{link_to(t('social.youtube'))} #{t('social_text.youtube')}<br />#{link_to(t('social.youtube_csi'))} #{t('social_text.youtube_csi')}")
+    text.gsub!('%INSTAGRAM%', "#{image_tag('instagram.png')} #{t('social_text.instagram')}")
+
+    if position
+      text.gsub!('%POSITION%', position.to_s)
+    end
+    text
+  end
+
   def get_opening_email_text(from, opening)
     text = t('opening_email.text').clone
     text.gsub!('%FROM%', from.to_s)
@@ -97,7 +112,7 @@ module ActionView
           #{tag = text_field(object_name, method, options)}
           <script type="text/javascript">
           $(document).ready(function(ev) {
-            $("##{tag.match(/id="([^"]+)"/)[1]}").datepicker({showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
+            $("##{tag.match(/id="([^"]+)"/)[1]}").datepicker({changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
           })
           </script>
         OUTPUT
@@ -110,7 +125,7 @@ module ActionView
         #{tag :input, { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys)}
           <script type="text/javascript">
           $(document).ready(function(ev) {
-            $("##{sanitize_to_id(name)}").datepicker({showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
+            $("##{sanitize_to_id(name)}").datepicker({changeMonth: true, changeYear: true, showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
           })
           </script>
         OUTPUT

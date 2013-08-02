@@ -11,7 +11,7 @@ module Vae
 
   SUBMISSIONS = {
       'genders' => %w(Male Female),
-      'races' => %w(White Black\ or\ African\ American Hispanic\ or\ Latino Asian American\ Indian\ or\ Alaska\ Native Two\ or\ More\ Races),
+      'races' => %w(White Black\ or\ African\ American Hispanic\ or\ Latino Asian American\ Indian\ or\ Alaska\ Native Native\ Hawaiian\ or\ Pacific\ Islander Two\ or\ More\ Races),
       'veteran' => %w(Yes No)
   }
 

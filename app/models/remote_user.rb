@@ -42,8 +42,8 @@ class RemoteUser < ActiveRecord::Base
     end.flatten.uniq.compact
   end
 
-  def subordinate_requests
-    self.supervised_departments.collect{|sd| sd.manager.subordinate_requests + sd.manager.new_hire_requests}.flatten.uniq
+  def subordinate_requests(trace = [])
+    self.supervised_departments.collect{|sd| trace.include?(sd) ? [] : sd.manager.subordinate_requests(trace + [sd]) + sd.manager.new_hire_requests}.flatten.uniq
   end
 
   def self.with_role(role)

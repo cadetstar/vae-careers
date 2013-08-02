@@ -103,7 +103,7 @@ class Submission < ActiveRecord::Base
     self.incomplete_notices << "You must agree to the privacy affidavit" unless self.affidavit
 
     self.submission_answers.includes(:question).each do |sa|
-      if sa.question.required
+      if sa.question.try(:required)
         if sa.answer.blank?
           self.incomplete_notices << "You must answer the question '#{sa.question_text}'"
         end
