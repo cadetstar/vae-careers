@@ -27,7 +27,7 @@ class Submission < ActiveRecord::Base
            :home_or_cell, :combined_address, :full_address, :csz, :to => :applicant
 
   before_save  :bounce_new_record
-  after_create :copy_and_check_questions
+  #after_create :copy_and_check_questions
   after_save   :check_for_completion
 
   after_update do |s|
