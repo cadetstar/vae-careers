@@ -550,6 +550,12 @@ table.resource_index .inactive {
     text-align: left;
     width: 50%;
 }
+
+.submission_answer input, .submission_answer select {
+  font-size: 13px;
+  font-family: Tahoma;
+}
+
 .spacer {
     height: 20px;
 }
@@ -560,6 +566,8 @@ table.resource_index .inactive {
 .med_text_box {
     height: 62px;
     width: 200px;
+    font-size: 13px;
+    font-family: Tahoma;
 }
 .fullwidth {
     text-align: center;
