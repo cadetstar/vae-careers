@@ -1,4 +1,4 @@
-<%= raw t('confirmation_email.text') %>
+<%= raw parse_email_text(t('confirmation_email.text'), @submission.position) %>
 <table>
   <% bio_submission_fields.each do |f| %>
       <tr>

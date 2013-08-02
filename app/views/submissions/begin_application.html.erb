@@ -10,13 +10,6 @@
             <td class="submission_answer"><%= line[3] ? f.send(line[2] || :text_field, line[1], line[3]): f.send(line[2] || :text_field, line[1]) %></td>
           </tr>
       <% end %>
-      <tr>
-        <td class="submission_bio_prompt"><%= t('sourcing_question') %></td>
-        <td class="submission_answer">
-          <%= select_tag :fake_where_sourced, options_for_select(Vae::SOURCES, @submission.where_sourced), :prompt => 'Please select a source.' %>
-          <span id="hidden_where_sourced"><%= f.text_field :where_sourced %></span>
-        </td>
-      </tr>
       <% last_group = 0 %>
       <% @submission.submission_answers.each do |sa| %>
           <% if sa.group_order != last_group %>
@@ -87,7 +80,7 @@
         <td colspan="2" class="fullwidth">
           <%= t('fax_resume_note') %>
           <%= t('admins.primary.fax') %><br />
-          Attention: <%= t('admins.primary.name') %>
+          Attention: <%= t('admins.primary.public') %>
         </td>
       </tr>
       <tr>
