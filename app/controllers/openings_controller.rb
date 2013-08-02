@@ -77,7 +77,7 @@ class OpeningsController < ApplicationController
     pdf.font_size 10
     pdf.text_box "Generated at #{Time.now.to_s(:with_zone)}", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height - 90], :width => 100, :height => 100, :overflow => :shrink_to_fit
     pdf.move_down 160
-    pdf.text_box "#{t('opp_top_note')}", :align => :center, :height => 140, :at => [50, pdf.bounds.height - 120], :width => (pdf.bounds.width - 100), :height => 100, :overflow => :shrink_to_fit
+    pdf.text_box "#{t('opp_top_note')}", :align => :center, :height => 140, :at => [50, pdf.bounds.height - 140], :width => (pdf.bounds.width - 100), :height => 100, :overflow => :shrink_to_fit
 
     pdf.font pdf.font.name, :style => :normal
     pdf.move_down 20
