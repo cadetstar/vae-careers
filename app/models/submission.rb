@@ -209,6 +209,7 @@ class Submission < ActiveRecord::Base
     FileUtils.rm_rf(location)
     FileUtils.mkdir_p(location)
     FileUtils.mkdir_p(File.join(location, 'compilations'))
+    FileUtils.mkdir_p(File.join(location, 'separates'))
 
     compiled_files = []
 
@@ -220,7 +221,7 @@ class Submission < ActiveRecord::Base
     `pdftk #{compiled_files.collect{|cf| "\"#{cf}\""}.join(' ')} cat output "#{compiled_file = File.join(location, type == 'pre' ? 'Pre-Employment Packet.pdf' : 'Post-Hiring Packet.pdf')}"`
 
     separate_templates.each do |st|
-      FileUtils.cp(st.dynamic_file.current_path, File.join(location, 'separates', "#{st.dynamic_file.name}.pdf"))
+      FileUtils.cp_r(st.dynamic_file_revision.current_path, File.join(location, 'separates', "#{st.dynamic_file.name}.pdf"))
       #st.generate_file_with_form(self.applicant, File.join(location, 'separates', "#{st.dynamic_file.name}.pdf"))
     end
 
