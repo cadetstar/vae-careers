@@ -209,6 +209,7 @@ class Submission < ActiveRecord::Base
     FileUtils.rm_rf(location)
     FileUtils.mkdir_p(location)
     FileUtils.mkdir_p(File.join(location, 'compilations'))
+    FileUtils.mkdir_p(File.join(location, 'separates'))
 
     compiled_files = []
 
