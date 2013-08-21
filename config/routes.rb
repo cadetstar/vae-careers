@@ -36,6 +36,7 @@ VaeCareers::Application.routes.draw do
   match 'tags/:resource_class/:resource_id', :to => 'tags#update_tags', :as => 'update_tags'
   match 'openings/opp', :to => 'openings#open_positions_posting', :as => 'opp'
   match 'dynamic_files/:id/compile', :to => 'dynamic_files#test_compile', :as => 'test_file_compile'
+  match 'dynamic_files/:id/separate', :to => 'dynamic_files#separate', :as => 'separate_file'
 
   match 'submission/:id/notify_other_applicants', :to => 'submissions#notify_others', :as => 'notify_others'
 

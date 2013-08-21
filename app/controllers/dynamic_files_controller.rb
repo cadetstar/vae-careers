@@ -23,4 +23,19 @@ class DynamicFilesController < ApplicationController
       redirect_to :action => :index
     end
   end
+
+  def separate
+    if (resource = DynamicFile.find_by_id(params[:id]))
+      if (rev = resource.current_version)
+        rev.can_be_compiled = false
+        rev.save
+      else
+        flash[:alert] = "There is no current valid revision."
+        redirect_to :action => :edit
+      end
+    else
+      flash[:alert] = 'That is not a valid file.'
+      redirect_to :action => :index
+    end
+  end
 end

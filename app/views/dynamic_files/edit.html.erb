@@ -20,6 +20,12 @@
       <%= f.select :post_state, grouped_options_for_select({"none" => [["None", nil]]}.merge(Vae::STATES.reject{|k,v| k == "countries"}), @resource.post_state) %>
     </div>
     <div>
+      <% if @resource.current_version.can_be_compiled %>
+        <%= link_to 'Force file to be separated rather than compiled into packets', separate_file_path(:id => @resource) %>
+      <% end %>
+    </div>
+
+    <div>
       <%= link_to 'Test Compile', test_file_compile_path(:id => @resource.id) %>
     </div>
     <div>

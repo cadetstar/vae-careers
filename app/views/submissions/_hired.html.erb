@@ -21,7 +21,7 @@
             </tr>
             <tr>
               <td>Emails</td>
-              <td><%= select_tag 'emails', options_for_select(submission.opening.submissions.select{|s| s != submission}.collect{|c| [c.applicant, c.email]}), :multiple => true, :size => 5 %></td>
+              <td><%= select_tag 'emails', options_for_select(submission.opening.submissions.select{|s| s != submission and !s.completed_at.nil?}.collect{|c| [c.applicant, c.email]}), :multiple => true, :size => 5 %></td>
             </tr>
             <tr>
               <td colspan="2"><%= submit_tag 'Send Notification Email' %></td>
