@@ -5,6 +5,7 @@ class DynamicFileRevision < ActiveRecord::Base
   has_many :file_fields, :order => :field_name
 
   mount_uploader :dynamic_file_store, DynamicFileUploader
+  attr_accessor :cached_values
 
   after_commit :initialize_fields_and_test_combine, :on => :create
 
@@ -47,7 +48,12 @@ class DynamicFileRevision < ActiveRecord::Base
     return "(BLANK)" if text.blank? and applicant.nil?
     Vae::FORM_TOKENS.each do |k,v|
       if text
-        text.gsub!(k, applicant.nil? ? v[:name] : applicant.send(v[:data]))
+        if applicant
+          cached_values[v[:data]] ||= applicant.send(v[:data])
+          text.gsub!(k, cached_values[v[:data]])
+        else
+          text.gsub!(k, v[:name])
+        end
       end
     end
     text
