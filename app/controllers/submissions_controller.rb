@@ -125,7 +125,7 @@ class SubmissionsController < ApplicationController
     if (@submission = Submission.find_by_id(params[:id]))
       @submission.recruiter_recommendation = params[:recruiter_recommendation]
       if params[:recruiter_comment] != @submission.recruiter_comment
-        @submission.create_comment(:body => s.recruiter_comment, :creator => current_user)
+        @submission.create_comment(:body => params[:recruiter_comment], :creator => current_user)
       end
       @submission.recruiter_comment = params[:recruiter_comment]
       @submission.save

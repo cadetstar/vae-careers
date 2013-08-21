@@ -69,7 +69,7 @@ class Submission < ActiveRecord::Base
   end
 
   def copy_and_check_questions
-    current_answers = self.submission_answers
+    current_answers = self.submission_answers.all
     if self.opening
       self.opening.question_groups.each_with_index do |qg, i|
         qg.questions.each_with_index do |q, j|
