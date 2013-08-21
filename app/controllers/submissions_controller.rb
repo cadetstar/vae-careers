@@ -66,7 +66,7 @@ class SubmissionsController < ApplicationController
   def generate_or_retrieve
     if (submission = Submission.find_by_id(params[:id]))
       result = submission.generate_paperwork(params[:type])
-      send_file result, :type => 'application/zip', :disposition => 'attachment', :filename => "#{params[:generate_type] == 'pre' ? 'Pre-Employment' : 'Post-Hiring'} Paperwork - #{submission.applicant.name_lnf}.zip"
+      send_file result, :type => 'application/zip', :disposition => 'attachment', :filename => "#{params[:type] == 'pre' ? 'Pre-Employment' : 'Post-Hiring'} Paperwork - #{submission.applicant.name_lnf}.zip"
       #result.close
     else
       render :nothing => true
@@ -125,7 +125,7 @@ class SubmissionsController < ApplicationController
     if (@submission = Submission.find_by_id(params[:id]))
       @submission.recruiter_recommendation = params[:recruiter_recommendation]
       if params[:recruiter_comment] != @submission.recruiter_comment
-        @submission.create_comment(:body => s.recruiter_comment, :creator => current_user)
+        @submission.comments.create(:body => s.recruiter_comment, :creator => current_user)
       end
       @submission.recruiter_comment = params[:recruiter_comment]
       @submission.save
@@ -135,16 +135,20 @@ class SubmissionsController < ApplicationController
   def notify_others
     succeeded = []
     failed = []
-    params[:emails].each do |e|
-      begin
-        GeneralMailer.notify_email(e, params[:subject], params[:message]).deliver
-        succeeded << e
-      rescue
-        failed << e
+    if params[:emails]
+      params[:emails].each do |e|
+        begin
+          GeneralMailer.notify_email(e, params[:subject], params[:message]).deliver
+          succeeded << e
+        rescue
+          failed << e
+        end
       end
+      flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
+      flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
+    else
+      flash[:alert] = 'No users selected.'
     end
-    flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
-    flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
   end
 
   def setup

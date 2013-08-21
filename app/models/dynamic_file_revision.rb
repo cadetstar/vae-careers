@@ -38,7 +38,11 @@ class DynamicFileRevision < ActiveRecord::Base
     loc = Tempfile.new('pdf-form-data.fdf')
     loc.close
     fdf.save_to loc.path
-    `pdftk "#{self.dynamic_file_store.current_path}" fill_form "#{loc.path}" output "#{destination}"`
+    if data.empty?
+      FileUtils.cp(self.dynamic_file_store.current_path, destination)
+    else
+      `pdftk "#{self.dynamic_file_store.current_path}" fill_form "#{loc.path}" output "#{destination}"`
+    end
     destination
   end
 
