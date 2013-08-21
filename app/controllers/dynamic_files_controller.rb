@@ -31,8 +31,8 @@ class DynamicFilesController < ApplicationController
         rev.save
       else
         flash[:alert] = "There is no current valid revision."
-        redirect_to :action => :edit
       end
+      redirect_to :action => :edit
     else
       flash[:alert] = 'That is not a valid file.'
       redirect_to :action => :index
