@@ -31,7 +31,7 @@ class RemoteUser < ActiveRecord::Base
       elsif depth > 8
         nil
       else
-        ([d.manager] + d.supervising_department.users).uniq.collect do |e|
+        ([d.manager] + d.supervising_department.remote_users).uniq.collect do |e|
           if self == e
             nil
           else
