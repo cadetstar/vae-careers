@@ -149,6 +149,7 @@ class SubmissionsController < ApplicationController
     else
       flash[:alert] = 'No users selected.'
     end
+    redirect_to :action => :index
   end
 
   def setup
