@@ -26,6 +26,8 @@ group :assets do
   gem 'uglifier', '>= 1.2.3'
 end
 
+gem 'bumbler'
+
 gem 'jquery-rails'
 gem 'mail'
 

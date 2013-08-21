@@ -128,7 +128,7 @@
       <%= image_tag 'VAEfooterLogo.png', :class => 'VAEfooterLogo' %>
     </div>
     <div class="address_block">
-      <%= t(request.env['HTTP_HOST'].match(/vaecorp/) ? 'address.vae.html' : 'address.csi.html') %>
+      <%= t(request.env['HTTP_HOST'].to_s.match(/vaecorp/) ? 'address.vae.html' : 'address.csi.html') %>
       <p>
         Corporate Office - <%= t('phones.main') %> | Fax - <%= t('phones.fax') %>
       </p>
