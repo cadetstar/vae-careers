@@ -43,7 +43,7 @@
         <td><%= r.email %></td>
         <td><%= r.city_state %></td>
         <td><%= r.opening %></td>
-        <td><%= r.created_at.to_s(:just_date) %></td>
+        <td><%= r.completed_at.to_s(:just_date) %></td>
         <td>
           <div data-qtip="<%= r.recruiter_comment %>" class="qtip_target"><%= r.recruiter_recommendation || 'No recommendation' %></div>
           <%= raw r.tags.collect{|t| "<div class='tag_in_submission qtip_target' data-qtip='#{j t.tag_type.try(:tooltip)}'>- #{t}</div>"}.join('') %>

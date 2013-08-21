@@ -153,6 +153,7 @@ class Submission < ActiveRecord::Base
         NewHireRequest.find_all_by_opening_id(self.opening_id).each do |nhr|
           nhr.update_attribute(:filled_time, Time.now)
         end
+        self.opening.update_attributes({:active => false, :show_on_opp => false})
         return [:notice, "Hiring process for #{self.to_s} started."]
       when 'stop'
         return [:notice, "#{self.to_s} has already been hired."] if self.hired
