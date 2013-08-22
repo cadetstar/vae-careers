@@ -153,7 +153,7 @@ class SubmissionsController < ApplicationController
   end
 
   def setup
-    GeneralMailer.notify_email(t('admins.corp.email'), 'New Applicant Hired', params[:message])
+    GeneralMailer.notify_email(t('admins.corp.email'), 'New Applicant Hired', params[:message]).deliver
     flash[:notice] = "Email sent to #{t('admins.corp.name')}"
     redirect_to :back
   end
