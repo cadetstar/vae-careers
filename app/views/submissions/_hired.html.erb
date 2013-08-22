@@ -17,7 +17,7 @@
             </tr>
             <tr>
               <td>Body</td>
-              <td><%= text_area_tag 'message', t('notify_others.text').gsub('%POSITION%', submission.position.to_s), :rows => 3, :cols => 25 %></td>
+              <td><%= text_area_tag 'message', parse_email_text(t('notify_others.text'), submission.position.to_s), :rows => 3, :cols => 25 %></td>
             </tr>
             <tr>
               <td>Emails</td>
