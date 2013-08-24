@@ -23,7 +23,7 @@
                        current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department)}
                      end
 
-       department_users = @resource.department.remote_users & valid_users
+       department_users = (@resource.department.remote_users.all + [@resource.department.manager, @resource.department.supervisor]).uniq & valid_users
 
        options = {
                    :target => @resource,
