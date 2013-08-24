@@ -91,7 +91,7 @@
                 $('.storage<%= @unique_id %>').append($('.questions_container [id$="_' + ops[i] + '"]'));
             }
             $('.bulk_move_<%= @unique_id %>').hide();
-            $('.linked_list<%= @unique_id %>').sortable('refresh');
+            sendInfoToServer<%= @unique_id %>();
         });
     });
 </script>
