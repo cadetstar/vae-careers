@@ -74,7 +74,7 @@ class OpeningsController < ApplicationController
     pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [0, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
     pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [pdf.bounds.width - 100, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
     pdf.text_box "Open Positions Posting", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height], :width => 100, :height => 100, :overflow => :shrink_to_fit
-    pdf.font_size 10
+    pdf.font_size 16
     pdf.text_box "Generated at #{Time.now.to_s(:just_date)}", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height - 90], :width => 100, :height => 100, :overflow => :shrink_to_fit
     pdf.move_down 160
     pdf.text_box "#{t('opp_top_note')}", :align => :center, :height => 140, :at => [50, pdf.bounds.height - 140], :width => (pdf.bounds.width - 100), :height => 100, :overflow => :shrink_to_fit
@@ -105,12 +105,13 @@ class OpeningsController < ApplicationController
             t = pdf.table(data, :column_widths => [40, 180, 120, 100, 100], :cell_style => {:borders => [], :overflow => :shrink_to_fit})
             pdf.font_size 8
             pdf.text actual_description
-            pdf.move_down 50
+            pdf.move_down 20
           end
         end
       end
     end
 
+    pdf.font_size 16
     pdf.text_box t('admins.primary.name'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 30], :width => 100
     pdf.text_box t('admins.primary.email'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 20], :width => 100
     pdf.text_box t('admins.primary.fax'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 10], :width => 100

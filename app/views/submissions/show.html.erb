@@ -23,18 +23,23 @@
                        current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department)}
                      end
 
-    %>
-    <%= render :partial => 'application/drag_and_drop', :locals => {
-            :target => @resource,
-            :current_items => :remote_users,
-            :item_tooltip => :tooltip,
-            :potential_items => valid_users,
-            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "remote_user", :link_class => "SubmissionUser", :resource_class => "Submission", :frags => ['submission_id'], :values => [@resource.id], :suppress_rc => 1),
-            :header => "Users allowed to see this submission:",
-            :header_name => 'Users',
-            :potential_name => 'Potential Users (Users for this department listed first):'
+       department_users = @resource.department.remote_users & valid_users
 
-    } %>
+       options = {
+                   :target => @resource,
+                   :current_items => :remote_users,
+                   :item_tooltip => :tooltip,
+                   :potential_items => valid_users,
+                   :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "remote_user", :link_class => "SubmissionUser", :resource_class => "Submission", :frags => ['submission_id'], :values => [@resource.id], :suppress_rc => 1),
+                   :header => "Users allowed to see this submission:",
+                   :header_name => 'Users',
+                   :potential_name => 'Potential Users (Users for this department listed first):'
+           }
+       unless department_users.empty?
+         options.merge!({:bulk_move => link_to("Add #{department_users.join(', ')}", '#', :class => 'bulk_mover', :'data-multiples' => department_users.collect{|du| du.id}.join(','))})
+       end
+    %>
+    <%= render :partial => 'application/drag_and_drop', :locals => options %>
     <% user_div_id = @unique_id %>
   </div>
 </div>
@@ -94,19 +99,15 @@
     <%= render :partial => 'tags/stub' %>
 <% end %>
 <div class='recruiter_recommendation_wrapper'>
-  <% if current_user.has_role?('administrator') %>
-      <%= form_tag update_recommendation_path(:id => @resource.id), :remote => true %>
-          Recommendation: <%= select_tag "recruiter_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, @resource.recruiter_recommendation) %><br />
-          Comment: <%= @resource.recruiter_comment %>
-          <div class='recommendation_popup'>
-              Comment:<br />
-              <%= text_area_tag 'recruiter_comment', @resource.recruiter_comment %><br />
-              <%= submit_tag 'Update Recommendation' %>
-          </div>
-      </form>
-  <% else %>
-      Recruiter's Recommendation: <%= @resource.recruiter_recommendation %> <%= @resource.recruiter_comment.blank? ? '': "(#{@resource.recruiter_comment})" %>
-  <% end %>
+  <%= form_tag update_recommendation_path(:id => @resource.id), :remote => true %>
+      Recommendation: <%= select_tag "recruiter_recommendation", options_for_select(Vae::RECRUITER_RECOMMENDATION, @resource.recruiter_recommendation) %><br />
+      Comment: <%= @resource.recruiter_comment %>
+      <div class='recommendation_popup'>
+          Comment:<br />
+          <%= text_area_tag 'recruiter_comment', @resource.recruiter_comment %><br />
+          <%= submit_tag 'Update Recommendation' %>
+      </div>
+  </form>
 </div>
 <div class='submission_navigation'>
   <%= link_to 'Back', submissions_path %>

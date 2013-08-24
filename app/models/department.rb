@@ -11,7 +11,7 @@ class Department < ActiveRecord::Base
 
   def self.list_for_select(user = nil)
     if user and !user.administrator?
-      user.departments.order("code").all
+      (user.managed_departments.order('code').all + user.supervised_departments.order('code').all + user.departments.order("code").all).uniq
     else
       Department.order("code").all
     end.collect{|d| [d, d.id]}
