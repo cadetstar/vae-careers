@@ -43,7 +43,11 @@ class SubmissionsController < ApplicationController
       flash[:notice] = 'Thank you for applying.  You should receive a confirmation email in a few minutes.'
       redirect_to root_path
     else
-      flash[:alert] = "You still have a few things to complete before your application can be completed:<ul>#{@submission.incomplete_notices.collect{|a| "<li>#{a}</li>"}.join("")}</ul>"
+      if @submission.incomplete_notices
+        flash[:alert] = "You still have a few things to complete before your application can be completed:<ul>#{@submission.incomplete_notices.collect{|a| "<li>#{a}</li>"}.join("")}</ul>"
+      else
+        flash[:alert] = "You still have a few things to complete before your application can be completed."
+      end
       redirect_to apply_path(:opening_id => @submission.opening_id)
     end
   end
@@ -118,7 +122,13 @@ class SubmissionsController < ApplicationController
     if params[:sort_order]
       session[:submissions][:sort_order] = params[:sort_order]
     end
+
+    unless current_user and current_user.has_role?('administrator')
+      @resources = @resources.where({:id => current_user.submissions.collect{|c| c.id}})
+    end
+
     @resources = @resources.order(session[:submissions][:sort_order]).page(params[:page]).includes([{:applicant => :tag_types}, {:opening => [:position, :department]}, :comments, :tag_types])
+
   end
 
   def update_recommendation

@@ -18,6 +18,17 @@
     </div>
 <% end %>
 <% if current_user.has_role?('administrator') %>
+    <%=
+    render :partial => 'application/drag_and_drop', :locals => {
+            :target => @resource,
+            :current_items => :departments,
+            :item_tooltip => :to_s,
+            :potential_items => Department,
+            :submit_path => generic_reordering_path(:id => @resource.id, :source_name => "departments", :link_class => "RemoteUserDepartment", :resource_class => "Department"),
+            :header => "Departments"
+    }
+    %>
+
     <% if @resource.submissions.count > 0 %>
     <div>
       <h3>Bulk Submission Permission Modification</h3>

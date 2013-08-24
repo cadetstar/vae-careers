@@ -8,6 +8,11 @@
 
 
 <div class="header"><%= header %></div>
+<% if defined?(bulk_move) %>
+    <div class="bulk_move_<%= @unique_id %>">
+    <%= raw bulk_move %>
+    </div>
+<% end %>
 <div class="questions_container">
   <div class="questions linked_list<%= @unique_id %> <%= width_class %> storage<%= @unique_id %>">
     <%= current_name %>:
@@ -79,5 +84,14 @@
         <% unless defined?(no_min_height) %>
         checkHeightOfItems('.linked_list<%= @unique_id %>');
         <% end %>
+
+        $('.bulk_move_<%= @unique_id %> .bulk_mover').click(function(e) {
+            var ops = $(e.target).attr('data-multiples').toString().split(',');
+            for (i = 0; i < ops.length; i++) {
+                $('.storage<%= @unique_id %>').append($('.questions_container [id$="_' + ops[i] + '"]'));
+            }
+            $('.bulk_move_<%= @unique_id %>').hide();
+            $('.linked_list<%= @unique_id %>').sortable('refresh');
+        });
     });
 </script>
