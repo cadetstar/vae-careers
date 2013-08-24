@@ -24,6 +24,7 @@
                      end
 
        department_users = (@resource.department.remote_users.all + [@resource.department.manager, @resource.department.supervisor]).uniq & valid_users
+       department_users.reject!{|a| @resource.remote_users.include?(a)}
 
        options = {
                    :target => @resource,
