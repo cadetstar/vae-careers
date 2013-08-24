@@ -80,7 +80,7 @@ module ApplicationHelper
     text.gsub!('%HOME%', link_to('http://www.vaecorp.com'))
     text.gsub!('%CAREERS_HOME%', link_to(root_path))
     text.gsub!('%SOCIAL_MEDIA%', '<br />%TWITTER%<br />%FACEBOOK%<br />%YOUTUBE%<br />%INSTAGRAM%')
-    text.gsub!('%TWITTER%', "#{image_tag('twitter-bird-light-bgs.png', :style => {width: '24px'})} #{link_to(t('social.twitter'))} #{t('social_text.twitter')}")
+    text.gsub!('%TWITTER%', "#{image_tag('twitter-bird-light-bgs-small.png')} #{link_to(t('social.twitter'))} #{t('social_text.twitter')}")
     text.gsub!('%FACEBOOK%', "#{image_tag('facebook.GIF')} #{link_to(t('social.facebook'))} #{t('social_text.facebook')}")
     text.gsub!('%YOUTUBE%', "#{image_tag('youtube.png')} #{link_to(t('social.youtube'))} #{t('social_text.youtube')}<br />#{link_to(t('social.youtube_csi'))} #{t('social_text.youtube_csi')}")
     text.gsub!('%INSTAGRAM%', "#{image_tag('instagram.png')} #{t('social_text.instagram')}")
