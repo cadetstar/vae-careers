@@ -69,12 +69,12 @@ class OpeningsController < ApplicationController
     openings = Opening.where(:active => true).joins(:department)
 
     pdf = Prawn::Document.new
-    pdf.font_size 48
+    pdf.font_size 72
     pdf.font pdf.font.name, :style => :bold
     pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [0, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
     pdf.image File.join(Rails.root, 'app', 'assets', 'images', 'vae_logo_new_smaller.jpg'), :at => [pdf.bounds.width - 100, pdf.bounds.height], :position => :left, :vposition => :top, :width => 100
     pdf.text_box "Open Positions Posting", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height], :width => 100, :height => 100, :overflow => :shrink_to_fit
-    pdf.font_size 16
+    pdf.font_size 10
     pdf.text_box "Generated at #{Time.now.to_s(:just_date)}", :align => :center, :at => [(pdf.bounds.width - 100) / 2, pdf.bounds.height - 90], :width => 100, :height => 100, :overflow => :shrink_to_fit
     pdf.move_down 160
     pdf.text_box "#{t('opp_top_note')}", :align => :center, :height => 140, :at => [50, pdf.bounds.height - 140], :width => (pdf.bounds.width - 100), :height => 100, :overflow => :shrink_to_fit
@@ -111,10 +111,12 @@ class OpeningsController < ApplicationController
       end
     end
 
+    pdf.move_down 40
+
     pdf.font_size 16
-    pdf.text_box t('admins.primary.name'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 30], :width => 100
-    pdf.text_box t('admins.primary.email'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 20], :width => 100
-    pdf.text_box t('admins.primary.fax'), :align => :center, :at => [(pdf.bounds.width - 100) / 2, 10], :width => 100
+    pdf.text_box t('admins.primary.name'), :align => :center, :at => [(pdf.bounds.width - 300) / 2, 50], :width => 300
+    pdf.text_box t('admins.primary.email'), :align => :center, :at => [(pdf.bounds.width - 300) / 2, 30], :width => 300
+    pdf.text_box t('admins.primary.fax'), :align => :center, :at => [(pdf.bounds.width - 300) / 2, 10], :width => 300
 
     pdf.render_file File.join(Rails.root, 'tmp', 'opp.pdf')
     send_file File.join(Rails.root, 'tmp', 'opp.pdf'), :filename => "Open Positions Posting.pdf"
