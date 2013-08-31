@@ -8,4 +8,4 @@
       You will not be notified of new applicants for the next <%= pluralize(@ru.notification_time.to_i, 'hour') %>.
     </p>
 <% end %>
-<p>Go to <%= link_to root_path(:only_path => false) %> and log in to view your current applicants.</p>
+<p>Go to <%= link_to root_path(:only_path => false), root_path(:only_path => false) %> and log in to view your current applicants.</p>
