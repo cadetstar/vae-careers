@@ -37,7 +37,7 @@ module Vae
 
   POSTING_OPTIONS = [
       "Do Not Post - Internal Candidate has been identified to fill the position.",
-      "Post on Careers Site Only - External Candidate has been identified; no advertising necessary.",
+      "Post on Careers Site Only - Candidate has been identified; no advertising necessary.",
       "Post & Advertise"
   ]
 
