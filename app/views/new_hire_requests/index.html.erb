@@ -42,7 +42,7 @@
                   <%= link_to 'Approve', change_nhr_status_path(:status => 'approve', :id => nhr.id) %> &middot; <%= link_to 'Hold', change_nhr_status_path(:status => 'hold', :id => nhr.id), :class => 'prompt' %> &middot; <%= link_to 'Reject', change_nhr_status_path(:status => 'reject', :id => nhr.id), :class => 'prompt' %>
               <% end %><br />
               <%= link_to 'Show', nhr %>
-              <% if @show_hr %>
+              <% if @show_hr || (k == :direct and nhr.status == "Not Yet Submitted") %>
               &middot; <%= link_to 'Delete', nhr, :method => :delete, :confirm => 'This will permanently destroy this item.  Are you sure?' %>
               <% end %>
             </td>
