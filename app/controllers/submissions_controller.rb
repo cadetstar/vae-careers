@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_filter :authenticate_applicant!, :only => [:begin_application, :complete_application]
-  before_filter :get_resource, :only => [:show, :notify_others]
+  before_filter :get_resource, :only => [:show, :notify_others, :change_position]
   before_filter :is_current_user?, :except => [:begin_application, :complete_application]
 
   layout :choose_layout
@@ -166,6 +166,14 @@ class SubmissionsController < ApplicationController
     GeneralMailer.notify_email(t('admins.corp.email'), 'New Applicant Hired', params[:message]).deliver
     flash[:notice] = "Email sent to #{t('admins.corp.name')}"
     redirect_to :back
+  end
+
+  def change_position
+    if (o = Opening.find_by_id(params[:opening_id]))
+      @resource.opening_id = params[:opening_id]
+      @resource.save
+    end
+    redirect_to :action => :show
   end
 
   private

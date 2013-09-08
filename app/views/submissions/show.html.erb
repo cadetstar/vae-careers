@@ -3,8 +3,16 @@
 </div>
 
 <div class='position_name'>
-  <%= @resource.opening %>
+  <%= @resource.opening %><% if current_user.has_role?('administrator') %> -- <%= link_to 'Change Opening', '#', :class => 'user_opening_show' %><% end %>
 </div>
+<% if current_user.has_role?('administrator') %>
+    <div class='position_changer'>
+        <%= form_tag change_position_path(:id => @resource.id) %>
+            Assign Submission to Different Opening: <%= select_tag :opening_id, options_for_select(Opening.list_for_select) %><br />
+            <%= submit_tag 'Change Opening' %>
+        </form>
+    </div>
+<% end %>
 <div class='position_description'>
   <%= @resource.opening.description %>  <span class="high_priority"><%= @resource.opening.high_priority_description %></span>
 </div>
@@ -115,6 +123,11 @@
 </div>
 <%= javascript_tag do %>
     $(document).ready(function() {
+    $('.user_opening_show').click(function(e) {
+    $('.position_changer').show();
+    e.preventDefault();
+    return false;
+    });
     $('.user_show, .user_hide').click(function(e) {
     $('.user_display, .user_edit').toggle();
         checkHeightOfItems('.linked_list<%= user_div_id %>');
