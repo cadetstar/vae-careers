@@ -63,6 +63,29 @@ class Applicants::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def send_email
+    get_applicants_with_filters
+  end
+
+  def send_email_to_given_users
+    succeeded = []
+    failed = []
+
+    @resources = Applicant.find_all_by_email(params[:emails])
+
+    @resources.each do |r|
+      begin
+        GeneralMailer.notify_email(r.email, params[:subject], params[:message]).deliver
+        succeeded << r.email
+      rescue
+        failed << r.email
+      end
+    end
+    flash[:notice] = "Notifications sent to #{succeeded.join(', ')}" unless succeeded.empty?
+    flash[:alert] = "Notifications failed to send to #{failed.join(', ')}" unless failed.empty?
+    redirect_to applicants_path
+  end
+
   def send_email_to_filtered_users
     get_applicants_with_filters
     succeeded = []

@@ -1,0 +1,7 @@
+<%= form_tag send_email_to_given_users_path %>
+Subject: <%= text_field_tag :subject, '', :style => 'width: 500px' %><br />
+Message: <%= text_area_tag :message %><br />
+Select Users:<br />
+<%= select_tag 'emails[]', options_for_select(@resources.collect{|r| [r.email, "#{r.email} - #{r}"]}), :multiple => true, :size => @resources.size %><br />
+<%= submit_tag 'Send Email' %>
+</form>
