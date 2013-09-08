@@ -2,6 +2,7 @@ class SubmissionsController < ApplicationController
   before_filter :authenticate_applicant!, :only => [:begin_application, :complete_application]
   before_filter :get_resource, :only => [:show, :notify_others, :change_position]
   before_filter :is_current_user?, :except => [:begin_application, :complete_application]
+  before_filter :is_administrator?, :only => [:update_recommendation, :notify_others, :setup, :change_position]
 
   layout :choose_layout
 
@@ -53,7 +54,10 @@ class SubmissionsController < ApplicationController
   end
 
   def show
-
+    unless current_user.has_role?('administrator') or current_user.submissions.include?(@resource)
+      flash[:alert] = 'You are not allowed to view that submission.'
+      redirect_to :action => :index
+    end
   end
 
   def retrieve_file
