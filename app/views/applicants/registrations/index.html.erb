@@ -65,7 +65,7 @@
             <% l = r.send(j.gsub(/_id$/, '')) %>
             <td><%= raw(l.is_a?(Array) ? l.join("<br />") : (l.is_a?(String) ? l.gsub(/\n/, '<br />') : l)) %></td>
         <% end %>
-        <td><%= link_to 'View', applicant_view_path(r) %><% if r.last_sign_in_at < 1.months.ago and current_user.has_role?('administrator') %>&middot; <%= link_to 'Delete', applicant_destroy_path(r), :confirm => 'This will permanently delete this profile', :method => :delete %><% end %></td>
+        <td><%= link_to 'View', applicant_view_path(r) %><% if r.last_sign_in_at < 3.months.ago and current_user.has_role?('administrator') %>&middot; <%= link_to 'Delete', applicant_destroy_path(r), :confirm => 'This will permanently delete this profile', :method => :delete %><% end %></td>
       </tr>
   <% end %>
 </table>
