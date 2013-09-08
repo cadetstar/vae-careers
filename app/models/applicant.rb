@@ -48,6 +48,12 @@ class Applicant < ActiveRecord::Base
 
   scope :reports, joins(:submissions, :openings, "LEFT JOIN phones pc ON (pc.applicant_id = applicants.id AND pc.phone_type = 'cell')", "LEFT JOIN phones ph ON (ph.applicant_id = applicants.id AND ph.phone_type = 'home')")
 
+  def destroy
+    result = "#{self.to_s} destroyed."
+    super
+    result
+  end
+
   def name_std
     [first_name, last_name].select{|c| !c.blank?}.join(" ")
   end

@@ -104,6 +104,15 @@ class Applicants::RegistrationsController < Devise::RegistrationsController
     redirect_to applicants_path
   end
 
+  def custom_destroy
+    if (@resource = Applicant.find_by_id(params[:id]))
+      flash[:notice] = @resource.destroy
+    else
+      flash[:alert] = "I could not find an applicant with that ID."
+    end
+    redirect_to applicants_path
+  end
+
   private
 
   def choose_layout

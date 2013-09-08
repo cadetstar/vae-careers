@@ -8,6 +8,7 @@ VaeCareers::Application.routes.draw do
     match 'applicants/send_filter', :to => 'applicants/registrations#send_email_to_filtered_users', :as => 'send_email_to_filtered_users'
     match 'applicants/email', :to => 'applicants/registrations#send_email', :as => 'send_email_to_users'
     match 'applicants/email/confirm', :to => 'applicants/registrations#send_email_to_given_users', :as => 'send_email_to_given_users'
+    match 'applicants/:id/delete', :to => 'applicants/registrations#custom_destroy', :as => 'applicant_destroy', :method => :delete
   end
 
   match 'question_groups/question_orders/:id', :to => 'question_groups#set_question_groups', :as => 'set_question_groups'
