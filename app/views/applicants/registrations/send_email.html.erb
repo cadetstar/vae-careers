@@ -2,6 +2,6 @@
 Subject: <%= text_field_tag :subject, '', :style => 'width: 500px' %><br />
 Message: <%= text_area_tag :message %><br />
 Select Users:<br />
-<%= select_tag 'emails[]', options_for_select(@resources.sort_by{|r| [r.last_name, r.first_name]}.collect{|r| ["#{r.email} - #{r}", r.email]}), :multiple => true, :size => @resources.size %><br />
+<%= select_tag 'emails[]', options_for_select(@resources.collect{|r| ["#{r.email} - #{r}", r.email]}), :multiple => true, :size => @resources.size %><br />
 <%= submit_tag 'Send Email' %>
 </form>
