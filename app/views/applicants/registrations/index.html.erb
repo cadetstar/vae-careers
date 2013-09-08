@@ -84,9 +84,5 @@
             window.location.href = '<%= applicants_path %>?sort_order=' + $(e.target).closest('[data-type]').attr('data-type');
         });
 
-        $('.show_emails a, .hide_emails a').click(function(e) {
-            e.preventDefault();
-            $('.show_emails, .hide_emails').toggle();
-        });
     });
 </script>
