@@ -8,7 +8,7 @@
 <% if current_user.has_role?('administrator') %>
     <div class='position_changer'>
         <%= form_tag change_position_path(:id => @resource.id) %>
-            Assign Submission to Different Opening: <%= select_tag :opening_id, options_for_select(Opening.list_for_select) %><br />
+            Assign Submission to Different Opening: <%= select_tag :opening_id, options_for_select(Opening.all.collect{|o| [o.to_s, o.id]}) %><br />
             <%= submit_tag 'Change Opening' %>
         </form>
     </div>
