@@ -18,7 +18,7 @@ class NewHireRequestsController < ApplicationController
     @new_hire_requests[:posted] = []
     @new_hire_requests[:filled] = []
 
-    if @current_user.departments.include?(Department.find_by_code('HUMRESC'))
+    if @current_user.departments.include?(Department.find_by_short_name('HUMRESC'))
       @new_hire_requests[:ready] = RemoteUser.find_by_email('dmartin@vaecorp.com').new_hire_requests
       @new_hire_requests[:eventual] = NewHireRequest.all - @new_hire_requests[:ready]
       RemoteUser.find_by_email('dmartin@vaecorp.com').supervised_departments.each do |sd|

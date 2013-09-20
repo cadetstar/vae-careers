@@ -39,7 +39,11 @@ class DynamicFileRevision < ActiveRecord::Base
     if data.empty?
       FileUtils.cp(self.dynamic_file_store.current_path, destination)
     else
-      `pdftk "#{self.dynamic_file_store.current_path}" fill_form "#{loc.path}" output "#{destination}"`
+      begin
+        `pdftk "#{self.dynamic_file_store.current_path}" fill_form "#{loc.path}" output "#{destination}"`
+      rescue
+        retry
+      end
     end
     destination
   end

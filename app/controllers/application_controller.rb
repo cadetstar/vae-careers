@@ -73,6 +73,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_resource
+    unless params[:controller] =~ /^devise/
     unless @resource = controller_name.classify.constantize.find_by_id(params[:id])
       if request.xhr?
         render :nothing => true
@@ -80,6 +81,7 @@ class ApplicationController < ActionController::Base
         flash[:alert] = "I could not find a #{controller_name.singularize.titleize} with that ID."
         redirect_to :action => :index
       end
+    end
     end
   end
 

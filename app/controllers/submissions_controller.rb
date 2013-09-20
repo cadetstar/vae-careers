@@ -2,7 +2,7 @@ class SubmissionsController < ApplicationController
   before_filter :authenticate_applicant!, :only => [:begin_application, :complete_application]
   before_filter :get_resource, :only => [:show, :notify_others, :change_position]
   before_filter :is_current_user?, :except => [:begin_application, :complete_application]
-  before_filter :is_administrator?, :only => [:update_recommendation, :notify_others, :setup, :change_position]
+  before_filter :is_administrator?, :only => [:notify_others, :setup, :change_position]
 
   layout :choose_layout
 
@@ -137,12 +137,14 @@ class SubmissionsController < ApplicationController
 
   def update_recommendation
     if (@submission = Submission.find_by_id(params[:id]))
-      @submission.recruiter_recommendation = params[:recruiter_recommendation]
-      if params[:recruiter_comment] != @submission.recruiter_comment
-        @submission.comments.create(:body => params[:recruiter_comment], :creator => current_user)
+      if current_user.has_role?('administator') or current_user.submissions.include?(@submission)
+        @submission.recruiter_recommendation = params[:recruiter_recommendation]
+        if params[:recruiter_comment] != @submission.recruiter_comment
+          @submission.comments.create(:body => params[:recruiter_comment], :creator => current_user)
+        end
+        @submission.recruiter_comment = params[:recruiter_comment]
+        @submission.save
       end
-      @submission.recruiter_comment = params[:recruiter_comment]
-      @submission.save
     end
   end
 
