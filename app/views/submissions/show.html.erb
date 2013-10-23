@@ -103,7 +103,7 @@
   <% end %>
 </div>
 <hr />
-<%= render :partial => 'comments/stub' %>
+<%= render :partial => 'comments/stub', :locals => {:other_comments => {:applicant_comments => 'Comments on Applicant', :all_submission_comments_for_applicant => "Comments on Applicant's other Submissions"}} %>
 <% if @current_user.has_role?('administrator') %>
     <%= render :partial => 'tags/stub' %>
 <% end %>

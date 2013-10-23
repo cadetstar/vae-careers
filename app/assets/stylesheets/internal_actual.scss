@@ -847,3 +847,24 @@ hr {
 .submission_answers_wrapper tr {
   border-bottom: 1px solid black;
 }
+
+.spellcheckErrorDisplay {
+position: fixed;
+height: 90%;
+width: 500px;
+left: 50%;
+margin-left: -260px;
+top: 5%;
+padding: 10px;
+background-color: #DDD;
+}
+
+.spellcheckCurrent {
+  margin-bottom: 10px;
+}
+
+.spellcheckCurrentHighlight {
+  font-weight: bold;
+  background-color: red;
+  color: white;
+}

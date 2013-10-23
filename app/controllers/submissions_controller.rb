@@ -137,7 +137,8 @@ class SubmissionsController < ApplicationController
 
   def update_recommendation
     if (@submission = Submission.find_by_id(params[:id]))
-      if current_user.has_role?('administator') or current_user.submissions.include?(@submission)
+      if current_user.has_role?('administrator') or current_user.submissions.include?(@submission)
+        params[:recruiter_recommendation].strip!
         @submission.recruiter_recommendation = params[:recruiter_recommendation]
         if params[:recruiter_comment] != @submission.recruiter_comment
           @submission.comments.create(:body => params[:recruiter_comment], :creator => current_user)

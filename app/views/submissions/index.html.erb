@@ -13,7 +13,7 @@
           Position:
         </div>
         <div class='filter_inputs'>
-          <%= select_tag 'opening_id', options_for_select([['All Positions', 0]] + Opening.joins([:position, :department]).includes([:position, :department]).order('positions.name, departments.state').all.collect{|o| [o.to_s, o.id]}, session[:submissions][:opening_id]) %>
+          <%= select_tag 'opening_id', options_for_select([['All Positions', 0]] + Opening.unscoped.joins([:position, :department]).includes([:position, :department]).order('positions.name, departments.state').all.collect{|o| ["#{o.to_s} [#{o.department}] (Posted at: #{o.posted_at ? o.posted_at.to_s(:just_date) : 'Not posted'})", o.id]}, session[:submissions][:opening_id]) %>
         </div>
       </div>
       <div class="filtering_row">

@@ -63,6 +63,14 @@ class Submission < ActiveRecord::Base
 
   scope :reports, joins(:applicant, :openings, :submission_answers, :demographic)
 
+  def applicant_comments
+    self.applicant.comments
+  end
+
+  def all_submission_comments_for_applicant
+    self.applicant.all_submission_comments(self)
+  end
+
   def bounce_new_record
     @perform_completion_check = !new_record?
     true

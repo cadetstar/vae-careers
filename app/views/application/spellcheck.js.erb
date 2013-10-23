@@ -1,0 +1,5 @@
+window['currentErrors'] = [];
+<% @errors.each do |err| %>
+  window['currentErrors'].push({line: <%= err[:line] %>, offset: <%= err[:offset] %>, suggestions: "<%= err[:suggestions] %>", original: '<%= err[:original] %>'});
+<% end %>
+processSpellcheckErrors('<%= @identifier %>');

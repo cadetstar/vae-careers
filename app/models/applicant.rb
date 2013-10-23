@@ -54,6 +54,14 @@ class Applicant < ActiveRecord::Base
     result
   end
 
+  def all_submission_comments(exclude_comment = nil)
+    ids = self.submission_ids
+    if exclude_comment
+      ids -= [exclude_comment.id]
+    end
+    Comment.where({:owner_id => ids, :owner_type => 'Submission'})
+  end	
+
   def name_std
     [first_name, last_name].select{|c| !c.blank?}.join(" ")
   end

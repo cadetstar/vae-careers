@@ -29,6 +29,6 @@
 <div>
   <strong>Approvals</strong><br />
   <% @resource.new_hire_approvals.each do |nha| %>
-    Approved by <%= nha.remote_user %> on <%= nha.created_at.to_s(:just_date) %>
+    Approved by <%= nha.remote_user %> on <%= nha.created_at.to_s(:just_date) %><br />
   <% end %>
 </div>

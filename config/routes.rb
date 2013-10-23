@@ -47,6 +47,7 @@ VaeCareers::Application.routes.draw do
   match 'new_hire_requests/status', :to => 'new_hire_requests#change_status', :as => 'change_nhr_status'
 
   match 'ordering/:resource_class/:id', :to => 'application#generic_reordering', :as => 'generic_reordering'
+  match 'spellcheck', :to => 'application#spellcheck', :as => 'spellcheck'
 
   match 'reports/:id/start', :to => 'reports#start_run', :as => "start_report"
   match 'reports/:id/execute', :to => 'reports#execute_report', :as => 'execute_report'

@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   require 'openssl'
   require 'net/http'
   require 'uri'
+
+  include Spellcheck
+
   before_filter :get_resource, :only => [:edit, :update, :destroy]
 
   protect_from_forgery
@@ -130,6 +133,20 @@ class ApplicationController < ActionController::Base
 
   def make_pdf(output_file, input_files)
     `gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{output_file} #{input_files.join(' ')}`
+  end
+
+  def spellcheck
+    # This is only ever an ajax request
+    # Inputs: 
+    #   :identifier => the jQuery-pertinent identifier of the target
+    #   :text => the text to check
+    # Outputs:
+    #   :errors => array of hashes of misspelled words:
+    #    {:line, :offset, :original, :suggestions}
+    
+    @identifier = params[:identifier]
+    @errors = do_spellcheck(params[:text])
+ 
   end
 
   private
