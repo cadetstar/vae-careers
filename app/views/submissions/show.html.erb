@@ -28,7 +28,7 @@
        valid_users = if current_user.has_role?('administrator')
                        RemoteUser.includes(:departments).all.sort{|ru1,ru2| (ru1.departments.include?(@resource.department) <=> ru2.departments.include?(@resource.department)).to_i.nonzero? || (ru1.last_name.to_s <=> ru2.last_name.to_s)}
                      else
-                       current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department)}
+                       current_user.supervised_departments.collect{|sd| sd.remote_users.includes(:departments)}.flatten.uniq.sort_by{|ru| ru.departments.include?(@resource.department) ? 1 : 0}
                      end
 
        department_users = (@resource.department.remote_users.all + [@resource.department.manager, @resource.department.supervisor]).uniq & valid_users

@@ -8,3 +8,4 @@ ActionMailer::Base.smtp_settings = {
 }
 
 Mail.register_interceptor(DevelopmentMailInterceptor) if Rails.env.development?
+Mail.register_interceptor(ProductionMailInterceptor) if Rails.env.production?

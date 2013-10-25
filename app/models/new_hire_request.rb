@@ -44,7 +44,7 @@ class NewHireRequest < ActiveRecord::Base
         if user.has_role?('administrator')
           self.update_attributes(:status => "Posted")
           opening = Opening.create(:position => self.position, :department => self.department, :description => self.position.description)
-          GeneralMailer.central_mail(self.creator, "An opening has been created for #{self}: #{prompt}", "An opening has been created for a new hire request").deliver
+          GeneralMailer.delay.central_mail(self.creator, "An opening has been created for #{self}: #{prompt}", "An opening has been created for a new hire request")
           ["An opening has been created from that request.", nil, opening]
         else
           [nil, "You do not have permission to do that.", nil]
@@ -61,7 +61,7 @@ class NewHireRequest < ActiveRecord::Base
           if self.creator == user
             self.update_attributes(:status => "Not Yet Submitted")
           end
-          GeneralMailer.central_mail(self.creator, "#{user} has removed their approval from #{self}: #{prompt}", "A user has removed their approval").deliver
+          GeneralMailer.delay.central_mail(self.creator, "#{user} has removed their approval from #{self}: #{prompt}", "A user has removed their approval")
           self.new_hire_approvals.find_by_remote_user_id(user.id).destroy
           ["Approval removed", nil, nil]
         else
@@ -74,7 +74,7 @@ class NewHireRequest < ActiveRecord::Base
           if %w(Held Rejected).include? self.status
             if self.rejector == user or user.has_role?("administrator")
               self.update_attributes(:rejector => nil, :status => "Submitted")
-              GeneralMailer.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.").deliver
+              GeneralMailer.delay.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.")
               self.new_hire_approvals.create(:remote_user_id => user.id)
               ["Request approved.", nil, nil]
             else
@@ -84,7 +84,7 @@ class NewHireRequest < ActiveRecord::Base
             if user == self.creator
               self.update_attributes(:status => "Submitted")
             else
-              GeneralMailer.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.").deliver
+              GeneralMailer.delay.central_mail(self.creator, "#{user} has approved #{self}: #{prompt}", "A user has approved a new hire request.")
             end
             self.new_hire_approvals.create(:remote_user_id => user.id)
             ["Request approved.", nil, nil]
@@ -98,14 +98,14 @@ class NewHireRequest < ActiveRecord::Base
 <p>You can go to %URL% to correct the issue.</p>
         TEXT
         url = "edit_new_hire_request_path(:id => #{self.id})"
-        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been put on hold", url).deliver
+        GeneralMailer.delay.central_mail(self.creator, message, "New Hire Request has been put on hold", url)
       when 'reject'
         self.update_attributes(:status => "Rejected", :rejector => user)
         message = <<-REJECT
 <p>Your request for #{self.position} created on #{self.created_at} has been rejected by #{user}:</p>
 <p>"#{prompt}"</p>
         REJECT
-        GeneralMailer.central_mail(self.creator, message, "New Hire Request has been rejected").deliver
+        GeneralMailer.delay.central_mail(self.creator, message, "New Hire Request has been rejected")
     end
   end
 
